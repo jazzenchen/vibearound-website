@@ -1,0 +1,37 @@
+---
+title: 支持的 AI Agent
+description: VibeAround Launch 和 continuation 模型覆盖的 Agent family。
+---
+
+VibeAround 设计目标是协调多个 Agent family，而不是把所有工作压到一个 Agent 中。不同 Agent 在 Launch、Continuation 和 Profile routing 上支持程度不同。
+
+## Agent 矩阵
+
+| Agent | Launch | Continue / handover | Profile routing |
+| --- | ---: | ---: | ---: |
+| Claude Code | 支持 | 支持 | 支持 |
+| Claude Desktop | 支持 | 不适用 | 支持 |
+| Codex CLI | 支持 | 支持 | 支持 |
+| Codex Desktop | 支持 | 不适用 | 支持 |
+| Pi | 支持 | 支持 | 支持 |
+| Gemini CLI | 支持 | 支持 | 支持 |
+| OpenCode | 支持 | 部分支持 | 支持 |
+| Cursor CLI | Direct launch | 支持 | 有限或计划中 |
+| Kiro CLI | Direct launch | 支持 | 有限或计划中 |
+| Qwen Code | Direct launch | 支持 | 有限或计划中 |
+
+## 支持状态说明
+
+- 支持：VibeAround 对该能力提供一等路径。
+- 部分支持：该能力可用，但具体工作流需要验证限制。
+- Direct launch：VibeAround 可以启动或触达该 Agent，但深度 Profile 集成可能有限。
+- 不适用：该 Agent 类型不以同样方式使用该能力，通常因为它是桌面 App 而不是可恢复 CLI Session。
+
+## 如何选择 Agent
+
+根据任务选择 Agent：
+
+- 文件修改任务优先使用你已经信任的 Agent。
+- 评审、诊断或替代方案可以使用第二个 Agent。
+- 当原生 UI 很重要时使用桌面 Agent。
+- 当需要 terminal continuity、handover 和 Web Terminal 工作流时使用 CLI Agent。

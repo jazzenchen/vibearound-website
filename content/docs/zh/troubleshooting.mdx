@@ -1,0 +1,56 @@
+---
+title: 排障
+description: 按层排查安装、Launch、Profile、Handover、Channel 和 Preview 问题。
+---
+
+排查 VibeAround 时，最好先隔离每一层。先验证最简单的本地路径，再逐步加入 Profile、远程访问、Channel 和 Preview。
+
+## 安装问题
+
+检查：
+
+1. 是否下载了适合当前平台的安装包。
+2. App 是否可以打开。
+3. 本地安全提示或系统权限是否已处理。
+4. VibeAround 本地数据目录是否可写。
+5. 安装版本是否符合预期。
+
+## Agent Launch 问题
+
+检查：
+
+1. Agent 是否能在 VibeAround 外部运行。
+2. Workspace 路径是否存在。
+3. 选中的 Terminal mode 是否可用。
+4. Provider Profile 是否有效。
+5. 历史 Session 是否仍有可恢复状态。
+
+## Provider Profile 问题
+
+检查：
+
+1. API key 或凭据值。
+2. Base URL。
+3. API shape。
+4. Model name 和 alias。
+5. Provider region。
+6. Streaming 或 tool-call 支持。
+7. Provider error body。
+
+## Remote 或 Handover 问题
+
+检查：
+
+1. 本地 runtime 是否在线。
+2. Session 是否仍然存在。
+3. 当前入口是否已经 pairing 或授权。
+4. Tunnel 是否只在需要时启用。
+5. Workspace 是否仍可访问。
+
+## Channel 问题
+
+检查 plugin status、channel credentials、bot permissions、workspace binding、command prefix behavior，以及谁被允许发送消息。
+
+## Preview 问题
+
+检查目标是否存在、dev server 是否运行、preview link 是 owner-only 还是 shared、是否需要 Tunnel，以及链接是否已过期。

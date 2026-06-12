@@ -1,0 +1,107 @@
+---
+title: Migration From 0.6.x
+description: Clean local-state migration guidance for upgrading from VibeAround 0.6.x to 0.7.x.
+---
+
+VibeAround 0.7.x changes Startkit state, detected agent sources, desktop launch targets, and profile launch settings. If you are upgrading from 0.6.x, use a clean local-state migration instead of carrying every runtime file forward.
+
+## Migration Goal
+
+The safe migration shape is:
+
+1. Quit VibeAround.
+2. Back up the old `~/.vibearound` directory.
+3. Remove the old `~/.vibearound` directory.
+4. Restore only durable state.
+5. Launch VibeAround v0.7.1.
+6. Rerun onboarding or Startkit setup if Launch, profile, desktop-agent, or runtime settings look stale.
+
+## Restore These Durable Items
+
+Restore only state that represents user intent or long-lived workspace data:
+
+- `settings.json`
+- `profiles/`
+- `google-oauth/`
+- `agents.json`
+- `launcher.json`
+- `state/`
+- `sessions/`
+- `launch-session-archive.json`
+- `workspaces/`
+- `worktrees/`
+
+## Do Not Restore Runtime Data
+
+Do not restore generated data, detected state, runtime cache, plugin installs, local bins, bridge launches, logs, or local auth tokens:
+
+- `.cache/`
+- `cache/startkit/`
+- `agents.detected.json`
+- `desktop-apps.detected.json`
+- `profile-state/`
+- `api-bridge/launches/`
+- `agent-hooks/`
+- `logs/`
+- `npm-global/`
+- `plugins/`
+- `bin/`
+- `runtime/`
+- `auth.json`
+
+## macOS And Linux
+
+```bash
+set -euo pipefail
+
+BACKUP="$HOME/vibearound-0.6-full-backup-$(date +%Y%m%d%H%M%S)"
+SOURCE="$HOME/.vibearound"
+
+if [ -d "$SOURCE" ]; then
+  cp -a "$SOURCE" "$BACKUP"
+  rm -rf "$SOURCE"
+fi
+
+mkdir -p "$SOURCE"
+
+for item in settings.json profiles google-oauth agents.json launcher.json state sessions launch-session-archive.json workspaces worktrees; do
+  [ -e "$BACKUP/$item" ] && cp -a "$BACKUP/$item" "$SOURCE/"
+done
+```
+
+## Windows PowerShell
+
+```powershell
+$ErrorActionPreference = "Stop"
+
+$Backup = Join-Path $env:USERPROFILE ("vibearound-0.6-full-backup-" + (Get-Date -Format "yyyyMMddHHmmss"))
+$SourceRoot = Join-Path $env:USERPROFILE ".vibearound"
+
+if (Test-Path $SourceRoot) {
+  Copy-Item $SourceRoot $Backup -Recurse -Force
+  Remove-Item $SourceRoot -Recurse -Force
+}
+
+New-Item -ItemType Directory -Force -Path $SourceRoot | Out-Null
+
+$Items = @(
+  "settings.json", "profiles", "google-oauth", "agents.json", "launcher.json",
+  "state", "sessions", "launch-session-archive.json", "workspaces", "worktrees"
+)
+
+foreach ($Item in $Items) {
+  $Source = Join-Path $Backup $Item
+  if (Test-Path $Source) { Copy-Item $Source $SourceRoot -Recurse -Force }
+}
+```
+
+## Validation After Migration
+
+After migration, check the app in this order:
+
+1. Open the desktop app.
+2. Confirm provider profiles are present.
+3. Confirm workspaces and sessions are visible.
+4. Start one simple local agent session.
+5. Reconfigure Startkit if any managed toolchain setting looks wrong.
+6. Reinstall or re-enable messaging plugins only after the base app is healthy.

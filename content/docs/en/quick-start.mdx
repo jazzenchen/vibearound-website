@@ -1,0 +1,55 @@
+---
+title: Quick Start
+description: Install VibeAround, enable one agent, choose a workspace, and run the first local session.
+---
+
+Use this path when you want the shortest reliable route from a fresh install to a working agent session. The goal is not to configure every feature at once. The goal is to prove that one agent, one workspace, one terminal, and one model path work end to end.
+
+## Before You Start
+
+Prepare one agent that you already know how to use outside VibeAround. For a first run, choose the simplest available path:
+
+- An installed CLI agent, such as Claude Code, Codex CLI, Gemini CLI, Pi, or OpenCode.
+- A workspace folder that is safe for an agent to inspect.
+- A model account or API key that the selected agent can use.
+- Optional: a provider profile if you want VibeAround to route the model traffic instead of using the agent's existing configuration.
+
+## First Session Flow
+
+1. Install the package for your operating system from [Download](./download).
+2. Open VibeAround and complete the onboarding checks.
+3. Confirm that the agent you want to use appears in the agent list.
+4. Create or select a workspace.
+5. Open Launch and choose the agent, workspace, terminal mode, and session type.
+6. Select an existing provider profile, a direct API endpoint, or the agent's native configuration.
+7. Start a small task, such as asking the agent to inspect the repository and describe the project.
+8. Confirm that output appears in the expected surface.
+9. Return to the workspace view and verify that the session can be found again.
+
+## Good First Tasks
+
+Good first tasks are small and observable. They should prove that the environment is connected without allowing the agent to make broad changes.
+
+```text
+Inspect this repository and explain the main entry points. Do not edit files.
+```
+
+```text
+Find the test command for this project and tell me what you would run first. Do not run it yet.
+```
+
+```text
+Summarize the current README and list any setup steps that are unclear.
+```
+
+## After The First Session
+
+Once the first session works, add one feature at a time:
+
+- Add a provider profile and repeat the same small task.
+- Open the Web Terminal for the same workspace.
+- Try Session Handover from a browser or mobile entry point.
+- Configure one messaging channel and send a short follow-up prompt.
+- Use Live Preview for a local dev server or Markdown file.
+
+This sequence makes failures easier to isolate. If a later feature fails, the baseline agent launch is already known to work.

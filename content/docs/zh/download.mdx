@@ -1,0 +1,36 @@
+---
+title: 下载
+description: 当前版本安装包、元数据和下载路由。
+---
+
+当前稳定版本是 [VibeAround v0.7.1](https://github.com/jazzenchen/VibeAround/releases/tag/v0.7.1)，发布时间为 2026-06-12。
+
+GitHub Releases 是 release notes、源码归档、历史版本和校验信息的主来源。网站同时提供机器可读 manifest：`/releases/latest.json`，用于自动化和后续下载 UI。
+
+## 推荐下载
+
+| 平台 | 安装包 | 直达链接 |
+| --- | --- | --- |
+| macOS Apple Silicon | DMG | [VibeAround_0.7.1_arm64.dmg](https://github.com/jazzenchen/VibeAround/releases/download/v0.7.1/VibeAround_0.7.1_arm64.dmg) |
+| Windows x64 | Setup EXE | [VibeAround_0.7.1_x64-setup.exe](https://github.com/jazzenchen/VibeAround/releases/download/v0.7.1/VibeAround_0.7.1_x64-setup.exe) |
+| Windows x64 | MSI | [VibeAround_0.7.1_x64_en-US.msi](https://github.com/jazzenchen/VibeAround/releases/download/v0.7.1/VibeAround_0.7.1_x64_en-US.msi) |
+| Windows x64 | Portable ZIP | [VibeAround-win-0.7.1-portable.zip](https://github.com/jazzenchen/VibeAround/releases/download/v0.7.1/VibeAround-win-0.7.1-portable.zip) |
+| Linux x64 | AppImage | [VibeAround_0.7.1_amd64.AppImage](https://github.com/jazzenchen/VibeAround/releases/download/v0.7.1/VibeAround_0.7.1_amd64.AppImage) |
+| Linux x64 | deb | [VibeAround_0.7.1_amd64.deb](https://github.com/jazzenchen/VibeAround/releases/download/v0.7.1/VibeAround_0.7.1_amd64.deb) |
+
+## 版本要点
+
+v0.7.1 将 0.7.1 从 beta 提升为稳定版。该版本恢复了 API Bridge 中图片/文件能力 metadata，明确了桌面 Agent 的 Launch 路由展示，改进了 Runtime Status 中的 Profile 可见性，修复了旧 IM attach 记录残留的问题，统一了 Startkit toolchain 默认值，并恢复了 Windows MSI。
+
+## 下载路由
+
+网站提供几个短路由：
+
+| 路由 | 指向 |
+| --- | --- |
+| `/download` | 最新 GitHub Release 页面 |
+| `/download/mac` | macOS Apple Silicon DMG |
+| `/download/windows` | Windows x64 Setup EXE |
+| `/download/linux` | Linux x64 AppImage |
+
+这些路由只是便捷入口。需要明确文件时，以本页的直达链接和 GitHub Release 页面为准。

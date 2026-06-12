@@ -1,0 +1,60 @@
+---
+title: Installation
+description: Install VibeAround on macOS, Windows, or Linux and prepare the local agent environment.
+---
+
+VibeAround is distributed through GitHub Releases. The desktop app runs on your machine and coordinates local agents, local workspaces, local terminals, and optional remote entry points.
+
+## Platform Packages
+
+| Platform | Recommended package | Notes |
+| --- | --- | --- |
+| macOS Apple Silicon | DMG | Current macOS package is Apple Silicon only. |
+| Windows x64 | Setup EXE | Recommended for most Windows users. |
+| Windows x64 | MSI | Useful for installer-managed environments. |
+| Windows x64 | Portable ZIP | Useful when you do not want a full installer. |
+| Linux x64 | AppImage | Portable desktop package. |
+| Linux x64 | deb | Debian/Ubuntu-style installation. |
+
+All current package links are listed in [Download](./download).
+
+## Local Agent Prerequisites
+
+VibeAround can launch and coordinate many agents, but each agent may still require its own installation or authentication. Before configuring advanced workflows, verify the agent outside VibeAround:
+
+- Run the CLI directly from a terminal.
+- Confirm that the CLI can authenticate.
+- Confirm that it can access the workspace you plan to use.
+- Confirm any provider-specific keys or account settings.
+
+VibeAround should be added after this baseline works. That makes it clear whether a problem belongs to the agent itself or to VibeAround's launch, profile, terminal, or handover layer.
+
+## First Launch
+
+On first launch, VibeAround guides you through local setup. The onboarding flow may detect agents, prepare runtime settings, check workspace access, and offer optional setup for remote access or messaging plugins.
+
+Recommended first-launch order:
+
+1. Complete the base onboarding checks.
+2. Add one workspace.
+3. Enable one installed agent.
+4. Start a local session from Launch.
+5. Add provider profiles only after the basic session works.
+6. Add channels, tunnels, and preview sharing last.
+
+## Local Data
+
+VibeAround keeps durable state under the user's local VibeAround data directory. The most important durable categories are settings, provider profiles, agents, launcher state, sessions, workspaces, and worktrees.
+
+Runtime caches, detected source files, logs, plugin installs, generated bins, bridge launch state, and auth tokens are operational data. They can be regenerated or should be treated carefully during migration. See [Migration From 0.6.x](./migration-0-6) for the safest upgrade shape.
+
+## Installation Validation
+
+After installation, validate four things:
+
+1. The desktop app opens.
+2. At least one agent appears and can start.
+3. A workspace can be selected.
+4. A new session can be found again after returning to the workspace view.
+
+Do not treat remote access, messaging, or preview sharing as installation blockers unless those are required for the first deployment.

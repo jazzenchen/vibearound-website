@@ -1,0 +1,32 @@
+---
+title: Claude Code Provider Switcher
+description: 使用 VibeAround Provider Profile 和 API Bridge，让 Claude Code 的模型路由更明确、可重复。
+---
+
+当团队希望 Claude Code 工作流通过命名 profile 运行，而不是反复修改环境变量、endpoint URL 或 Agent 配置时，Provider switching 会很有用。VibeAround 的 Provider Profile 和 API Bridge 会在启动时展示这条路由。
+
+## Switcher 要解决什么
+
+- 启动会话前选择 provider profile。
+- 不把模型别名和 endpoint 细节散落在终端笔记里。
+- 当 Agent 与服务商 API 形态不一致时，通过本地 bridge 转换。
+- 在原生 Claude Code 配置最合适时，仍保留使用原生配置的能力。
+
+## 推荐流程
+
+1. 在 [Provider Profile 与 API Bridge](./provider-profiles) 中创建一个 profile。
+2. 用小任务测试该 profile。
+3. 基础路由可用后，再加入模型别名。
+4. 从 VibeAround 选择 profile 启动 Claude Code。
+5. 将 provider 特有的限制记录到 profile notes 中。
+
+## 什么时候不需要切换
+
+如果原生 Claude Code 配置已经是当前任务最简单、最可靠的选择，就不必增加 profile 层。Provider switching 最适合需要可重复路由、显式模型比较、别名管理或 bridge 转换的场景。
+
+## 相关文档
+
+- [支持的 Provider](./providers)
+- [Claude 远程访问](./claude-remote)
+- [本地 AI 切换](./local-ai-switch)
+- [架构](./architecture)

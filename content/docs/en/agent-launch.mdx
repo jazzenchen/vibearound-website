@@ -1,0 +1,47 @@
+---
+title: Agent Launch
+description: Choose the agent, model profile, workspace, terminal, and session before starting work.
+---
+
+Agent Launch is the controlled entry point for local agent work. It lets you decide what should run, where it should run, which model path it should use, and whether the work should begin as a new session or continue an existing one.
+
+## Launch Inputs
+
+| Input | Meaning |
+| --- | --- |
+| Agent | The agent family or desktop app to launch. |
+| Workspace | The local folder or worktree where the agent should operate. |
+| Profile | The provider profile, API endpoint, or native agent configuration to use. |
+| Terminal mode | The runtime surface used for the agent process. |
+| Session | A new session or a previous session to continue. |
+| Desktop overlay | Optional profile-aware launch behavior for supported desktop apps. |
+
+## Typical Launch Flow
+
+1. Open Launch.
+2. Select the agent.
+3. Select the workspace.
+4. Select a provider profile or direct endpoint if needed.
+5. Choose whether to start new work or continue a previous session.
+6. Review the terminal/runtime mode.
+7. Launch the session.
+
+## Direct Launch Versus Profile Launch
+
+Direct launch uses the agent's own configuration. Profile launch applies VibeAround profile settings or API Bridge routes so the agent can run through a selected provider path.
+
+Direct launch is best when you already trust the agent's native setup. Profile launch is best when you want repeatable provider selection, model aliases, or bridge translation.
+
+## Session Continuation
+
+Continuation is part of launch. A session should stay connected to its workspace, profile context, and output surfaces. When a session cannot be continued, treat that as a state or runtime issue rather than starting a new session silently.
+
+## Operational Checks
+
+If launch fails, check these layers in order:
+
+1. Is the agent installed and runnable outside VibeAround?
+2. Is the workspace path valid?
+3. Does the selected terminal mode work on this machine?
+4. Does the selected provider profile have valid credentials and API shape?
+5. Does the previous session still have recoverable state?

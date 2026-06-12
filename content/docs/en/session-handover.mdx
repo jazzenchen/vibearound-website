@@ -1,0 +1,48 @@
+---
+title: Session Handover
+description: Continue one local agent session across desktop, browser, terminal, mobile, and messaging surfaces.
+---
+
+Session Handover is the continuity layer. It lets a local session remain attached to the same workspace while the user moves between surfaces.
+
+## Entry Points
+
+| Entry point | Typical use |
+| --- | --- |
+| Desktop app | Primary local control surface. |
+| Web Chat | Browser-based conversation with a local session. |
+| Web Terminal | Browser terminal access to the local workspace. |
+| Mobile browser | Lightweight review, steering, and continuation. |
+| Messaging channel | Continue from tools such as Telegram, Feishu/Lark, Discord, Slack, WeChat, DingTalk, WeCom, or QQ Bot. |
+
+## Handover Model
+
+A handover should preserve:
+
+- Session identity.
+- Workspace path.
+- Agent family.
+- Provider/profile context when applicable.
+- Recent conversation or terminal state.
+- The user's ability to return to the desktop app later.
+
+## Commands And Concepts
+
+The exact command set depends on the channel, but the core concepts are stable:
+
+- Handover: make a local session reachable from another surface.
+- Pickup: attach a surface to a known session.
+- Switch: move between workspaces or agents.
+- Prefix behavior: route messages in channels where the bot shares a space with other conversations.
+- Session selection: choose the intended session when more than one is available.
+
+## Failure Recovery
+
+If handover does not work, check:
+
+1. The local VibeAround runtime is still running.
+2. The session still exists.
+3. The workspace path still exists.
+4. The browser, channel, or tunnel is paired or authorized.
+5. The selected channel plugin is connected.
+6. The agent process can still accept input.

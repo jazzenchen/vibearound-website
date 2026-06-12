@@ -1,0 +1,37 @@
+---
+title: Supported AI Agents
+description: Agent families represented in the VibeAround launch and continuation model.
+---
+
+VibeAround is designed to coordinate several agent families rather than force all work into one agent. Support level differs by launch method, continuation behavior, and profile routing.
+
+## Agent Matrix
+
+| Agent | Launch | Continue / handover | Profile routing |
+| --- | ---: | ---: | ---: |
+| Claude Code | Supported | Supported | Supported |
+| Claude Desktop | Supported | Not applicable | Supported |
+| Codex CLI | Supported | Supported | Supported |
+| Codex Desktop | Supported | Not applicable | Supported |
+| Pi | Supported | Supported | Supported |
+| Gemini CLI | Supported | Supported | Supported |
+| OpenCode | Supported | Partial | Supported |
+| Cursor CLI | Direct launch | Supported | Limited or planned |
+| Kiro CLI | Direct launch | Supported | Limited or planned |
+| Qwen Code | Direct launch | Supported | Limited or planned |
+
+## Support Terms
+
+- Supported: VibeAround has a first-class path for this capability.
+- Partial: the capability works with limitations that should be verified for the specific workflow.
+- Direct launch: VibeAround can start or reach the agent, but deeper profile integration may be limited.
+- Not applicable: the agent type does not use that capability in the same way, usually because it is a desktop app rather than a resumable CLI session.
+
+## How To Choose An Agent
+
+Choose the agent based on the task, not only on availability:
+
+- Use an agent you already trust for file-editing tasks.
+- Use a second agent for review, diagnosis, or alternate implementation ideas.
+- Use desktop agents when their native UI matters.
+- Use CLI agents when terminal continuity, handover, and Web Terminal workflows matter.

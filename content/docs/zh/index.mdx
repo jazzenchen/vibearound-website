@@ -1,0 +1,32 @@
+---
+title: VibeAround 文档
+description: 面向安装、使用、配置、运维和技术理解的 VibeAround 文档入口。
+---
+
+VibeAround 是一个本地优先的 AI 编程 Agent 工作空间。它帮助你用合适的模型 Profile 启动合适的 Agent，从桌面、浏览器、终端、手机或消息频道继续同一个会话，并预览 Agent 生成的结果，同时让真实的仓库、终端和执行环境留在自己的电脑上。
+
+这份文档不是首页的延伸，而是产品手册。新用户可以按顺序完成安装和第一次会话；日常用户可以查找 Launch、Workspace、Handover、Preview 等工作流；配置和运维人员可以查看 Provider、Channel、安全模型和排障；维护者可以查看架构与本地开发说明。
+
+## 读者路径
+
+| 读者 | 先看 | 接着看 |
+| --- | --- | --- |
+| 第一次安装的用户 | [快速开始](./quick-start) | [安装](./installation)、[下载](./download) |
+| 日常使用 Agent 的用户 | [Agent Launch](./agent-launch) | [Unified Workspace](./unified-workspace)、[Session Handover](./session-handover) |
+| 需要远程接入的用户 | [Remote Messaging & Web Terminal](./remote-messaging-terminal) | [Live Preview](./live-preview)、[Local-first 安全模型](./local-first-security) |
+| 负责模型和配置的人 | [Provider Profiles & API Bridge](./provider-profiles) | [支持的 Provider](./providers)、[支持的 AI Agent](./supported-agents) |
+| 维护者 | [架构](./architecture) | [本地开发](./develop-locally)、[排障](./troubleshooting) |
+
+## VibeAround 协调什么
+
+VibeAround 不替代你的仓库、终端、Agent CLI 或模型 Provider。它在这些工具外面提供一个统一控制层：
+
+- 从一个入口启动 Claude Code、Codex CLI、Gemini CLI、Pi、OpenCode、Claude Desktop、Codex Desktop 等 Agent。
+- 在启动前选择 Workspace、Terminal、Model Profile、API endpoint 和历史 Session。
+- 从桌面 App、Web Dashboard、Web Chat、Web Terminal、手机浏览器和消息频道继续同一个本地会话。
+- 为本地 dev server、Markdown、HTML 和生成文件创建可预览链接。
+- 默认让执行留在本机，并对 tunnel、browser pairing、token、channel 和 preview link 提供明确控制点。
+
+## 文档组织原则
+
+文档按“开始、使用、配置、参考、帮助”组织。关键内容应留在文档页内，而不是把读者跳回首页锚点。后续可以继续补截图、配置矩阵、完整命令参考、排障案例和版本迁移记录。

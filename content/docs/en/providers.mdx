@@ -1,0 +1,47 @@
+---
+title: Supported Providers
+description: Built-in provider profile targets and custom endpoint support.
+---
+
+VibeAround provider presets cover common official and compatible APIs. Custom endpoints are available when a provider speaks a supported API shape.
+
+## Provider Matrix
+
+| Provider | Notes |
+| --- | --- |
+| DeepSeek | OpenAI-compatible and bridge routes, model aliases, Claude suffix normalization. |
+| Alibaba DashScope | Coding Plan and Token Plan endpoints. |
+| Moonshot / Kimi | OpenAI-compatible and Anthropic-style bridge flows. |
+| MiniMax | OpenAI-compatible and Anthropic-style bridge flows. |
+| Xiaomi MiMo | Token Plan and regional endpoints with provider quirks handled. |
+| xAI / Grok | Responses and Chat variants. |
+| NVIDIA NIM | OpenAI-compatible Chat Completions. |
+| Z.AI / GLM | Built-in compatible endpoint. |
+| Google Gemini | Native Gemini API profile. |
+| OpenRouter | OpenAI-compatible profile. |
+| Azure OpenAI | Responses and Chat deployment routing. |
+| VolcEngine | Provider profile support for compatible routes. |
+| Custom endpoint | Bring your own base URL, headers, models, and API kind. |
+
+## What To Verify Per Provider
+
+For each provider, verify:
+
+- Base URL.
+- Authentication field.
+- Supported API shape.
+- Model name and aliases.
+- Streaming behavior.
+- Tool or media capability support.
+- Regional endpoint requirements.
+- Error response format.
+- Rate limit behavior.
+
+## Choosing A Provider
+
+Choose based on the job:
+
+- Use a low-cost profile for exploration and small edits.
+- Use a stronger coding model for large refactors or architecture work.
+- Use a provider with predictable regional access for team environments.
+- Use separate profiles for experimental endpoints so stable workflows remain unchanged.

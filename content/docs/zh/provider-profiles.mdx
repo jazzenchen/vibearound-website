@@ -1,0 +1,48 @@
+---
+title: Provider Profiles & API Bridge
+description: 保存 Provider 设置，并通过 VibeAround 本地 Bridge 让 Agent 使用兼容 API 形态。
+---
+
+Provider Profile 用来把模型 Provider 设置保存成可复用的 Launch 选项。API Bridge 用来处理 Agent 和 Provider API 形态不一致的情况。
+
+## Profile 包含什么
+
+Provider Profile 可以包含：
+
+- 显示名称。
+- Provider 类型。
+- Base URL。
+- API key 或凭据引用。
+- Model name。
+- Model alias。
+- Headers 或 Provider metadata。
+- API shape。
+- Bridge capability hints。
+
+## API 形态
+
+| 形态 | 常见 endpoint |
+| --- | --- |
+| OpenAI Responses | `/v1/responses` |
+| OpenAI Chat Completions | `/v1/chat/completions` |
+| Anthropic Messages | `/v1/messages` |
+| Gemini Generate Content | `/v1beta/models/{model}:generateContent` |
+
+## Bridge 的角色
+
+Bridge 由 `va-ai-api-bridge` 提供。它可以暴露 profile-scoped local routes，归一化模型 alias，转换请求和响应形态，并尽可能保留 Provider-specific metadata。
+
+Bridge 不会让所有 Provider 完全一样。不同 Provider 在 tool、图片输入、streaming、token 统计、安全设置和错误格式上可能不同。Profile 文档应该记录这些差异，而不是把差异隐藏起来。
+
+## 推荐配置流程
+
+1. 为一个 Provider 和一个 Model 创建一个 Profile。
+2. 用一个小 Agent 任务测试。
+3. 模型可用后再添加 alias。
+4. 一次只增加一个 Provider。
+5. 把已知限制写到 Profile notes。
+6. 对成本、延迟或能力差异明显的模型使用不同 Profile。
+
+## 什么时候使用 Agent 原生配置
+
+当 Agent 原生配置已经稳定，而且不需要 Provider 切换时，可以直接使用原生配置。当你需要可重复的 Provider 选择、Bridge 转译、多 Session 清晰度或统一配置时，使用 VibeAround Profile。

@@ -1,0 +1,47 @@
+---
+title: 支持的 Provider
+description: 内置 Provider Profile 目标和自定义 endpoint 支持。
+---
+
+VibeAround Provider preset 覆盖常见官方和兼容 API。只要 Provider 支持受支持的 API shape，也可以使用自定义 endpoint。
+
+## Provider 矩阵
+
+| Provider | 说明 |
+| --- | --- |
+| DeepSeek | OpenAI-compatible 和 Bridge routes，模型 alias，Claude suffix normalization。 |
+| Alibaba DashScope | Coding Plan 和 Token Plan endpoint。 |
+| Moonshot / Kimi | OpenAI-compatible 和 Anthropic-style bridge flow。 |
+| MiniMax | OpenAI-compatible 和 Anthropic-style bridge flow。 |
+| Xiaomi MiMo | Token Plan、多区域 endpoint，并处理 Provider 特有差异。 |
+| xAI / Grok | Responses 和 Chat variants。 |
+| NVIDIA NIM | OpenAI-compatible Chat Completions。 |
+| Z.AI / GLM | 内置 compatible endpoint。 |
+| Google Gemini | Native Gemini API profile。 |
+| OpenRouter | OpenAI-compatible profile。 |
+| Azure OpenAI | Responses 和 Chat deployment routing。 |
+| VolcEngine | 兼容 route 的 Provider Profile 支持。 |
+| Custom endpoint | 自定义 base URL、headers、models 和 API kind。 |
+
+## 每个 Provider 需要验证什么
+
+配置 Provider 时应验证：
+
+- Base URL。
+- 认证字段。
+- 支持的 API shape。
+- Model name 和 alias。
+- Streaming 行为。
+- Tool 或 media capability 支持。
+- 区域 endpoint 要求。
+- 错误响应格式。
+- Rate limit 行为。
+
+## 如何选择 Provider
+
+根据任务选择：
+
+- 探索和小修改可以使用低成本 Profile。
+- 大型重构或架构任务使用能力更强的 coding model。
+- 团队环境优先选择区域访问稳定的 Provider。
+- 实验 endpoint 使用单独 Profile，避免影响稳定工作流。

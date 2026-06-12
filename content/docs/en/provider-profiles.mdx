@@ -1,0 +1,48 @@
+---
+title: Provider Profiles & API Bridge
+description: Save provider settings and route agents through compatible API shapes with VibeAround's local bridge.
+---
+
+Provider Profiles let VibeAround store model-provider settings as reusable launch choices. API Bridge handles cases where an agent and a provider speak different API shapes.
+
+## What A Profile Contains
+
+A provider profile can include:
+
+- Display name.
+- Provider type.
+- Base URL.
+- API key or credential reference.
+- Model name.
+- Model aliases.
+- Headers or provider metadata.
+- API shape.
+- Bridge capability hints.
+
+## API Shapes
+
+| Shape | Common endpoint |
+| --- | --- |
+| OpenAI Responses | `/v1/responses` |
+| OpenAI Chat Completions | `/v1/chat/completions` |
+| Anthropic Messages | `/v1/messages` |
+| Gemini Generate Content | `/v1beta/models/{model}:generateContent` |
+
+## Bridge Role
+
+The bridge is powered by `va-ai-api-bridge`. It can expose profile-scoped local routes, normalize model aliases, translate request and response shapes, and preserve provider-specific metadata where possible.
+
+The bridge does not make every provider identical. Some providers differ in supported tools, image input, streaming behavior, token accounting, safety settings, or error formats. Profiles should document those differences instead of hiding them.
+
+## Recommended Profile Workflow
+
+1. Create one profile for one provider and one model.
+2. Test it with a small agent task.
+3. Add aliases only after the model works.
+4. Add additional providers one at a time.
+5. Record known limitations in the profile notes.
+6. Prefer separate profiles for different cost, latency, or capability tradeoffs.
+
+## When To Use Native Agent Config
+
+Use the agent's native configuration when it is already reliable and does not need provider switching. Use VibeAround profiles when repeatability, switching, bridge translation, or multi-session clarity matters.

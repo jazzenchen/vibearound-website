@@ -312,19 +312,24 @@
       });
     };
 
-    const cached = Number(window.sessionStorage.getItem("va-gh-stars"));
-    if (Number.isFinite(cached) && cached > 0) {
-      apply(cached);
-      return;
+    try {
+      const cachedRaw = window.sessionStorage.getItem("va-gh-stars");
+      const cached = cachedRaw && cachedRaw.startsWith("{") ? JSON.parse(cachedRaw).count : Number(cachedRaw);
+      if (Number.isFinite(cached) && cached > 0) apply(cached);
+    } catch {
+      window.sessionStorage.removeItem("va-gh-stars");
     }
 
     window
-      .fetch("https://api.github.com/repos/jazzenchen/VibeAround", { headers: { Accept: "application/vnd.github+json" } })
+      .fetch("https://api.github.com/repos/jazzenchen/VibeAround", {
+        cache: "no-store",
+        headers: { Accept: "application/vnd.github+json" }
+      })
       .then((res) => (res.ok ? res.json() : null))
       .then((data) => {
         const count = data && Number(data.stargazers_count);
         if (!Number.isFinite(count) || count <= 0) return;
-        window.sessionStorage.setItem("va-gh-stars", String(count));
+        window.sessionStorage.setItem("va-gh-stars", JSON.stringify({ count, updatedAt: Date.now() }));
         apply(count);
       })
       .catch(() => {});
@@ -333,7 +338,7 @@
   document.documentElement.classList.remove("no-js");
   document.documentElement.classList.add("js");
 
-  document.addEventListener("DOMContentLoaded", () => {
+  function init() {
     setupNav();
     setupRotator();
     setupTitleFit();
@@ -344,5 +349,11 @@
     setupGithubStars();
     document.querySelectorAll("[data-count-version]").forEach((el) => revealWhenVisible(el, () => countUpVersion(el), 0.92));
     document.querySelectorAll("[data-scramble]").forEach((el) => revealWhenVisible(el, () => scramble(el), 0.92));
-  });
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init, { once: true });
+  } else {
+    init();
+  }
 })();

@@ -1,0 +1,42 @@
+---
+title: Messaging Channels
+description: Configure messaging channels for local agent continuation and remote control.
+---
+
+Messaging channels let users continue local agent sessions from the communication tools they already use. A channel should be treated as a remote control surface and configured with the same care as a browser terminal or tunnel.
+
+## Channel Matrix
+
+| Channel | Setup style | Typical use |
+| --- | --- | --- |
+| Telegram | BotFather token | Personal bot and mobile chat. |
+| Feishu / Lark | App credentials | Team IM and enterprise bot. |
+| Discord | Bot token | Server and DM workflows. |
+| Slack | Bot/App token with Socket Mode | Workspace DM workflows. |
+| WeChat | QR login through OpenClaw-compatible bridge | Chinese personal chat. |
+| DingTalk | Stream API credentials | Enterprise chat. |
+| WeCom | WebSocket bot credentials | Enterprise WeChat workflows. |
+| QQ Bot | Guild bot credentials | QQ bot workflows. |
+
+## Setup Checklist
+
+1. Choose one channel.
+2. Create the bot or app credentials in the channel provider.
+3. Add the credentials to the VibeAround channel plugin.
+4. Restrict who can reach the bot.
+5. Send a test message.
+6. Bind or select a workspace.
+7. Start with a read-only or low-risk task.
+8. Confirm how to stop, switch, or archive a session.
+
+## Operational Rules
+
+- Do not connect broad public rooms before testing a private path.
+- Keep credentials scoped to the minimum required permissions.
+- Record which channel owns which workspace or team workflow.
+- Rotate credentials if a bot token is exposed.
+- Disable unused channel plugins.
+
+## Troubleshooting
+
+If messages do not reach a session, check plugin status, credentials, channel permissions, bot membership, command prefix behavior, selected workspace, and whether the local VibeAround runtime is online.

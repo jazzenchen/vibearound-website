@@ -1,0 +1,36 @@
+---
+title: Claude 远程访问
+description: 通过浏览器、手机、Web Terminal、消息频道、handover 和预览入口继续本地 Claude Code 会话。
+---
+
+VibeAround 中的 Claude 远程访问，是指从另一个入口访问本地 Claude Code 会话。工作空间仍保留在主机上；VibeAround 提供受控方式来检查、引导和继续该会话。
+
+Claude 和 Claude Code 是 Anthropic 产品。VibeAround 是独立软件，用于协调本地工作流。
+
+## 典型流程
+
+1. 确认 Claude Code 可在本地终端中运行。
+2. 将仓库加入 VibeAround 工作空间。
+3. 通过 [Agent 启动](./agent-launch) 启动 Claude Code。
+4. 通过 [会话接续](./session-handover)、[Web Terminal](./remote-messaging-terminal) 或配置好的消息频道继续会话。
+5. 对需要可视化审阅的产物，使用 [实时预览](./live-preview)。
+
+## Provider 切换
+
+有些团队会直接使用 Claude Code 的原生配置；有些团队则使用 VibeAround Provider Profile 和 API Bridge，让模型路由在启动时更明确。原生配置已经稳定时，优先使用原生路径；需要可重复路由、别名或桥接转换时，再使用 profile launch。
+
+参见 [Claude Code Provider Switcher](./claude-code-switcher)。
+
+## 运行提示
+
+- 先保留一个已知可用的本地 Claude Code 设置，再加入远程入口。
+- 首次测试优先使用私有频道。
+- 记录每个频道或 handover 链接控制的是哪个工作空间。
+- 在重要仓库里应用大范围修改前，先审阅工具动作。
+
+## 相关文档
+
+- [Agent 启动](./agent-launch)
+- [Provider Profile 与 API Bridge](./provider-profiles)
+- [远程编程](./remote-coding)
+- [本地优先安全](./local-first-security)

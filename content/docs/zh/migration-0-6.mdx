@@ -1,0 +1,107 @@
+---
+title: 从 0.6.x 迁移
+description: 从 VibeAround 0.6.x 升级到 0.7.x 时的本地状态迁移建议。
+---
+
+VibeAround 0.7.x 调整了 Startkit 状态、Agent 来源检测、桌面启动目标和 Profile 启动设置。如果你从 0.6.x 升级，建议做一次干净的本地状态迁移，而不是把旧目录里的所有运行期文件都带到新版本。
+
+## 迁移目标
+
+安全迁移的形态是：
+
+1. 退出 VibeAround。
+2. 完整备份旧的 `~/.vibearound` 目录。
+3. 删除旧的 `~/.vibearound` 目录。
+4. 只恢复长期状态。
+5. 启动 VibeAround v0.7.1。
+6. 如果 Launch、Profile、桌面 Agent 或 runtime 设置异常，重新运行 onboarding 或 Startkit 设置。
+
+## 可以恢复的长期状态
+
+只恢复代表用户意图或长期 workspace 数据的内容：
+
+- `settings.json`
+- `profiles/`
+- `google-oauth/`
+- `agents.json`
+- `launcher.json`
+- `state/`
+- `sessions/`
+- `launch-session-archive.json`
+- `workspaces/`
+- `worktrees/`
+
+## 不要恢复的运行期数据
+
+不要恢复可重建数据、检测结果、运行时缓存、插件安装、本地 bin、Bridge launch、日志或本地 auth token：
+
+- `.cache/`
+- `cache/startkit/`
+- `agents.detected.json`
+- `desktop-apps.detected.json`
+- `profile-state/`
+- `api-bridge/launches/`
+- `agent-hooks/`
+- `logs/`
+- `npm-global/`
+- `plugins/`
+- `bin/`
+- `runtime/`
+- `auth.json`
+
+## macOS 和 Linux
+
+```bash
+set -euo pipefail
+
+BACKUP="$HOME/vibearound-0.6-full-backup-$(date +%Y%m%d%H%M%S)"
+SOURCE="$HOME/.vibearound"
+
+if [ -d "$SOURCE" ]; then
+  cp -a "$SOURCE" "$BACKUP"
+  rm -rf "$SOURCE"
+fi
+
+mkdir -p "$SOURCE"
+
+for item in settings.json profiles google-oauth agents.json launcher.json state sessions launch-session-archive.json workspaces worktrees; do
+  [ -e "$BACKUP/$item" ] && cp -a "$BACKUP/$item" "$SOURCE/"
+done
+```
+
+## Windows PowerShell
+
+```powershell
+$ErrorActionPreference = "Stop"
+
+$Backup = Join-Path $env:USERPROFILE ("vibearound-0.6-full-backup-" + (Get-Date -Format "yyyyMMddHHmmss"))
+$SourceRoot = Join-Path $env:USERPROFILE ".vibearound"
+
+if (Test-Path $SourceRoot) {
+  Copy-Item $SourceRoot $Backup -Recurse -Force
+  Remove-Item $SourceRoot -Recurse -Force
+}
+
+New-Item -ItemType Directory -Force -Path $SourceRoot | Out-Null
+
+$Items = @(
+  "settings.json", "profiles", "google-oauth", "agents.json", "launcher.json",
+  "state", "sessions", "launch-session-archive.json", "workspaces", "worktrees"
+)
+
+foreach ($Item in $Items) {
+  $Source = Join-Path $Backup $Item
+  if (Test-Path $Source) { Copy-Item $Source $SourceRoot -Recurse -Force }
+}
+```
+
+## 迁移后验证
+
+迁移后按顺序检查：
+
+1. 桌面 App 可以打开。
+2. Provider Profile 仍然存在。
+3. Workspace 和 Session 可见。
+4. 可以启动一个简单的本地 Agent 会话。
+5. 如果 managed toolchain 设置异常，重新配置 Startkit。
+6. 基础应用健康后，再重新安装或启用消息插件。

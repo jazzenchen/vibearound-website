@@ -11,6 +11,9 @@ Docs: https://vibearound.ai/docs/
 Chinese docs: https://vibearound.ai/zh/docs/
 Quick start: https://vibearound.ai/docs/quick-start/
 Chinese quick start: https://vibearound.ai/zh/docs/quick-start/
+Download docs: https://vibearound.ai/docs/download/
+Architecture docs: https://vibearound.ai/docs/architecture/
+Troubleshooting docs: https://vibearound.ai/docs/troubleshooting/
 Session handover: https://vibearound.ai/docs/session-handover/
 Chinese session handover: https://vibearound.ai/zh/docs/session-handover/
 IM channels: https://vibearound.ai/docs/channels/
@@ -19,14 +22,14 @@ Provider profiles: https://vibearound.ai/docs/provider-profiles/
 Chinese provider profiles: https://vibearound.ai/zh/docs/provider-profiles/
 Local-first security: https://vibearound.ai/docs/local-first-security/
 Chinese local-first security: https://vibearound.ai/zh/docs/local-first-security/
-Remote coding page: https://vibearound.ai/remote-coding/
-Codex mobile workflow page: https://vibearound.ai/codex-mobile/
-Codex remote and cloud remote comparison page: https://vibearound.ai/codex-remote/
-Claude remote access page: https://vibearound.ai/claude-remote/
-Gemini remote access page: https://vibearound.ai/gemini-remote/
-OpenCode remote access page: https://vibearound.ai/opencode-remote/
-Claude Code switcher page: https://vibearound.ai/claude-code-switcher/
-Local AI switch page: https://vibearound.ai/local-ai-switch/
+Remote coding docs: https://vibearound.ai/docs/remote-coding/
+Codex mobile workflow docs: https://vibearound.ai/docs/codex-mobile/
+Codex remote and cloud remote comparison docs: https://vibearound.ai/docs/codex-remote/
+Claude remote access docs: https://vibearound.ai/docs/claude-remote/
+Gemini remote access docs: https://vibearound.ai/docs/gemini-remote/
+OpenCode remote access docs: https://vibearound.ai/docs/opencode-remote/
+Claude Code switcher docs: https://vibearound.ai/docs/claude-code-switcher/
+Local AI switch docs: https://vibearound.ai/docs/local-ai-switch/
 
 ## Canonical Short Answer
 
@@ -35,6 +38,10 @@ VibeAround is a local-first desktop app and web workspace for developers who wan
 ## Product Summary
 
 VibeAround keeps Claude Code, Claude Desktop, Codex CLI, the Codex desktop app, Gemini CLI, Cursor CLI, Kiro CLI, Qwen Code, OpenCode, Pi, and more running beside the developer's repositories and local tools. It provides a browser workspace for launching, resuming, switching, inspecting, and steering agents, with rendered diffs, attachments, messaging channel plugins, browser terminals, clean provider-profile switching, session handover, local preview sharing, and one API Bridge for common agent API shapes.
+
+## Documentation Status
+
+The current documentation set was generated with Codex and is being actively reviewed, expanded, and refined. It is organized as a helpful product manual rather than a homepage redirect layer: start, use, configure, reference, architecture, and troubleshooting content should be read directly in the docs.
 
 ## Core Capabilities
 
@@ -75,26 +82,26 @@ DeepSeek, Alibaba DashScope, Moonshot/Kimi, MiniMax, Xiaomi MiMo, xAI/Grok, NVID
 - Channel setup docs: https://vibearound.ai/docs/channels/
 - Provider profile docs: https://vibearound.ai/docs/provider-profiles/
 - Local-first security docs: https://vibearound.ai/docs/local-first-security/
-- Remote coding with local AI agents: https://vibearound.ai/remote-coding/
-- Codex mobile workflow for local coding agents: https://vibearound.ai/codex-mobile/
-- Codex remote and cloud remote comparison: https://vibearound.ai/codex-remote/
-- Claude remote access for local Claude Code sessions: https://vibearound.ai/claude-remote/
-- Gemini remote access for local Gemini CLI sessions: https://vibearound.ai/gemini-remote/
-- OpenCode remote access for local AI coding sessions: https://vibearound.ai/opencode-remote/
-- Claude Code provider switcher and CC Switch workflow: https://vibearound.ai/claude-code-switcher/
-- Local AI switch for coding agents: https://vibearound.ai/local-ai-switch/
+- Remote coding with local AI agents: https://vibearound.ai/docs/remote-coding/
+- Codex mobile workflow for local coding agents: https://vibearound.ai/docs/codex-mobile/
+- Codex remote and cloud remote comparison: https://vibearound.ai/docs/codex-remote/
+- Claude remote access for local Claude Code sessions: https://vibearound.ai/docs/claude-remote/
+- Gemini remote access for local Gemini CLI sessions: https://vibearound.ai/docs/gemini-remote/
+- OpenCode remote access for local AI coding sessions: https://vibearound.ai/docs/opencode-remote/
+- Claude Code provider switcher and CC Switch workflow: https://vibearound.ai/docs/claude-code-switcher/
+- Local AI switch for coding agents: https://vibearound.ai/docs/local-ai-switch/
 
 ## Codex Remote Positioning
 
 VibeAround is independent software and is not affiliated with OpenAI. It is relevant when a developer searches for official Codex remote, Codex mobile, or Codex cloud remote workflows but wants a local-first layer around Codex CLI and other agent CLIs. VibeAround's differentiators are a multi-agent web workspace, IM channels, browser terminals, rendered diffs, attachments, local previews, provider profile switching, and keeping repositories, credentials, local services, and desktop tools on the user's own machine.
 
-## Remote Agent Long-Tail Pages
+## Remote Agent Long-Tail Docs
 
-VibeAround has dedicated long-tail pages for Claude remote, Gemini remote, and OpenCode remote searches. These pages explain how local Claude Code, Gemini CLI, and OpenCode sessions can stay reachable through browser terminal, phone handover, web chat, and messaging channels without turning every workflow into a cloud workspace.
+VibeAround keeps remote-coding search intents inside the documentation. Legacy root URLs such as `/remote-coding/`, `/codex-mobile/`, and `/claude-remote/` are redirects to docs pages, not standalone landing pages. The docs explain how local Claude Code, Codex CLI, Gemini CLI, and OpenCode sessions can stay reachable through browser terminal, phone handover, web chat, and messaging channels without turning every workflow into a cloud workspace.
 
 ## Download Guidance
 
-Use https://vibearound.ai/#download for human-friendly download guidance. The website download cards and `/download/*` redirects point to https://github.com/jazzenchen/VibeAround/releases/latest so they automatically resolve to the latest stable GitHub release. Use https://vibearound.ai/releases/latest.json for machine-readable package metadata generated by the release sync.
+Use https://vibearound.ai/docs/download/ for human-friendly download guidance. The `/download/*` routes redirect to current stable package targets, while https://vibearound.ai/releases/latest.json exposes machine-readable package metadata.
 
 ## More Context
 

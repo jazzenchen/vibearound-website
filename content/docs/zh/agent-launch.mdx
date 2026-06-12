@@ -1,0 +1,47 @@
+---
+title: Agent Launch
+description: 在开始工作前选择 Agent、模型 Profile、Workspace、Terminal 和 Session。
+---
+
+Agent Launch 是本地 Agent 工作的受控入口。它让用户在启动前明确决定运行什么、在哪里运行、使用哪个模型路径，以及是开始新 Session 还是继续旧 Session。
+
+## Launch 输入
+
+| 输入 | 含义 |
+| --- | --- |
+| Agent | 要启动的 Agent family 或桌面 App。 |
+| Workspace | Agent 要操作的本地目录或 worktree。 |
+| Profile | 要使用的 Provider Profile、API endpoint 或 Agent 原生配置。 |
+| Terminal mode | Agent 进程运行的终端或 runtime 表面。 |
+| Session | 新会话或要继续的历史会话。 |
+| Desktop overlay | 部分桌面 App 支持的 Profile-aware 启动行为。 |
+
+## 常见启动流程
+
+1. 打开 Launch。
+2. 选择 Agent。
+3. 选择 Workspace。
+4. 如有需要，选择 Provider Profile 或直接 endpoint。
+5. 选择新建 Session 或继续旧 Session。
+6. 检查 Terminal/runtime mode。
+7. 启动 Session。
+
+## Direct Launch 与 Profile Launch
+
+Direct Launch 使用 Agent 自己的配置。Profile Launch 会应用 VibeAround 的 Profile 设置或 API Bridge 路由，让 Agent 通过指定 Provider 路径运行。
+
+如果 Agent 原生配置已经稳定，Direct Launch 更简单。如果你需要可重复的 Provider 选择、模型 alias 或 Bridge 转译，Profile Launch 更合适。
+
+## Session 继续
+
+继续会话是 Launch 的一部分。Session 应该保留 Workspace、Profile context 和输出界面。当 Session 无法继续时，应当把它当作状态或 runtime 问题处理，而不是无提示地开始一个新 Session。
+
+## 排查顺序
+
+Launch 失败时，按顺序检查：
+
+1. Agent 是否能在 VibeAround 外部运行。
+2. Workspace 路径是否有效。
+3. 当前机器是否支持选中的 Terminal mode。
+4. Provider Profile 的凭据和 API shape 是否正确。
+5. 旧 Session 是否还有可恢复状态。

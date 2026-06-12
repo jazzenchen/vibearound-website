@@ -1,0 +1,55 @@
+---
+title: 快速开始
+description: 安装 VibeAround，启用一个 Agent，选择 Workspace，并跑通第一个本地会话。
+---
+
+快速开始的目标不是一次配置所有能力，而是先验证一条最短、可靠的链路：一个 Agent、一个 Workspace、一个 Terminal、一个模型路径可以正常工作。
+
+## 开始前准备
+
+先选一个你已经熟悉的 Agent。建议从最简单的路径开始：
+
+- 一个已经安装好的 CLI Agent，例如 Claude Code、Codex CLI、Gemini CLI、Pi 或 OpenCode。
+- 一个允许 Agent 查看和操作的本地 Workspace。
+- 一个可用的模型账号或 API key。
+- 可选：如果想由 VibeAround 统一路由模型流量，再准备一个 Provider Profile。
+
+## 第一个会话
+
+1. 从 [下载](./download) 页面安装适合当前系统的包。
+2. 打开 VibeAround，完成初始引导。
+3. 确认要使用的 Agent 出现在 Agent 列表中。
+4. 创建或选择一个 Workspace。
+5. 打开 Launch，选择 Agent、Workspace、Terminal mode 和 Session 类型。
+6. 根据需要选择 Provider Profile、直接 API endpoint 或 Agent 原生配置。
+7. 启动一个小任务，例如让 Agent 检查仓库并解释项目结构。
+8. 确认输出出现在预期界面中。
+9. 回到 Workspace 视图，确认这个 Session 可以再次找到。
+
+## 推荐的第一个任务
+
+第一个任务应该小、可观察，并且不要直接修改重要文件。
+
+```text
+Inspect this repository and explain the main entry points. Do not edit files.
+```
+
+```text
+Find the test command for this project and tell me what you would run first. Do not run it yet.
+```
+
+```text
+Summarize the current README and list any setup steps that are unclear.
+```
+
+## 跑通后再做什么
+
+基础 Launch 成功后，再一次只增加一个能力：
+
+- 添加一个 Provider Profile，并用同样的小任务测试。
+- 为同一个 Workspace 打开 Web Terminal。
+- 从浏览器或手机入口尝试 Session Handover。
+- 配置一个消息频道，发送一次短提示。
+- 为本地 dev server 或 Markdown 文件使用 Live Preview。
+
+这种顺序可以让问题更容易定位。后续能力失败时，至少基础 Agent Launch 已经证明是可用的。

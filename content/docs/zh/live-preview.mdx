@@ -1,0 +1,35 @@
+---
+title: Live Preview
+description: 从桌面、浏览器、手机或消息应用预览本地 dev server、Markdown、HTML 和生成产物。
+---
+
+Live Preview 让本地输出可以被查看，而不需要把整个开发环境变成云工作空间。它主要用于审阅 Agent 生成或修改的结果：dev server、Markdown、HTML、生成文件等。
+
+## Preview 类型
+
+| 类型 | 示例 |
+| --- | --- |
+| Dev server | 本地 Next、Vite 或其他开发服务。 |
+| Markdown | 生成的报告、README 草稿或设计说明。 |
+| HTML | 静态原型或导出的页面。 |
+| Artifact | 适合在浏览器中审阅的生成文件。 |
+
+## Owner Link 与 Share Link
+
+Owner link 面向本地用户或已认证的 owner session。Share link 应该有明确作用域和较短有效期。Preview link 不应被理解成对主机的无限访问。
+
+## 远程预览流程
+
+1. Agent 生成或修改某个输出。
+2. VibeAround 确认预览目标。
+3. 用户本地打开 owner link，或创建 scoped share link。
+4. 如果需要远程访问，通过配置好的 Tunnel 或远程入口访问。
+5. 用户审阅结果，并把反馈返回同一个 Session。
+
+## 使用建议
+
+- 优先预览最小可用目标。
+- 不再需要时停止分享或关闭链接。
+- 文档和报告发布前先用 Markdown preview 检查。
+- UI 修改后用 dev-server preview 验证。
+- 除非明确要公开，否则把分享 URL 当作敏感链接处理。

@@ -1,0 +1,46 @@
+---
+title: Codex 手机工作流
+description: 用 VibeAround 从手机浏览器、终端、handover 或消息频道继续本地 Codex CLI 会话。
+---
+
+VibeAround 可以让本地 Codex CLI 会话从手机上继续访问，而真正的会话仍运行在本地主机上。适用于 Agent 需要用户决策、需要审阅测试结果，或长任务在你离开电脑后仍要推进的情况。
+
+VibeAround 是独立软件，与 OpenAI 无隶属关系。Codex 和 ChatGPT 是 OpenAI 产品。
+
+## 这个工作流提供什么
+
+- 一个运行 Codex CLI 并靠近真实仓库的本地主机。
+- 面向浏览器和手机的会话继续入口。
+- 需要 shell 视图时使用 Web Terminal。
+- 通过消息频道进行短提示和状态检查。
+- 当本地工作流需要显式模型路由时，可使用 Provider Profile 和 API Bridge。
+
+## 设置路径
+
+1. 先确认 Codex CLI 可在 VibeAround 外部正常运行。
+2. 将仓库加入 VibeAround 工作空间。
+3. 从 [Agent 启动](./agent-launch) 启动或继续 Codex 会话。
+4. 用 [会话接续](./session-handover) 在手机浏览器中打开会话。
+5. 本地会话稳定后，再加入 [远程消息与 Web Terminal](./remote-messaging-terminal)。
+6. 使用 [实时预览](./live-preview) 在手机友好的流程中审阅本地产物。
+
+## 适合手机处理的任务
+
+手机更适合控制、批准和审阅，通常不适合大范围文件检查。
+
+- 询问 Agent 当前状态。
+- 批准或否决某个方向。
+- 要求运行一个聚焦的测试或构建。
+- 审阅预览链接。
+- 暂停、归档或把会话交回桌面端。
+
+## 安全提示
+
+把手机视为本地工作空间的控制面。浏览器配对、消息频道成员和终端访问，都应按照直接 shell 访问的安全等级对待。
+
+## 相关文档
+
+- [Codex 远程对比](./codex-remote)
+- [远程编程](./remote-coding)
+- [Provider Profile 与 API Bridge](./provider-profiles)
+- [本地优先安全](./local-first-security)

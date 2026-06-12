@@ -1,0 +1,57 @@
+---
+title: Local-first 安全模型
+description: 理解什么留在本地、什么可能离开机器，以及哪些控制点重要。
+---
+
+Local-first 表示默认执行边界在用户自己的电脑上，但不代表没有风险。Agent 可以执行命令，模型 Provider 会接收 prompt，消息频道会传输消息，Tunnel 在启用时可能暴露本地入口。
+
+## 默认留在本地的内容
+
+- 仓库和 working tree。
+- 本地终端和命令行工具。
+- Agent 进程执行。
+- VibeAround settings 和 Provider Profile 存储。
+- 本地 Session 和 Workspace 状态。
+
+## 可能离开机器的内容
+
+根据配置，以下内容可能离开主机：
+
+- 模型请求和响应。
+- 消息频道流量。
+- Tunnel 流量。
+- 分享的 Preview link。
+- Browser-paired remote access。
+- 由 Provider 自身策略决定的 telemetry 或 logs。
+
+## 控制点
+
+| 控制点 | 重要性 |
+| --- | --- |
+| Loopback binding | 除非启用远程访问，否则本地 API 不暴露到公网。 |
+| Local auth token | 保护 Dashboard API 和 WebSocket routes。 |
+| Browser pairing | 防止 public tunnel URL 自动变成访问权限。 |
+| Scoped preview links | 限制分享链接能访问的内容。 |
+| Short-lived links | 审阅结束后降低暴露时间。 |
+| Channel permissions | 限制谁可以向 Agent 发送命令。 |
+| Provider profiles | 让模型路由显式、可检查。 |
+
+## 安全使用建议
+
+- 先使用 local-only 模式。
+- 一次只增加一个远程入口。
+- 初期测试优先使用私有 Channel。
+- 重要项目中应用修改前先审阅 Agent 输出。
+- 把 API key 和 Channel token 当作秘密处理。
+- 不再需要时关闭 Tunnel、Share 和 Channel plugin。
+
+## 安全复核问题
+
+启用一个工作流前，先问：
+
+1. 谁可以给 Agent 发送输入？
+2. Agent 可以访问哪个 Workspace？
+3. Prompt 会发送给哪个 Provider？
+4. 是否涉及 public URL？
+5. 用户如何撤销访问？
+6. Session 结束后会留下哪些日志或消息？

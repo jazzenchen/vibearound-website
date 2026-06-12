@@ -143,14 +143,14 @@ function ensureBucket() {
   }
 }
 
-function writeRedirects() {
+function writeRedirects(packages) {
   const latestReleaseUrl = `https://github.com/${repo}/releases/latest`;
   const lines = [
     `/download ${latestReleaseUrl} 302`
   ];
   for (const def of packageDefs) {
     if (def.route) {
-      lines.push(`${def.route} ${latestReleaseUrl} 302`);
+      lines.push(`${def.route} ${packages[def.key]?.url || latestReleaseUrl} 302`);
     }
   }
   lines.push("/github https://github.com/jazzenchen/VibeAround 302");
@@ -251,7 +251,7 @@ async function main() {
     });
   }
 
-  writeRedirects();
+  writeRedirects(packages);
   writeManifest(latestRelease, packages, mirroredAssets);
 
   runWrangler([

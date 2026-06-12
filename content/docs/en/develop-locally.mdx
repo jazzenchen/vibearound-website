@@ -1,0 +1,45 @@
+---
+title: Develop Locally
+description: Local development entry points for the main VibeAround app and this documentation website.
+---
+
+This page is for maintainers. It separates the main app repository from the documentation website repository so changes can be made without touching the wrong project.
+
+## Main App Repository
+
+The main VibeAround app lives outside this website repository. It is a Rust/Tauri monorepo with React/Vite frontends for the desktop UI and web dashboard.
+
+Typical app development involves:
+
+- Bun workspaces for frontend packages.
+- Cargo for Rust crates.
+- Desktop UI and web dashboard development.
+- Runtime services, plugins, channels, bridge integration, and release packaging.
+
+Do not edit the main app repository when the task is only website or documentation work.
+
+## Website Repository
+
+The website now uses Next.js static export with Tailwind CSS, shadcn-style UI components, and Fumadocs for documentation content.
+
+```bash
+npm install
+npm run dev
+npm run build
+npm run preview
+```
+
+`npm run dev` starts the local Next development server. `npm run build` produces the static export used by Cloudflare Pages. `npm run preview` builds and serves the exported output through Wrangler Pages dev.
+
+## Documentation Content
+
+Docs live in:
+
+- `content/docs/en`
+- `content/docs/zh`
+
+Each locale has a `meta.json` file that controls navigation order. Keep English and Chinese structures aligned unless there is a deliberate reason to make them different.
+
+## Release Metadata
+
+The website keeps release metadata in `public/releases/latest.json`. Download routes are defined for local static output and Cloudflare Pages redirects. Update both when package targets change.

@@ -1,0 +1,44 @@
+---
+title: Unified Workspace
+description: 在一个地方管理 Agent、Session、状态、Workspace、runtime health 和入口。
+---
+
+Unified Workspace 是本地 Agent 工作的操作视图。它把 Session、Agent、运行状态、Channel、Tunnel、Preview 和 Workspace 选择集中在一起，让用户不必从多个工具里重新拼上下文。
+
+## Workspace 需要回答的问题
+
+一个 Workspace 视图应该能回答：
+
+- 哪些 Agent 可用？
+- 哪些 Session 正在运行、已归档或可继续？
+- 每个 Session 连接到哪个 Workspace 路径？
+- 当前使用哪个 Provider Profile 或 Launch 路径？
+- 哪些远程入口已启用？
+- 哪些 Preview 或 Terminal 正在打开？
+- 哪些 runtime service 健康？
+
+## 常见操作
+
+| 操作 | 目的 |
+| --- | --- |
+| Start session | 用选中的 Agent 和 Workspace 开始工作。 |
+| Continue session | 继续已有本地 Agent 上下文。 |
+| Archive session | 将不活跃的工作从主视图移开，同时保留历史。 |
+| Switch workspace | 切换当前控制面到另一个本地项目。 |
+| Inspect status | 查看 Agent、Channel、Tunnel 和 runtime health。 |
+| Handover | 把 live Session 交接到另一个入口。 |
+
+## 多 Agent 工作
+
+Workspace 模型支持多个 Agent 并行运行。parallel、team、roundtable 等协作模式应建立在同一组基础能力上：Workspace 选择、Session identity、Profile routing 和可观察输出。
+
+## 健康 Workspace 检查表
+
+一个健康的 Workspace 应该具备：
+
+- 明确的本地路径。
+- 至少一个可用 Agent。
+- 可恢复的 Session 记录。
+- 可见的 runtime status。
+- 明确的远程访问状态。
+- 作用域清晰的 Preview link。

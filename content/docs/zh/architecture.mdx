@@ -1,0 +1,40 @@
+---
+title: 架构
+description: VibeAround 本地优先 Agent 工作空间背后的技术模型。
+---
+
+VibeAround 是围绕 Agent、Workspace、模型 Profile、runtime service、远程入口和 Preview 的本地协调层。具体实现会演进，但架构边界相对稳定。
+
+## 主要模块
+
+| 层 | 职责 |
+| --- | --- |
+| Desktop shell | 提供本地应用界面和 Launch 入口。 |
+| Web dashboard | 提供浏览器中的 Workspace、状态、Terminal、Chat 和 Preview 界面。 |
+| Runtime service | 协调 Session、Channel、Tunnel、Auth 和本地 API。 |
+| Agent launcher | 按选定上下文启动或继续 Agent 进程和桌面 App。 |
+| Provider profiles | 保存 Provider 路由选择和模型 metadata。 |
+| API Bridge | 在 Agent-facing 和 Provider-facing API shape 之间转译。 |
+| Channel plugins | 将消息平台连接到本地 Session。 |
+| Preview service | 将本地输出转换成可审阅链接。 |
+
+## Local-first 边界
+
+主机机器仍然是执行边界。仓库、shell、dev server、包缓存和本地凭据都靠近 Agent 进程。远程入口只是回到这个本地环境的入口。
+
+## 数据流示例
+
+1. 用户选择 Agent、Workspace 和 Provider Profile。
+2. Launcher 在选定本地 Workspace 中启动 Agent。
+3. 如果 Profile 需要 Bridge 转译，Agent 会访问本地 Bridge route。
+4. Bridge 把请求转换为 Provider 需要的形态并发送给模型 Provider。
+5. Session state 被记录，以便后续继续。
+6. Web、Terminal、Channel 或 Preview surface 在授权后连接到同一个本地 Session。
+
+## 设计约束
+
+- 用户意图要可见：Agent、Workspace、Provider 和 Session 都应可检查。
+- 远程访问不应被误解成远程执行。
+- Channel 和 Tunnel 应被视为高权限入口。
+- Provider 差异应该被记录，而不是假装所有 API 完全一样。
+- 当用户想保留 Agent 原生配置时，应保持兼容。

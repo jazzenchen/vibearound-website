@@ -1,0 +1,45 @@
+---
+title: 为什么需要 VibeAround
+description: VibeAround 为本地优先 AI 编程工作流解决的问题。
+---
+
+AI 编程工作已经不再只是一个终端会话。真实工作流往往会同时涉及多个 Agent、多个模型 Provider、本地仓库、桌面 App、浏览器预览、手机确认、消息频道和生成产物。缺少统一控制层时，每个工具都会变成一个孤立的小入口。
+
+VibeAround 的目标是在保留本地开发环境的同时，把这些入口连接起来。
+
+## 核心问题
+
+开发者经常需要反复回答这些问题：
+
+- 这个任务应该交给哪个 Agent？
+- 这个 Agent 应该使用哪个模型或 Provider Profile？
+- 会话应该在哪个 Workspace 里运行？
+- 上一个 Session 在哪里？
+- 离开电脑后如何继续？
+- Agent 生成的结果如何预览？
+- 哪些东西暴露到了远程，哪些仍然留在本地？
+
+VibeAround 把这些问题变成明确的 Workspace 操作。
+
+## 产品原则
+
+VibeAround 遵循四个原则：
+
+1. 让执行尽量靠近用户自己的机器。
+2. 允许用户选择自己的 Agent 和模型 Provider。
+3. 在不同界面之间保留 Session 连续性。
+4. 让远程访问显式、可见、可控制。
+
+## VibeAround 不是什么
+
+VibeAround 不是 hosted cloud IDE。它不要求把仓库迁移到云工作空间，也不替代 Agent CLI 或模型 Provider。它协调本地会话，并把会话连接到用户选择的入口。
+
+## 什么时候最有价值
+
+VibeAround 特别适合这些情况：
+
+- 你使用不止一个编程 Agent。
+- 你经常切换模型 Provider 或 API 形态。
+- 你需要本地文件、终端、包缓存、凭据或 dev server。
+- 你想从浏览器、手机或消息应用继续 Session。
+- 你想预览结果，但不想把工作发布到另一个托管环境。

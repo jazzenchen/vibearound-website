@@ -1,0 +1,37 @@
+---
+title: Remote Messaging & Web Terminal
+description: 从消息应用、桌面浏览器、手机浏览器和 Web Terminal 访问本地 Session。
+---
+
+VibeAround 的远程访问是本地工作的入口，不是把代码、凭据或执行环境迁移到 hosted cloud workspace。
+
+## 远程入口
+
+| 入口 | 适合场景 |
+| --- | --- |
+| Web Chat | 从浏览器继续 Session。 |
+| Web Terminal | 从浏览器查看或控制本地 Workspace shell。 |
+| Mobile browser | 快速审阅、批准和短提示。 |
+| Messaging apps | 日常沟通工具和异步检查。 |
+| Tunnel-backed URLs | 离开主机后访问本地服务。 |
+
+## 消息频道
+
+消息频道会把指定对话连接到本地 Agent Session。它们很方便，因为 Agent 工作可以进入用户每天使用的工具；但它们也应该被当作远程控制面来谨慎配置。
+
+推荐启用顺序：
+
+1. 先选择一个个人或团队频道。
+2. 用低风险 Workspace 做第一次测试。
+3. 确认命令路由。
+4. 确认谁可以向 bot 发送消息。
+5. 确认如何选择或切换 Session。
+6. 最后再连接生产 Workspace。
+
+## Web Terminal
+
+Web Terminal 适合在浏览器中查看 shell-like 界面。它可以与 Session Handover 和 Preview link 配合使用，但应被视为高权限入口，因为它可以触达本地 Workspace 工具。
+
+## 安全检查
+
+启用远程访问前，先阅读 [Local-first 安全模型](./local-first-security)。重点确认 Tunnel 状态、Browser pairing、本地 auth token、Channel 成员和 Preview link 作用域。

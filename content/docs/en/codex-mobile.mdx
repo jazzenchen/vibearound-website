@@ -1,0 +1,46 @@
+---
+title: Codex Mobile Workflow
+description: Use VibeAround to keep local Codex CLI sessions reachable from a phone-friendly browser, terminal, handover, or messaging channel.
+---
+
+VibeAround can help users continue Codex CLI work from a phone while the actual session stays on the local host. This is useful when the agent needs a decision, a test result needs review, or a long task should keep moving while you are away from the desk.
+
+VibeAround is independent software and is not affiliated with OpenAI. Codex and ChatGPT are OpenAI products.
+
+## What This Workflow Provides
+
+- A local host where Codex CLI can run beside the real repository.
+- Browser and mobile entry points for session continuation.
+- Web Terminal access when a shell view is needed.
+- Messaging-channel access for short prompts and status checks.
+- Optional provider profiles and API Bridge routes when a local workflow needs explicit model routing.
+
+## Setup Path
+
+1. Confirm Codex CLI works outside VibeAround.
+2. Add the repository as a VibeAround workspace.
+3. Launch or continue a Codex session from [Agent Launch](./agent-launch).
+4. Open the session from a mobile browser with [Session Handover](./session-handover).
+5. Add [Remote Messaging & Web Terminal](./remote-messaging-terminal) only after the local session works.
+6. Use [Live Preview](./live-preview) to review local outputs from the same phone-friendly flow.
+
+## Good Mobile Tasks
+
+Mobile is best for steering, approval, and review. It is usually not the best place for broad file inspection.
+
+- Ask the agent for status.
+- Approve or reject a proposed direction.
+- Request a focused test or build.
+- Review a preview link.
+- Pause, archive, or hand the session back to the desktop.
+
+## Security Notes
+
+Treat the phone as a control surface for the local workspace. Protect browser pairing, messaging channel membership, and terminal access the same way you protect direct shell access.
+
+## Related Docs
+
+- [Codex Remote Comparison](./codex-remote)
+- [Remote Coding](./remote-coding)
+- [Provider Profiles & API Bridge](./provider-profiles)
+- [Local-first Security](./local-first-security)

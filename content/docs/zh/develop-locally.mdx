@@ -1,0 +1,45 @@
+---
+title: 本地开发
+description: 主项目和文档网站的本地开发入口。
+---
+
+本页面向维护者。它明确区分 VibeAround 主应用仓库和文档网站仓库，避免在错误项目里修改文件。
+
+## 主应用仓库
+
+VibeAround 主应用不在这个网站仓库中。主应用是 Rust/Tauri monorepo，包含桌面 UI 和 Web Dashboard 的 React/Vite 前端。
+
+主应用开发通常涉及：
+
+- Bun workspaces 管理前端包。
+- Cargo 管理 Rust crates。
+- Desktop UI 和 Web Dashboard 开发。
+- Runtime services、plugins、channels、Bridge integration 和 release packaging。
+
+如果任务只涉及网站或文档，不要修改主应用仓库。
+
+## 网站仓库
+
+网站现在使用 Next.js static export、Tailwind CSS、shadcn 风格 UI 组件和 Fumadocs 文档。
+
+```bash
+npm install
+npm run dev
+npm run build
+npm run preview
+```
+
+`npm run dev` 启动本地 Next 开发服务器。`npm run build` 生成 Cloudflare Pages 使用的静态导出。`npm run preview` 会构建并通过 Wrangler Pages dev 预览导出结果。
+
+## 文档内容
+
+文档位于：
+
+- `content/docs/en`
+- `content/docs/zh`
+
+每个语言目录都有一个 `meta.json` 控制导航顺序。除非有明确原因，英文和中文结构应保持一致。
+
+## Release 元数据
+
+网站在 `public/releases/latest.json` 中保存 release metadata。下载路由同时由本地静态输出和 Cloudflare Pages redirects 使用。安装包目标变化时，需要同步更新两处。

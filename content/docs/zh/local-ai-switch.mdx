@@ -1,0 +1,35 @@
+---
+title: 本地 AI 切换
+description: 切换 Agent、Provider Profile、模型别名、工作空间和 bridge 路由，而不把本地工作流变成托管云工作空间。
+---
+
+本地 AI 切换是 VibeAround provider 与 Agent 控制层背后的操作理念。与其把配置散落在终端、CLI 配置文件、shell export 和笔记里，VibeAround 让用户在开始工作前明确选择 Agent、工作空间、会话、profile 和路由。
+
+## 可以切换什么
+
+| 切换项 | 含义 |
+| --- | --- |
+| Agent | Claude Code、Codex CLI、Gemini CLI、OpenCode、Cursor CLI、Qwen Code、Kiro CLI、桌面 Agent 等工具。 |
+| 工作空间 | Agent 应该操作的本地文件夹或 worktree。 |
+| 会话 | 新会话，或继续之前的会话。 |
+| Provider Profile | 模型服务商、endpoint、key 引用、模型名和路由设置。 |
+| Bridge route | 用本地 API Bridge 将一种 API 形态适配成另一种 API 形态。 |
+
+## 为什么重要
+
+切换应当可见、可回退、可重复。用户应该知道哪个 Agent 操作了哪个工作空间、请求发送给哪个 provider、以及之后可以继续哪个会话。
+
+## 设置路径
+
+1. 先用一个本地 Agent 完成 [快速开始](./quick-start)。
+2. 添加一个 Provider Profile。
+3. 分别用原生配置和 profile 启动同一个 Agent。
+4. 第一条路由稳定后，再添加第二个 Agent。
+5. 使用 [统一工作空间](./unified-workspace) 检查会话和 profile 状态。
+
+## 相关文档
+
+- [Provider Profile 与 API Bridge](./provider-profiles)
+- [Agent 启动](./agent-launch)
+- [支持的 Provider](./providers)
+- [支持的 AI Agent](./supported-agents)

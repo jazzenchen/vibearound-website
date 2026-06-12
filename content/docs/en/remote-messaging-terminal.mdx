@@ -1,0 +1,37 @@
+---
+title: Remote Messaging & Web Terminal
+description: Reach local sessions from messaging apps, desktop browsers, mobile browsers, and a browser terminal.
+---
+
+Remote access in VibeAround is an entry point to local work. It is not a request to move code, credentials, or execution into a hosted cloud workspace.
+
+## Remote Surfaces
+
+| Surface | Best for |
+| --- | --- |
+| Web Chat | Continuing a session from a browser. |
+| Web Terminal | Inspecting or controlling a local workspace shell. |
+| Mobile browser | Quick review, approvals, and short steering prompts. |
+| Messaging apps | Daily communication channels and asynchronous check-ins. |
+| Tunnel-backed URLs | Reaching local services when away from the host machine. |
+
+## Messaging Channels
+
+Messaging channels connect selected conversations to local agent sessions. They are powerful because they bring agent work into tools users already check, but they must be configured deliberately.
+
+Recommended rollout:
+
+1. Start with one personal or team channel.
+2. Use a low-risk workspace for the first test.
+3. Confirm command routing.
+4. Confirm who can send messages to the bot.
+5. Confirm how sessions are selected or switched.
+6. Only then connect production workspaces.
+
+## Web Terminal
+
+The Web Terminal is useful when the user needs a shell-like view from a browser. It can be paired with session handover and preview links, but it should be treated as a privileged surface because it reaches local workspace tools.
+
+## Security Checks
+
+Before enabling remote access, review [Local-first Security](./local-first-security). Pay special attention to tunnel state, browser pairing, local auth tokens, channel membership, and preview link scope.

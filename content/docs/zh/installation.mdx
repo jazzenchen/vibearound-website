@@ -1,0 +1,60 @@
+---
+title: 安装
+description: 在 macOS、Windows 或 Linux 上安装 VibeAround，并准备本地 Agent 环境。
+---
+
+VibeAround 通过 GitHub Releases 发布桌面安装包。桌面 App 在你的机器上运行，用来协调本地 Agent、本地 Workspace、本地终端和可选的远程入口。
+
+## 平台安装包
+
+| 平台 | 推荐安装包 | 说明 |
+| --- | --- | --- |
+| macOS Apple Silicon | DMG | 当前 macOS 包只提供 Apple Silicon 版本。 |
+| Windows x64 | Setup EXE | 适合大多数 Windows 用户。 |
+| Windows x64 | MSI | 适合需要安装器管理的环境。 |
+| Windows x64 | Portable ZIP | 适合不想完整安装的场景。 |
+| Linux x64 | AppImage | 便携式桌面包。 |
+| Linux x64 | deb | 适合 Debian/Ubuntu 系发行版。 |
+
+当前版本的完整链接见 [下载](./download)。
+
+## 本地 Agent 依赖
+
+VibeAround 可以启动和协调多个 Agent，但 Agent 本身通常仍需要单独安装或登录。配置复杂工作流前，建议先在 VibeAround 外部验证：
+
+- 直接在终端运行该 CLI。
+- 确认 CLI 已经完成认证。
+- 确认它能访问目标 Workspace。
+- 确认模型账号、API key 或 Provider 设置可用。
+
+只有这个基线成立后，再把 Agent 接入 VibeAround。这样可以区分问题来自 Agent 本身，还是来自 Launch、Profile、Terminal 或 Handover 层。
+
+## 第一次启动
+
+第一次启动时，VibeAround 会引导你完成本地设置。引导流程可能包含 Agent 检测、运行时设置、Workspace 检查，以及可选的远程访问或消息插件设置。
+
+推荐顺序：
+
+1. 完成基础引导检查。
+2. 添加一个 Workspace。
+3. 启用一个已安装的 Agent。
+4. 从 Launch 启动一个本地会话。
+5. 基础会话可用后再添加 Provider Profile。
+6. 最后再配置 Channel、Tunnel 和 Preview 分享。
+
+## 本地数据
+
+VibeAround 的长期状态保存在用户本机的数据目录中。最重要的长期状态包括 settings、provider profiles、agents、launcher state、sessions、workspaces 和 worktrees。
+
+运行时缓存、检测结果、日志、插件安装、本地 bin、Bridge launch 状态和 auth token 属于运行期数据。迁移时应谨慎处理，通常不应直接从旧版本完整恢复。升级说明见 [从 0.6.x 迁移](./migration-0-6)。
+
+## 安装验证
+
+安装后先验证四件事：
+
+1. 桌面 App 可以打开。
+2. 至少一个 Agent 可以被识别并启动。
+3. 可以选择 Workspace。
+4. 新建 Session 后，回到 Workspace 仍然可以找到。
+
+除非远程访问、消息频道或预览分享是当前部署的硬性需求，否则不要把它们作为第一轮安装是否成功的判断标准。

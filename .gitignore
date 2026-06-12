@@ -4,5 +4,9 @@
 .wrangler/
 node_modules/
 npm-debug.log*
+*.tsbuildinfo
 output/
 releases/
+.next/
+.source/
+out/

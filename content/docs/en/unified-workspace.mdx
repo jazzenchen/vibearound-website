@@ -1,0 +1,44 @@
+---
+title: Unified Workspace
+description: Manage agents, sessions, status, workspaces, runtime health, and entry points from one place.
+---
+
+The unified workspace is the operating view for local agent work. It brings together sessions, agents, runtime status, channels, tunnels, previews, and workspace selection so users do not have to reconstruct context from separate tools.
+
+## Workspace Responsibilities
+
+A workspace view should answer:
+
+- Which agents are available?
+- Which sessions are active, archived, or resumable?
+- Which workspace path is connected to each session?
+- Which provider profile or launch path is being used?
+- Which remote entry points are enabled?
+- Which previews or terminals are open?
+- Which runtime services are healthy?
+
+## Common Operations
+
+| Operation | Purpose |
+| --- | --- |
+| Start session | Begin work with a selected agent and workspace. |
+| Continue session | Resume an existing local agent context. |
+| Archive session | Remove inactive work from the main view without deleting all history. |
+| Switch workspace | Move the active control surface to another local project. |
+| Inspect status | Check agents, channels, tunnels, and runtime health. |
+| Handover | Move a live session to another surface. |
+
+## Multi-agent Work
+
+The workspace model supports running agents side by side. Planned coordination modes such as parallel, team, and roundtable should build on the same primitives: workspace selection, session identity, profile routing, and observable output.
+
+## Healthy Workspace Checklist
+
+A healthy workspace has:
+
+- A clear local path.
+- At least one known agent.
+- Recoverable session records.
+- Visible runtime status.
+- Explicit remote access state.
+- Preview links that are scoped and understandable.

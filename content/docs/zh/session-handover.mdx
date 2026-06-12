@@ -1,0 +1,48 @@
+---
+title: Session Handover
+description: 让同一个本地 Agent Session 在桌面、浏览器、终端、手机和消息频道之间继续。
+---
+
+Session Handover 是连续性能力。它让一个本地 Session 继续绑定在同一个 Workspace 上，同时允许用户在不同入口之间移动。
+
+## 入口
+
+| 入口 | 典型用途 |
+| --- | --- |
+| Desktop app | 主要本地控制界面。 |
+| Web Chat | 从浏览器继续本地 Session。 |
+| Web Terminal | 从浏览器访问本地 Workspace 终端。 |
+| Mobile browser | 轻量审阅、确认和短提示。 |
+| Messaging channel | 从 Telegram、飞书/Lark、Discord、Slack、微信、钉钉、企业微信或 QQ Bot 等工具继续。 |
+
+## Handover 应该保留什么
+
+一次 Handover 应该保留：
+
+- Session identity。
+- Workspace path。
+- Agent family。
+- 适用时的 Provider/Profile context。
+- 最近的对话或终端状态。
+- 用户稍后回到桌面 App 的能力。
+
+## 命令与概念
+
+具体命令会因 Channel 而不同，但核心概念稳定：
+
+- Handover：让一个本地 Session 可以被另一个入口接入。
+- Pickup：把某个入口连接到已知 Session。
+- Switch：在 Workspace 或 Agent 之间切换。
+- Prefix behavior：在多人频道中把消息正确路由给 bot。
+- Session selection：当有多个 Session 时选择目标 Session。
+
+## 失败恢复
+
+Handover 不工作时，检查：
+
+1. 本地 VibeAround runtime 是否仍在运行。
+2. Session 是否仍然存在。
+3. Workspace 路径是否仍然存在。
+4. Browser、Channel 或 Tunnel 是否已经配对或授权。
+5. 对应 Channel plugin 是否连接。
+6. Agent 进程是否仍能接收输入。

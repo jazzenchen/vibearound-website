@@ -1,11 +1,19 @@
 # VibeAround Website
 
-Static website and Cloudflare deployment scripts for `vibearound.ai`.
+Next.js static-export website, documentation, and Cloudflare deployment scripts for `vibearound.ai`.
+
+The app builds to `out/` and is deployed as a static Cloudflare Pages site. Product documentation is authored as MDX in `content/docs/en` and `content/docs/zh`.
 
 ## Local Preview
 
 ```bash
 npm run dev
+```
+
+Production-like static preview:
+
+```bash
+npm run preview
 ```
 
 ## Deploy Site
@@ -14,7 +22,7 @@ npm run dev
 npm run deploy
 ```
 
-The site is deployed to the Cloudflare Pages project `vibearound-ai` from the `public/` directory.
+The site is deployed to the Cloudflare Pages project `vibearound-ai` from the generated `out/` directory.
 
 ## Sync Release Packages To R2
 
@@ -24,7 +32,7 @@ npm run sync:releases
 
 The script reads GitHub Releases from `jazzenchen/VibeAround`, mirrors the latest stable release assets to the `vibearound-releases` R2 bucket, and updates `public/releases/latest.json`. If the latest release does not include a macOS DMG, it uses the newest stable release that does.
 
-Public website download buttons and `/download/*` redirects intentionally point to `https://github.com/jazzenchen/VibeAround/releases/latest`, so the site does not need an HTML edit for every release.
+Public website download buttons and `/download/*` redirects should be updated with each stable release. The canonical release notes remain on `https://github.com/jazzenchen/VibeAround/releases/latest`.
 
 ## Configure Cloudflare Domains
 

@@ -1,0 +1,57 @@
+---
+title: Local-first Security
+description: Understand what stays local, what can leave the machine, and which controls matter.
+---
+
+Local-first means the default execution boundary is the user's computer. It does not mean there is no risk. Agents can run commands, model providers receive prompts, messaging channels transmit messages, and tunnels can expose local surfaces when enabled.
+
+## What Stays Local By Default
+
+- Repositories and working trees.
+- Local terminals and command-line tools.
+- Agent process execution.
+- VibeAround settings and provider profile storage.
+- Local session and workspace state.
+
+## What Can Leave The Machine
+
+Depending on configuration, these can leave the host:
+
+- Model requests and responses.
+- Messaging-channel traffic.
+- Tunnel traffic.
+- Shared preview links.
+- Browser-paired remote access.
+- Provider-specific telemetry or logs governed by the provider.
+
+## Controls
+
+| Control | Why it matters |
+| --- | --- |
+| Loopback binding | Keeps local APIs off the public network unless remote access is enabled. |
+| Local auth token | Protects dashboard APIs and WebSocket routes. |
+| Browser pairing | Prevents a public tunnel URL from becoming automatic access. |
+| Scoped preview links | Limits what a shared preview can reach. |
+| Short-lived links | Reduces exposure after review is complete. |
+| Channel permissions | Limits who can send commands to an agent. |
+| Provider profiles | Makes model routing explicit and auditable. |
+
+## Safe Operating Practices
+
+- Start with local-only operation.
+- Add one remote surface at a time.
+- Prefer private channels for early testing.
+- Review agent output before applying changes to important projects.
+- Treat API keys and channel tokens as secrets.
+- Disable tunnels, shares, and channel plugins when they are no longer needed.
+
+## Security Review Questions
+
+Before enabling a workflow, ask:
+
+1. Who can send input to the agent?
+2. Which workspace can the agent access?
+3. Which provider receives the prompt?
+4. Is a public URL involved?
+5. How does the user revoke access?
+6. What logs or messages remain after the session?

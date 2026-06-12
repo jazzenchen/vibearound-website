@@ -1,0 +1,56 @@
+---
+title: Troubleshooting
+description: A systematic checklist for installation, launch, profile, handover, channel, and preview issues.
+---
+
+Troubleshooting VibeAround is easiest when each layer is isolated. Start with the simplest local path, then add profiles, remote access, channels, and previews one at a time.
+
+## Installation Issues
+
+Check:
+
+1. The correct package was downloaded for the platform.
+2. The app can open.
+3. Local security prompts or OS permissions are resolved.
+4. The local VibeAround data directory is writable.
+5. The installed version matches the expected release.
+
+## Agent Launch Issues
+
+Check:
+
+1. The agent runs outside VibeAround.
+2. The workspace path exists.
+3. The selected terminal mode works.
+4. The selected provider profile is valid.
+5. The previous session still has recoverable state.
+
+## Provider Profile Issues
+
+Check:
+
+1. API key or credential value.
+2. Base URL.
+3. API shape.
+4. Model name and aliases.
+5. Provider region.
+6. Streaming or tool-call support.
+7. Provider error body.
+
+## Remote Or Handover Issues
+
+Check:
+
+1. The local runtime is online.
+2. The session still exists.
+3. The surface is paired or authorized.
+4. The tunnel is enabled only when needed.
+5. The workspace can still be reached.
+
+## Channel Issues
+
+Check plugin status, channel credentials, bot permissions, workspace binding, command prefix behavior, and who is allowed to send messages.
+
+## Preview Issues
+
+Check whether the target exists, whether the dev server is running, whether the preview link is owner-only or shared, whether a tunnel is required, and whether the link has expired.

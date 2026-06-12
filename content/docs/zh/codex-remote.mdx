@@ -1,0 +1,35 @@
+---
+title: Codex 远程对比
+description: 理解 VibeAround 的本地优先 Codex 工作流，与托管云工作空间和官方远程控制路径的区别。
+---
+
+搜索 Codex remote 的开发者，通常在比较几种模式：本地 Codex CLI、手机审阅、SSH 主机、托管云环境和浏览器控制面。VibeAround 面向的是其中本地优先的一侧。
+
+VibeAround 是独立软件，不替代 OpenAI 官方 Codex 产品。
+
+## 定位对比
+
+| 工作流 | 执行边界 | 适合用途 |
+| --- | --- | --- |
+| 本地 Codex CLI + VibeAround | 用户控制的主机 | 依赖本地文件、凭据、开发服务、工具或多 Agent 工作流的任务。 |
+| 托管云工作空间 | 服务商管理的环境 | 可在配置好的远程环境中独立运行的任务。 |
+| SSH 主机 | 用户管理的远程机器 | 偏终端的远程开发，需要手动搭建。 |
+| 手机审阅入口 | 远程控制面 | 批准、调整、查看状态和 handover，执行仍在主机上。 |
+
+## VibeAround 适合解决的问题
+
+- 希望 Codex CLI 与 Claude Code、Gemini CLI、OpenCode、Cursor CLI、Qwen Code、Kiro CLI 等 Agent 放在同一个工作空间中。
+- 需要围绕同一会话使用浏览器工作台、Web Terminal、消息频道和预览。
+- 需要 Provider Profile 或 API Bridge 路由。
+- 不希望每个任务都克隆到云端容器。
+
+## 实用建议
+
+当官方云端或远程产品直接符合任务时，应优先使用官方路径。当任务关键点是用户自己的机器、工作空间状态、本地服务、私有工具、多 Agent、Provider 切换和用户控制的远程入口时，VibeAround 更适合。
+
+## 相关文档
+
+- [Codex 手机工作流](./codex-mobile)
+- [远程编程](./remote-coding)
+- [支持的 AI Agent](./supported-agents)
+- [架构](./architecture)

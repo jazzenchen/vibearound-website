@@ -1,0 +1,35 @@
+---
+title: Live Preview
+description: Preview local dev servers, Markdown, HTML, and generated artifacts from desktop, browser, mobile, or messaging.
+---
+
+Live Preview makes local outputs visible without turning the whole development environment into a cloud workspace. It is designed for reviewing what agents build: dev servers, Markdown files, HTML files, generated artifacts, and similar outputs.
+
+## Preview Types
+
+| Type | Example |
+| --- | --- |
+| Dev server | A local Next, Vite, or other development server. |
+| Markdown | A generated report, README draft, or design note. |
+| HTML | A static prototype or exported page. |
+| Artifact | A generated file that benefits from browser review. |
+
+## Owner Links And Share Links
+
+Owner links are intended for the local user or an authenticated owner session. Share links should be scoped and short-lived. A preview link should not imply unlimited access to the host machine.
+
+## Remote Preview Flow
+
+1. The agent produces or modifies an output.
+2. VibeAround identifies the preview target.
+3. The user opens an owner link locally or creates a scoped share link.
+4. If remote access is needed, the link is routed through the configured tunnel or remote entry point.
+5. The user reviews the result and returns feedback to the same session.
+
+## Practical Guidance
+
+- Prefer previewing the smallest useful target.
+- Stop or unshare links that are no longer needed.
+- Use Markdown preview for documentation and reports before publishing them.
+- Use dev-server preview when testing UI changes from an agent.
+- Treat shared preview URLs as sensitive unless explicitly intended for a broader audience.

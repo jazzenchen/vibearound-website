@@ -2,5 +2,5 @@
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "vibearound-ai",
   "compatibility_date": "2026-05-08",
-  "pages_build_output_dir": "./public"
+  "pages_build_output_dir": "./out"
 }

@@ -1,0 +1,40 @@
+---
+title: Architecture
+description: The technical model behind VibeAround's local-first agent workspace.
+---
+
+VibeAround is a local coordination layer around agents, workspaces, model profiles, runtime services, remote entry points, and previews. The exact implementation evolves, but the architectural boundaries are stable.
+
+## Main Building Blocks
+
+| Layer | Responsibility |
+| --- | --- |
+| Desktop shell | Provides the local application surface and launch entry points. |
+| Web dashboard | Provides browser-based workspace, status, terminal, chat, and preview surfaces. |
+| Runtime service | Coordinates sessions, channels, tunnels, auth, and local APIs. |
+| Agent launcher | Starts and resumes agent processes or desktop apps with selected context. |
+| Provider profiles | Store provider routing choices and model metadata. |
+| API Bridge | Translates between agent-facing and provider-facing API shapes. |
+| Channel plugins | Connect messaging platforms to local sessions. |
+| Preview service | Turns local outputs into reviewable links. |
+
+## Local-first Boundary
+
+The host machine remains the execution boundary. Repositories, shells, dev servers, package caches, and local credentials stay near the agent processes. Remote surfaces are entry points back to that local environment.
+
+## Data Flow Example
+
+1. The user chooses an agent, workspace, and provider profile.
+2. The launcher starts the agent in the selected local workspace.
+3. If a profile requires bridge translation, the agent talks to a local bridge route.
+4. The bridge sends provider-shaped requests to the selected model provider.
+5. Session state is tracked so the work can be continued later.
+6. Web, terminal, channel, or preview surfaces attach to the same local session when authorized.
+
+## Design Constraints
+
+- Keep user intent visible: agent, workspace, provider, and session should be inspectable.
+- Avoid hidden cloud migration: remote access should not imply remote execution.
+- Treat channels and tunnels as privileged surfaces.
+- Let provider differences remain documented rather than pretending every API is identical.
+- Preserve compatibility with existing agent configuration when users prefer native setup.

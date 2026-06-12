@@ -1,0 +1,42 @@
+---
+title: 消息频道
+description: 为本地 Agent continuation 和远程控制配置消息频道。
+---
+
+消息频道让用户可以从日常沟通工具中继续本地 Agent Session。Channel 应被视为远程控制面，配置时应与 Web Terminal 或 Tunnel 一样谨慎。
+
+## Channel 矩阵
+
+| Channel | 配置方式 | 典型用途 |
+| --- | --- | --- |
+| Telegram | BotFather token | 个人 bot 和手机聊天。 |
+| Feishu / Lark | App credentials | 团队 IM 和企业 bot。 |
+| Discord | Bot token | Server 和 DM 工作流。 |
+| Slack | Bot/App token with Socket Mode | Workspace DM 工作流。 |
+| WeChat | OpenClaw-compatible bridge 扫码登录 | 中文个人聊天。 |
+| DingTalk | Stream API credentials | 企业聊天。 |
+| WeCom | WebSocket bot credentials | 企业微信工作流。 |
+| QQ Bot | Guild bot credentials | QQ bot 工作流。 |
+
+## 配置检查表
+
+1. 选择一个 Channel。
+2. 在 Channel Provider 中创建 bot 或 app credentials。
+3. 将 credentials 加入 VibeAround channel plugin。
+4. 限制可以访问 bot 的用户。
+5. 发送一条测试消息。
+6. 绑定或选择 Workspace。
+7. 从只读或低风险任务开始。
+8. 确认如何停止、切换或归档 Session。
+
+## 运维规则
+
+- 私有路径测试通过前，不要接入宽泛的公开群。
+- Credentials 只授予最小必要权限。
+- 记录哪个 Channel 对应哪个 Workspace 或团队工作流。
+- Bot token 暴露后应立即轮换。
+- 不再使用的 Channel plugin 应关闭。
+
+## 排障
+
+消息没有到达 Session 时，检查 plugin status、credentials、channel permissions、bot membership、command prefix behavior、selected workspace，以及本地 VibeAround runtime 是否在线。

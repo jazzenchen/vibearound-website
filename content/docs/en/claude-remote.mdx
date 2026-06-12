@@ -1,0 +1,36 @@
+---
+title: Claude Remote Access
+description: Continue local Claude Code sessions through browser, phone, Web Terminal, messaging, handover, and preview surfaces.
+---
+
+Claude remote access in VibeAround means reaching a local Claude Code session from another surface. The workspace stays on the host machine; VibeAround provides controlled ways to inspect, steer, and continue the session.
+
+Claude and Claude Code are Anthropic products. VibeAround is independent software that coordinates local workflows.
+
+## Typical Flow
+
+1. Verify Claude Code works from a local terminal.
+2. Add the repository as a VibeAround workspace.
+3. Launch Claude Code from [Agent Launch](./agent-launch).
+4. Continue the session through [Session Handover](./session-handover), [Web Terminal](./remote-messaging-terminal), or a configured messaging channel.
+5. Use [Live Preview](./live-preview) for outputs that should be reviewed visually.
+
+## Provider Switching
+
+Some teams use Claude Code directly with its native configuration. Others use VibeAround provider profiles and API Bridge routes to keep model routing explicit. Choose the native path when it is already stable; choose profile launch when repeatable routing, aliases, or bridge translation matter.
+
+See [Claude Code Provider Switcher](./claude-code-switcher) for the provider-profile workflow.
+
+## Operational Notes
+
+- Keep one known-good local Claude Code setup before adding remote surfaces.
+- Prefer private channels for first tests.
+- Record which workspace a channel or handover link controls.
+- Review tool actions before applying broad edits in important repositories.
+
+## Related Docs
+
+- [Agent Launch](./agent-launch)
+- [Provider Profiles & API Bridge](./provider-profiles)
+- [Remote Coding](./remote-coding)
+- [Local-first Security](./local-first-security)

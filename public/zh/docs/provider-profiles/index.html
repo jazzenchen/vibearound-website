@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Provider Profile 和本地 AI 切换 - VibeAround 中文文档</title>
+    <meta name="description" content="配置 VibeAround Provider Profile，切换 Claude Code 和 Codex CLI route，并为本地 AI Coding Agent 使用 OpenAI-compatible endpoint。" />
+    <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" />
+    <link rel="canonical" href="https://vibearound.ai/zh/docs/provider-profiles/" />
+    <link rel="alternate" hreflang="en" href="https://vibearound.ai/docs/provider-profiles/" />
+    <link rel="alternate" hreflang="zh-CN" href="https://vibearound.ai/zh/docs/provider-profiles/" />
+    <link rel="alternate" hreflang="x-default" href="https://vibearound.ai/docs/provider-profiles/" />
+    <link rel="icon" type="image/png" href="/assets/vibearound-icon.png" />
+    <link rel="stylesheet" href="/assets/site.css?v=20260606-refresh" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="Provider Profile 和本地 AI 切换 - VibeAround 中文文档" />
+    <meta property="og:description" content="为本地 AI Coding Agent 切换 provider、agent 和 bridge route。" />
+    <meta property="og:url" content="https://vibearound.ai/zh/docs/provider-profiles/" />
+    <meta property="og:image" content="https://vibearound.ai/assets/og-image-20260513.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+  </head>
+  <body>
+    <header class="site-header"><nav class="nav" aria-label="主导航"><a class="brand" href="/zh/"><img src="/assets/vibearound-icon.png" alt="" width="32" height="32" /><span>VibeAround</span></a><div class="nav-links"><a href="/zh/docs/">文档</a><a href="/zh/#download">下载</a><a href="/docs/provider-profiles/">English</a></div></nav></header>
+    <main class="docs-page">
+      <div class="docs-shell">
+        <aside class="docs-sidebar" aria-label="文档导航">
+          <a href="/zh/docs/quick-start/">快速开始</a>
+          <a href="/zh/docs/session-handover/">会话接续</a>
+          <a href="/zh/docs/channels/">IM 渠道</a>
+          <a aria-current="page" href="/zh/docs/provider-profiles/">Provider</a>
+          <a href="/zh/docs/local-first-security/">安全</a>
+        </aside>
+        <article class="docs-content">
+          <div class="docs-hero">
+            <p class="eyebrow">provider profiles</p>
+            <h1>不用反复改 CLI 配置，也能切换 Agent、Provider 和 Bridge Route。</h1>
+            <p class="lead">Provider Profile 让 VibeAround 成为 Claude Code、Codex CLI、Gemini CLI、Cursor CLI、Qwen Code、Kiro CLI 和 OpenCode 的本地 AI switch。</p>
+          </div>
+          <section class="docs-section">
+            <h2>Profile 控制什么</h2>
+            <ul>
+              <li>当前任务使用哪个 Agent 或 CLI。</li>
+              <li>通过哪个模型 Provider 或 OpenAI-compatible endpoint 路由。</li>
+              <li>Agent 应该在哪个 workspace 运行。</li>
+              <li>使用 Responses、Chat Completions 或 Anthropic-style messages 的哪条 bridge route。</li>
+            </ul>
+          </section>
+          <section class="docs-section">
+            <h2>常见 Provider Profile</h2>
+            <p>常见工作流包括官方 API、OpenAI-compatible endpoint、DeepSeek、Qwen/DashScope、Moonshot/Kimi、MiniMax、Z.AI/GLM、Google Gemini、OpenRouter、Azure OpenAI 和自定义 endpoint。</p>
+          </section>
+          <section class="docs-section">
+            <h2>在对话中切换</h2>
+            <p>使用 <code>/profile &lt;name&gt;</code> 切换 provider profile，使用 <code>/switch &lt;agent&gt;</code> 切换已启用 Agent。如果你在搜索 Claude Code 切换、CC Switch、Codex CLI provider switch 或本地 AI 切换，这就是对应的工作流。</p>
+          </section>
+        </article>
+      </div>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Provider Profiles and Local AI Switch - VibeAround Docs</title>
+    <meta name="description" content="Configure VibeAround provider profiles, switch Claude Code and Codex CLI routes, and use OpenAI-compatible endpoints for local AI coding agents." />
+    <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" />
+    <link rel="canonical" href="https://vibearound.ai/docs/provider-profiles/" />
+    <link rel="alternate" hreflang="en" href="https://vibearound.ai/docs/provider-profiles/" />
+    <link rel="alternate" hreflang="zh-CN" href="https://vibearound.ai/zh/docs/provider-profiles/" />
+    <link rel="alternate" hreflang="x-default" href="https://vibearound.ai/docs/provider-profiles/" />
+    <link rel="icon" type="image/png" href="/assets/vibearound-icon.png" />
+    <link rel="stylesheet" href="/assets/site.css?v=20260606-refresh" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="Provider Profiles and Local AI Switch - VibeAround Docs" />
+    <meta property="og:description" content="Switch providers, agents, and bridge routes for local AI coding workflows." />
+    <meta property="og:url" content="https://vibearound.ai/docs/provider-profiles/" />
+    <meta property="og:image" content="https://vibearound.ai/assets/og-image-20260513.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+  </head>
+  <body>
+    <header class="site-header"><nav class="nav" aria-label="Main navigation"><a class="brand" href="/"><img src="/assets/vibearound-icon.png" alt="" width="32" height="32" /><span>VibeAround</span></a><div class="nav-links"><a href="/docs/">Docs</a><a href="/zh/docs/provider-profiles/">中文</a><a href="/#download">Download</a><a href="/github">GitHub</a></div></nav></header>
+    <main class="docs-page">
+      <div class="docs-shell">
+        <aside class="docs-sidebar" aria-label="Docs navigation">
+          <a href="/docs/quick-start/">Quick Start</a>
+          <a href="/docs/session-handover/">Handover</a>
+          <a href="/docs/channels/">Channels</a>
+          <a aria-current="page" href="/docs/provider-profiles/">Providers</a>
+          <a href="/docs/local-first-security/">Security</a>
+        </aside>
+        <article class="docs-content">
+          <div class="docs-hero">
+            <p class="eyebrow">provider profiles</p>
+            <h1>Switch agents, providers, and bridge routes without rewriting every CLI config.</h1>
+            <p class="lead">Provider profiles help VibeAround act as a local AI switch for Claude Code, Codex CLI, Gemini CLI, Cursor CLI, Qwen Code, Kiro CLI, and OpenCode workflows.</p>
+          </div>
+          <section class="docs-section">
+            <h2>What a profile controls</h2>
+            <ul>
+              <li>The agent or CLI that should handle the task.</li>
+              <li>The model provider or OpenAI-compatible endpoint to route through.</li>
+              <li>The workspace where the agent should run.</li>
+              <li>The bridge route used for Responses, Chat Completions, or Anthropic-style messages.</li>
+            </ul>
+          </section>
+          <section class="docs-section">
+            <h2>Common provider profile targets</h2>
+            <p>VibeAround workflows commonly use first-party APIs, OpenAI-compatible endpoints, DeepSeek, Qwen/DashScope, Moonshot/Kimi, MiniMax, Z.AI/GLM, Google Gemini, OpenRouter, Azure OpenAI, and custom endpoints.</p>
+          </section>
+          <section class="docs-section">
+            <h2>Switch during a conversation</h2>
+            <p>Use <code>/profile &lt;name&gt;</code> to switch provider profile and <code>/switch &lt;agent&gt;</code> to switch enabled agent. This is the workflow to use when you are searching for Claude Code provider switching, CC Switch-style routing, or a local AI switchboard.</p>
+          </section>
+          <section class="docs-section">
+            <h2>Related pages</h2>
+            <div class="related-links">
+              <a href="/claude-code-switcher/">Claude Code provider switcher</a>
+              <a href="/local-ai-switch/">Local AI switch</a>
+              <a href="/remote-coding/">Remote coding</a>
+            </div>
+          </section>
+        </article>
+      </div>
+    </main>
+  </body>
+</html>

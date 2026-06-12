@@ -1,0 +1,26 @@
+[mcp_servers]
+
+[mcp_servers.vibearound]
+url = "http://127.0.0.1:12358/va/mcp?token=48b46800b4dc81726a0c9e0c6a68f3d5953269db6c183fccc62ea7f0ea5d0397"
+
+[skills]
+
+[[skills.config]]
+path = "/Users/jazzen/Development/vibe-coding/vibearound-website/.codex/skills/vibearound"
+enabled = true
+
+[[skills.config]]
+path = "/Users/jazzen/Development/vibe-coding/vibearound-website/.codex/skills/va-session"
+enabled = true
+
+[[skills.config]]
+path = "/Users/jazzen/Development/vibe-coding/vibearound-website/.codex/skills/va-preview"
+enabled = true
+
+[[skills.config]]
+path = "/Users/jazzen/Development/vibe-coding/vibearound-website/.codex/skills/va-md-preview"
+enabled = true
+
+[[skills.config]]
+path = "/Users/jazzen/Development/vibe-coding/vibearound-website/.codex/skills/agent-collaboration"
+enabled = true

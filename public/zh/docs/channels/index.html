@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>IM 渠道 - VibeAround 中文文档</title>
+    <meta name="description" content="把 VibeAround 连接到 Telegram、飞书/Lark、Discord、Slack、微信、钉钉、企业微信和 QQ Bot，从 IM 使用本地 AI Coding Agent。" />
+    <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" />
+    <link rel="canonical" href="https://vibearound.ai/zh/docs/channels/" />
+    <link rel="alternate" hreflang="en" href="https://vibearound.ai/docs/channels/" />
+    <link rel="alternate" hreflang="zh-CN" href="https://vibearound.ai/zh/docs/channels/" />
+    <link rel="alternate" hreflang="x-default" href="https://vibearound.ai/docs/channels/" />
+    <link rel="icon" type="image/png" href="/assets/vibearound-icon.png" />
+    <link rel="stylesheet" href="/assets/site.css?v=20260606-refresh" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="IM 渠道 - VibeAround 中文文档" />
+    <meta property="og:description" content="配置 IM 渠道，从聊天工具访问本地 AI Coding Agent 会话。" />
+    <meta property="og:url" content="https://vibearound.ai/zh/docs/channels/" />
+    <meta property="og:image" content="https://vibearound.ai/assets/og-image-20260513.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+  </head>
+  <body>
+    <header class="site-header"><nav class="nav" aria-label="主导航"><a class="brand" href="/zh/"><img src="/assets/vibearound-icon.png" alt="" width="32" height="32" /><span>VibeAround</span></a><div class="nav-links"><a href="/zh/docs/">文档</a><a href="/zh/#download">下载</a><a href="/docs/channels/">English</a></div></nav></header>
+    <main class="docs-page">
+      <div class="docs-shell">
+        <aside class="docs-sidebar" aria-label="文档导航">
+          <a href="/zh/docs/quick-start/">快速开始</a>
+          <a href="/zh/docs/session-handover/">会话接续</a>
+          <a aria-current="page" href="/zh/docs/channels/">IM 渠道</a>
+          <a href="/zh/docs/provider-profiles/">Provider</a>
+          <a href="/zh/docs/local-first-security/">安全</a>
+        </aside>
+        <article class="docs-content">
+          <div class="docs-hero">
+            <p class="eyebrow">channels</p>
+            <h1>把日常 IM 变成本地 Coding Agent 的入口。</h1>
+            <p class="lead">每个渠道都需要自己的 bot 凭据、应用配置或登录流程。建议先接一个渠道，确认消息可用，再逐步增加。</p>
+          </div>
+          <section class="docs-section">
+            <h2>支持的渠道</h2>
+            <div class="docs-table-wrap">
+              <table class="docs-table">
+                <thead><tr><th>渠道</th><th>常见配置输入</th><th>命令方式</th></tr></thead>
+                <tbody>
+                  <tr><td>Telegram</td><td>Bot token</td><td><code>/command</code></td></tr>
+                  <tr><td>飞书 / Lark</td><td>App credentials</td><td><code>/command</code></td></tr>
+                  <tr><td>Discord</td><td>Bot token</td><td><code>/command</code></td></tr>
+                  <tr><td>Slack</td><td>Bot token 和 app token</td><td><code>/va</code> 或 <code>/vibearound</code></td></tr>
+                  <tr><td>微信</td><td>扫码登录</td><td><code>/command</code></td></tr>
+                  <tr><td>钉钉</td><td>AppKey 和 secret</td><td><code>/command</code></td></tr>
+                  <tr><td>企业微信</td><td>Bot ID 和 secret</td><td><code>/command</code></td></tr>
+                  <tr><td>QQ Bot</td><td>App ID 和 token</td><td><code>/command</code></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+          <section class="docs-section">
+            <h2>推荐配置顺序</h2>
+            <ol>
+              <li>先启用一个本地 Agent，并确认桌面端可用。</li>
+              <li>添加一个 IM 渠道，确认 <code>/help</code> 有响应。</li>
+              <li>先运行一个小任务，再允许更长的命令执行。</li>
+              <li>用 <code>/handover</code> 和 <code>/pickup</code> 测试会话接续。</li>
+            </ol>
+          </section>
+        </article>
+      </div>
+    </main>
+  </body>
+</html>

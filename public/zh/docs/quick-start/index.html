@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>快速开始 - VibeAround 中文文档</title>
+    <meta name="description" content="安装 VibeAround，选择 workspace，连接本地 AI Coding Agent，打开 Web Dashboard，并发送第一个任务。" />
+    <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" />
+    <link rel="canonical" href="https://vibearound.ai/zh/docs/quick-start/" />
+    <link rel="alternate" hreflang="en" href="https://vibearound.ai/docs/quick-start/" />
+    <link rel="alternate" hreflang="zh-CN" href="https://vibearound.ai/zh/docs/quick-start/" />
+    <link rel="alternate" hreflang="x-default" href="https://vibearound.ai/docs/quick-start/" />
+    <link rel="icon" type="image/png" href="/assets/vibearound-icon.png" />
+    <link rel="stylesheet" href="/assets/site.css?v=20260606-refresh" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="快速开始 - VibeAround 中文文档" />
+    <meta property="og:description" content="安装 VibeAround，选择 workspace，连接 Agent，并打开本地 Web Dashboard。" />
+    <meta property="og:url" content="https://vibearound.ai/zh/docs/quick-start/" />
+    <meta property="og:image" content="https://vibearound.ai/assets/og-image-20260513.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+  </head>
+  <body>
+    <header class="site-header"><nav class="nav" aria-label="主导航"><a class="brand" href="/zh/"><img src="/assets/vibearound-icon.png" alt="" width="32" height="32" /><span>VibeAround</span></a><div class="nav-links"><a href="/zh/docs/">文档</a><a href="/zh/#download">下载</a><a href="/docs/quick-start/">English</a></div></nav></header>
+    <main class="docs-page">
+      <div class="docs-shell">
+        <aside class="docs-sidebar" aria-label="文档导航">
+          <a aria-current="page" href="/zh/docs/quick-start/">快速开始</a>
+          <a href="/zh/docs/session-handover/">会话接续</a>
+          <a href="/zh/docs/channels/">IM 渠道</a>
+          <a href="/zh/docs/provider-profiles/">Provider</a>
+          <a href="/zh/docs/local-first-security/">安全</a>
+        </aside>
+        <article class="docs-content">
+          <div class="docs-hero">
+            <p class="eyebrow">快速开始</p>
+            <h1>从安装到第一个本地 Agent 会话。</h1>
+            <p class="lead">这条路径适合第一次使用 VibeAround，并希望从桌面、浏览器或 IM 访问本地 Agent 的用户。</p>
+          </div>
+          <section class="docs-section">
+            <h2>1. 安装最新版本</h2>
+            <ol>
+              <li>打开 <a href="https://github.com/jazzenchen/VibeAround/releases/latest">GitHub latest release</a>。</li>
+              <li>下载适合你操作系统的安装包。</li>
+              <li>启动 VibeAround，并完成桌面端 onboarding。</li>
+            </ol>
+          </section>
+          <section class="docs-section">
+            <h2>2. 选择 workspace</h2>
+            <p>添加你希望 Agent 运行的项目目录。VibeAround 会把 Agent session 路由到本地 workspace，所以这里应该选择你平时会在 terminal 里打开的仓库。</p>
+          </section>
+          <section class="docs-section">
+            <h2>3. 启用一个 Agent</h2>
+            <p>先从一个 Agent 开始。VibeAround 支持围绕 Claude Code、Codex CLI、Gemini CLI、Cursor CLI、Kiro CLI、Qwen Code 和 OpenCode 的本地工作流。</p>
+            <div class="callout">某些 Agent 需要先单独安装 CLI 或完成登录认证，VibeAround 才能启动它们。</div>
+          </section>
+          <section class="docs-section">
+            <h2>4. 打开 Web Dashboard</h2>
+            <p>本地 Dashboard 运行在你的机器上：<code>http://127.0.0.1:12358</code>。你可以用它访问浏览器、terminal、tmux 工作流和 Agent chat。</p>
+          </section>
+          <section class="docs-section">
+            <h2>5. 发送第一个任务</h2>
+            <p>可以先让 Agent 检查仓库、运行测试或解释项目。第一个任务建议小一点，方便确认 workspace、provider 和命令执行都已经连通。</p>
+          </section>
+        </article>
+      </div>
+    </main>
+  </body>
+</html>

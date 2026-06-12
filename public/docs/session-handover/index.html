@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Session Handover - VibeAround Docs</title>
+    <meta name="description" content="Use VibeAround session handover commands like /handover, /pickup, /switch, /new, and /close to continue local AI coding agent sessions from IM or browser." />
+    <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" />
+    <link rel="canonical" href="https://vibearound.ai/docs/session-handover/" />
+    <link rel="alternate" hreflang="en" href="https://vibearound.ai/docs/session-handover/" />
+    <link rel="alternate" hreflang="zh-CN" href="https://vibearound.ai/zh/docs/session-handover/" />
+    <link rel="alternate" hreflang="x-default" href="https://vibearound.ai/docs/session-handover/" />
+    <link rel="icon" type="image/png" href="/assets/vibearound-icon.png" />
+    <link rel="stylesheet" href="/assets/site.css?v=20260606-refresh" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="Session Handover - VibeAround Docs" />
+    <meta property="og:description" content="Move a live local coding agent session between terminal, browser, and IM." />
+    <meta property="og:url" content="https://vibearound.ai/docs/session-handover/" />
+    <meta property="og:image" content="https://vibearound.ai/assets/og-image-20260513.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+  </head>
+  <body>
+    <header class="site-header"><nav class="nav" aria-label="Main navigation"><a class="brand" href="/"><img src="/assets/vibearound-icon.png" alt="" width="32" height="32" /><span>VibeAround</span></a><div class="nav-links"><a href="/docs/">Docs</a><a href="/zh/docs/session-handover/">中文</a><a href="/#download">Download</a><a href="/github">GitHub</a></div></nav></header>
+    <main class="docs-page">
+      <div class="docs-shell">
+        <aside class="docs-sidebar" aria-label="Docs navigation">
+          <a href="/docs/quick-start/">Quick Start</a>
+          <a aria-current="page" href="/docs/session-handover/">Handover</a>
+          <a href="/docs/channels/">Channels</a>
+          <a href="/docs/provider-profiles/">Providers</a>
+          <a href="/docs/local-first-security/">Security</a>
+        </aside>
+        <article class="docs-content">
+          <div class="docs-hero">
+            <p class="eyebrow">handover</p>
+            <h1>Move one local agent session between terminal, browser, and IM.</h1>
+            <p class="lead">Session handover is the core remote-coding workflow: keep the agent running locally, then pick up the same conversation from another entry point.</p>
+          </div>
+          <section class="docs-section">
+            <h2>Basic flow</h2>
+            <ol>
+              <li>Start or continue an agent session in VibeAround.</li>
+              <li>Send <code>/handover</code> from the active session.</li>
+              <li>Copy the generated <code>/pickup CODE</code> command.</li>
+              <li>Paste that command into a connected IM channel or browser session.</li>
+              <li>Continue with the same local context.</li>
+            </ol>
+          </section>
+          <section class="docs-section">
+            <h2>Core commands</h2>
+            <div class="docs-table-wrap">
+              <table class="docs-table">
+                <thead><tr><th>Command</th><th>Use it for</th></tr></thead>
+                <tbody>
+                  <tr><td><code>/help</code></td><td>Show available commands in the current channel.</td></tr>
+                  <tr><td><code>/new</code></td><td>Start a fresh conversation.</td></tr>
+                  <tr><td><code>/switch &lt;agent&gt;</code></td><td>Switch to another enabled agent, such as <code>claude</code>, <code>codex</code>, or <code>gemini</code>.</td></tr>
+                  <tr><td><code>/profile &lt;name&gt;</code></td><td>Switch provider or route profile.</td></tr>
+                  <tr><td><code>/handover</code></td><td>Export the active session for pickup elsewhere.</td></tr>
+                  <tr><td><code>/pickup &lt;code&gt;</code></td><td>Resume a handed-over session.</td></tr>
+                  <tr><td><code>/close</code></td><td>Close the current conversation.</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+          <section class="docs-section">
+            <h2>Slack command prefix</h2>
+            <p>Slack intercepts slash commands. Use <code>/va</code> or <code>/vibearound</code> as the command prefix, such as <code>/va help</code> or <code>/va switch claude</code>.</p>
+          </section>
+        </article>
+      </div>
+    </main>
+  </body>
+</html>

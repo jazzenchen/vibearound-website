@@ -1,0 +1,18 @@
+{
+  "name": "VibeAround",
+  "short_name": "VibeAround",
+  "description": "Local-first desktop app for running AI coding agents from desktop, browser, and IM channels.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#ffffff",
+  "icons": [
+    {
+      "src": "/assets/vibearound-icon.png",
+      "sizes": "256x256",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

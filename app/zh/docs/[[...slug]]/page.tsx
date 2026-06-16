@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import defaultMdxComponents from "fumadocs-ui/mdx";
 import { createRelativeLink } from "fumadocs-ui/mdx";
 import { DocsBody, DocsDescription, DocsPage, DocsTitle } from "fumadocs-ui/layouts/docs/page";
+import { DocsPre } from "@/components/docs/mdx-code-block";
 import { docSeoKeywords } from "@/lib/keyword-map";
 import { zhSource } from "@/lib/source";
 import { JsonLd, docsPageJsonLd } from "@/lib/seo";
@@ -76,6 +77,7 @@ export default async function Page({ params }: PageProps) {
             components={{
               ...defaultMdxComponents,
               a: createRelativeLink(zhSource, page),
+              pre: DocsPre,
             }}
           />
         </DocsBody>

@@ -304,6 +304,13 @@
   function setupGithubStars() {
     const els = Array.from(document.querySelectorAll("[data-count]"));
     if (!els.length) return;
+    const fallback = Math.max(
+      ...els
+        .map((el) => Number(el.dataset.count || el.textContent || 0))
+        .filter((count) => Number.isFinite(count) && count > 0),
+      0
+    );
+    const cacheMaxAgeMs = 10 * 60 * 1000;
 
     const apply = (count) => {
       els.forEach((el) => {
@@ -314,8 +321,13 @@
 
     try {
       const cachedRaw = window.sessionStorage.getItem("va-gh-stars");
-      const cached = cachedRaw && cachedRaw.startsWith("{") ? JSON.parse(cachedRaw).count : Number(cachedRaw);
-      if (Number.isFinite(cached) && cached > 0) apply(cached);
+      const cachedData = cachedRaw && cachedRaw.startsWith("{")
+        ? JSON.parse(cachedRaw)
+        : { count: Number(cachedRaw), updatedAt: 0 };
+      const cached = Number(cachedData.count);
+      const updatedAt = Number(cachedData.updatedAt || 0);
+      const fresh = updatedAt > 0 && Date.now() - updatedAt < cacheMaxAgeMs;
+      if (Number.isFinite(cached) && cached >= fallback && fresh) apply(cached);
     } catch {
       window.sessionStorage.removeItem("va-gh-stars");
     }

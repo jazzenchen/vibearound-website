@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import defaultMdxComponents from "fumadocs-ui/mdx";
 import { createRelativeLink } from "fumadocs-ui/mdx";
 import { DocsBody, DocsDescription, DocsPage, DocsTitle } from "fumadocs-ui/layouts/docs/page";
+import { docSeoKeywords } from "@/lib/keyword-map";
 import { enSource } from "@/lib/source";
 import { JsonLd, docsPageJsonLd } from "@/lib/seo";
 import { site, withTrailingSlash } from "@/lib/site";
@@ -20,10 +21,12 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const page = enSource.getPage(slug);
   if (!page) notFound();
   const pageUrl = withTrailingSlash(page.url);
+  const keywords = docSeoKeywords("en", page.slugs);
 
   return {
     title: page.data.title,
     description: page.data.description,
+    keywords,
     alternates: {
       canonical: pageUrl,
       languages: {
@@ -46,12 +49,21 @@ export default async function Page({ params }: PageProps) {
   const page = enSource.getPage(slug);
   if (!page) notFound();
   const pageUrl = withTrailingSlash(page.url);
+  const keywords = docSeoKeywords("en", page.slugs);
 
   const MDX = page.data.body;
 
   return (
     <DocsPage toc={page.data.toc}>
-      <JsonLd data={docsPageJsonLd({ title: page.data.title, description: page.data.description ?? "", url: pageUrl, locale: "en" })} />
+      <JsonLd
+        data={docsPageJsonLd({
+          title: page.data.title,
+          description: page.data.description ?? "",
+          keywords,
+          url: pageUrl,
+          locale: "en",
+        })}
+      />
       <DocsTitle>{page.data.title}</DocsTitle>
       <DocsDescription>{page.data.description}</DocsDescription>
       <div className="mb-6 rounded-md border border-amber-300 bg-amber-50 px-4 py-3 text-sm text-amber-950 dark:border-amber-500/50 dark:bg-amber-500/10 dark:text-amber-100">

@@ -12,9 +12,15 @@ export const seoKeywords = [
   "Claude Desktop",
   "Gemini CLI",
   "OpenCode",
+  "AI agent desktop app",
   "AI provider switcher",
   "API Bridge",
+  "OpenAI compatible API bridge",
+  "Claude Code remote access",
+  "Codex mobile workflow",
+  "remote Codex CLI",
   "local-first workspace",
+  "local-first AI security",
   "web terminal",
   "session handover",
   "live preview",
@@ -138,11 +144,13 @@ export function legalPageJsonLd(route: LegalRoute, locale: Locale) {
 export function docsPageJsonLd({
   title,
   description,
+  keywords,
   url,
   locale,
 }: {
   title: string;
   description: string;
+  keywords?: string[];
   url: string;
   locale: Locale;
 }) {
@@ -152,6 +160,7 @@ export function docsPageJsonLd({
     "@id": `${site.url}${url}#article`,
     headline: title,
     description,
+    keywords,
     url: `${site.url}${url}`,
     inLanguage: locale === "zh" ? "zh-CN" : "en",
     image: site.ogImage,

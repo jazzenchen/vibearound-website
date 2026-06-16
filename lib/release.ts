@@ -1,24 +1,24 @@
 export const latestRelease = {
-  tag: "v0.7.1",
-  version: "0.7.1",
-  displayVersion: "v0.7.1",
-  releaseUrl: "https://github.com/jazzenchen/VibeAround/releases/tag/v0.7.1",
+  tag: "v0.7.3",
+  version: "0.7.3",
+  displayVersion: "v0.7.3",
+  releaseUrl: "https://github.com/jazzenchen/VibeAround/releases/tag/v0.7.3",
   latestUrl: "https://github.com/jazzenchen/VibeAround/releases/latest",
-  publishedAt: "2026-06-12T20:41:06Z",
-  starFallback: 380,
+  publishedAt: "2026-06-14T19:57:16Z",
+  starFallback: 398,
   downloads: {
     macosAppleSilicon:
-      "https://github.com/jazzenchen/VibeAround/releases/download/v0.7.1/VibeAround_0.7.1_arm64.dmg",
+      "https://github.com/jazzenchen/VibeAround/releases/download/v0.7.3/VibeAround_0.7.3_arm64.dmg",
     windowsSetupX64:
-      "https://github.com/jazzenchen/VibeAround/releases/download/v0.7.1/VibeAround_0.7.1_x64-setup.exe",
+      "https://github.com/jazzenchen/VibeAround/releases/download/v0.7.3/VibeAround_0.7.3_x64-setup.exe",
     windowsMsiX64:
-      "https://github.com/jazzenchen/VibeAround/releases/download/v0.7.1/VibeAround_0.7.1_x64_en-US.msi",
+      "https://github.com/jazzenchen/VibeAround/releases/download/v0.7.3/VibeAround_0.7.3_x64_en-US.msi",
     windowsPortableX64:
-      "https://github.com/jazzenchen/VibeAround/releases/download/v0.7.1/VibeAround-win-0.7.1-portable.zip",
+      "https://github.com/jazzenchen/VibeAround/releases/download/v0.7.3/VibeAround-win-0.7.3-portable.zip",
     linuxAppImageX64:
-      "https://github.com/jazzenchen/VibeAround/releases/download/v0.7.1/VibeAround_0.7.1_amd64.AppImage",
+      "https://github.com/jazzenchen/VibeAround/releases/download/v0.7.3/VibeAround_0.7.3_amd64.AppImage",
     linuxDebX64:
-      "https://github.com/jazzenchen/VibeAround/releases/download/v0.7.1/VibeAround_0.7.1_amd64.deb",
+      "https://github.com/jazzenchen/VibeAround/releases/download/v0.7.3/VibeAround_0.7.3_amd64.deb",
   },
 } as const;
 

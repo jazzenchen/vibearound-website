@@ -1,6 +1,6 @@
 ---
-title: Messaging Channels
-description: Configure messaging channels for local agent continuation and remote control.
+title: Messaging Channels for AI Agents
+description: Configure Telegram, Slack, Discord, Feishu/Lark, WeChat, DingTalk, WeCom, and other messaging channels for local AI agent continuation and remote control.
 ---
 
 Messaging channels let users continue local agent sessions from the communication tools they already use. A channel should be treated as a remote control surface and configured with the same care as a browser terminal or tunnel.
@@ -17,6 +17,77 @@ Messaging channels let users continue local agent sessions from the communicatio
 | DingTalk | Stream API credentials | Enterprise chat. |
 | WeCom | WebSocket bot credentials | Enterprise WeChat workflows. |
 | QQ Bot | Guild bot credentials | QQ bot workflows. |
+
+## Feishu / Lark Setup
+
+Feishu and Lark use the same open-platform model, but the portal and API domain must match the tenant. Mainland China Feishu uses [Feishu Open Platform](https://open.feishu.cn/) and `open.feishu.cn`. Overseas Lark uses [Lark Developer](https://open.larksuite.com/) and `open.larksuite.com`. Keep the App ID, App Secret, permissions, event subscriptions, and callback subscriptions on the same platform; do not use a Feishu app with the Lark API domain, or the reverse.
+
+### Terms
+
+| Term | Meaning |
+| --- | --- |
+| Internal app | The enterprise app created in the open platform for VibeAround. |
+| App ID / App Secret | The app credentials entered in the VibeAround Feishu/Lark channel plugin. |
+| Bot capability | The app capability that allows the bot to receive messages, send messages, and send interactive cards. |
+| Long connection | A WebSocket connection initiated by the local VibeAround runtime or channel plugin, so a public HTTP callback URL is not required. |
+| Event configuration | Subscriptions for platform events, such as a user sending a message to the bot. |
+| Callback configuration | Subscriptions for interaction callbacks, such as a user clicking a card button. |
+| tenant scopes | Permissions used by the app as the tenant app identity. |
+| user scopes | Permissions used after a user authorizes the app. |
+
+### Steps
+
+1. Open the matching developer portal and create an enterprise internal app.
+2. Enable the bot capability, then copy the App ID and App Secret.
+3. In the VibeAround channel plugin, choose Feishu or Lark and enter the App ID / App Secret from that same portal.
+4. In the app, open "Development Configuration > Permissions & Scopes" and use batch import to add the permission JSON below.
+5. Open "Development Configuration > Events and Callbacks > Event Configuration", choose long connection, and add `im.message.receive_v1`.
+6. Open "Development Configuration > Events and Callbacks > Callback Configuration", choose long connection, and add `card.action.trigger`.
+7. In "Version Management", create and publish a new version. Permissions, events, and callbacks usually take effect only after the app version is published, and enterprise apps may require admin approval.
+8. Add the bot to a controlled private chat or group, then verify message delivery, card button actions, and workspace binding before broad rollout.
+
+Permission import JSON:
+
+```json
+{
+  "scopes": {
+    "tenant": [
+      "aily:file:read",
+      "aily:file:write",
+      "application:application.app_message_stats.overview:readonly",
+      "application:application:self_manage",
+      "application:bot.menu:write",
+      "cardkit:card:write",
+      "contact:user.employee_id:readonly",
+      "corehr:file:download",
+      "event:ip_list",
+      "im:chat.access_event.bot_p2p_chat:read",
+      "im:chat.members:bot_access",
+      "im:message",
+      "im:message.group_at_msg:readonly",
+      "im:message.p2p_msg:readonly",
+      "im:message:readonly",
+      "im:message:send_as_bot",
+      "im:resource"
+    ],
+    "user": [
+      "aily:file:read",
+      "aily:file:write",
+      "im:chat.access_event.bot_p2p_chat:read"
+    ]
+  }
+}
+```
+
+`im.message.receive_v1` delivers user messages sent to the bot into VibeAround. `card.action.trigger` delivers interactive card actions, such as approve, deny, continue, or session-selection buttons.
+
+Official references:
+
+- [Apply for API permissions](https://open.feishu.cn/document/server-docs/application-scope/introduction)
+- [Receive events through long connection](https://open.feishu.cn/document/server-docs/event-subscription-guide/event-subscription-configure-/request-url-configuration-case?lang=zh-CN)
+- [Receive callbacks through long connection](https://open.feishu.cn/document/event-subscription-guide/callback-subscription/step-1-choose-a-subscription-mode/configure-callback-request-address?lang=zh-CN)
+- [Receive message event](https://open.larksuite.com/document/uAjLw4CM/ukTMukTMukTM/reference/im-v1/message/events/receive)
+- [Configure card interactions](https://open.feishu.cn/document/feishu-cards/configuring-card-interactions?lang=zh-CN)
 
 ## Setup Checklist
 
@@ -40,3 +111,11 @@ Messaging channels let users continue local agent sessions from the communicatio
 ## Troubleshooting
 
 If messages do not reach a session, check plugin status, credentials, channel permissions, bot membership, command prefix behavior, selected workspace, and whether the local VibeAround runtime is online.
+
+For Feishu/Lark, also check these points:
+
+- No incoming messages: confirm event configuration uses long connection and includes `im.message.receive_v1`.
+- Card buttons do nothing: confirm callback configuration uses long connection and includes `card.action.trigger`.
+- Imported permissions still fail: publish a new app version and confirm admin approval.
+- Long connection validation fails: start the local VibeAround runtime or channel plugin first, and confirm the machine can reach the matching open-platform domain.
+- Feishu and Lark credentials fail to connect: confirm the App ID / App Secret, developer portal, and API domain all belong to the same platform.

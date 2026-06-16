@@ -18,6 +18,77 @@ description: 为本地 Agent continuation 和远程控制配置消息频道。
 | WeCom | WebSocket bot credentials | 企业微信工作流。 |
 | QQ Bot | Guild bot credentials | QQ bot 工作流。 |
 
+## 飞书 / Lark 配置
+
+飞书和 Lark 使用同一套开放平台模型，但入口和 API 域名要按租户所在区域选择。国内飞书使用 [飞书开放平台](https://open.feishu.cn/) 和 `open.feishu.cn`，海外 Lark 使用 [Lark Developer](https://open.larksuite.com/) 和 `open.larksuite.com`。App ID、App Secret、权限、事件订阅和回调订阅应全部来自同一个入口，不要混用飞书创建的应用和 Lark 域名。
+
+### 关键术语
+
+| 术语 | 说明 |
+| --- | --- |
+| 自建应用 | 企业或团队在开放平台里创建的内部应用，VibeAround 通过它接入飞书/Lark。 |
+| App ID / App Secret | 应用凭证，填写到 VibeAround 的飞书/Lark channel plugin 中。 |
+| 机器人能力 | 应用向用户或群聊收发消息、发送交互卡片的能力。 |
+| 长连接 | WebSocket 连接模式，由本地 VibeAround runtime 或 channel plugin 主动连接开放平台，不需要暴露公网 HTTP 回调地址。 |
+| 事件配置 | 订阅平台事件，例如用户给机器人发消息。 |
+| 回调配置 | 订阅交互回调，例如用户点击消息卡片按钮。 |
+| tenant 权限 | 以企业应用身份调用的权限。 |
+| user 权限 | 以用户授权身份调用的权限。 |
+
+### 配置步骤
+
+1. 进入开放平台并创建企业自建应用。
+2. 启用机器人能力，并记录应用的 App ID 和 App Secret。
+3. 在 VibeAround channel plugin 中选择飞书或 Lark，并填写对应入口创建的 App ID / App Secret。
+4. 进入应用的“开发配置 > 权限管理”，使用批量导入功能导入下面的权限 JSON。
+5. 进入“开发配置 > 事件与回调 > 事件配置”，订阅方式选择长连接，添加 `im.message.receive_v1` 事件。
+6. 进入“开发配置 > 事件与回调 > 回调配置”，订阅方式选择长连接，添加 `card.action.trigger` 回调。
+7. 在“版本管理”中创建新版本并发布上线。权限、事件和回调通常需要发布后才会对正式应用生效，企业自建应用还可能需要管理员审批。
+8. 将机器人添加到目标私聊或群聊，先用受控测试会话确认消息、卡片按钮和 Workspace 绑定都正常。
+
+权限导入 JSON：
+
+```json
+{
+  "scopes": {
+    "tenant": [
+      "aily:file:read",
+      "aily:file:write",
+      "application:application.app_message_stats.overview:readonly",
+      "application:application:self_manage",
+      "application:bot.menu:write",
+      "cardkit:card:write",
+      "contact:user.employee_id:readonly",
+      "corehr:file:download",
+      "event:ip_list",
+      "im:chat.access_event.bot_p2p_chat:read",
+      "im:chat.members:bot_access",
+      "im:message",
+      "im:message.group_at_msg:readonly",
+      "im:message.p2p_msg:readonly",
+      "im:message:readonly",
+      "im:message:send_as_bot",
+      "im:resource"
+    ],
+    "user": [
+      "aily:file:read",
+      "aily:file:write",
+      "im:chat.access_event.bot_p2p_chat:read"
+    ]
+  }
+}
+```
+
+`im.message.receive_v1` 负责把用户发送给机器人的消息推给 VibeAround。`card.action.trigger` 负责把交互卡片上的按钮、选择器等用户操作推给 VibeAround，常用于确认、拒绝、继续执行、选择 Session 等操作。
+
+参考官方文档：
+
+- [申请 API 权限](https://open.feishu.cn/document/server-docs/application-scope/introduction)
+- [使用长连接接收事件](https://open.feishu.cn/document/server-docs/event-subscription-guide/event-subscription-configure-/request-url-configuration-case?lang=zh-CN)
+- [使用长连接接收回调](https://open.feishu.cn/document/event-subscription-guide/callback-subscription/step-1-choose-a-subscription-mode/configure-callback-request-address?lang=zh-CN)
+- [接收消息事件](https://open.larksuite.com/document/uAjLw4CM/ukTMukTMukTM/reference/im-v1/message/events/receive)
+- [配置卡片交互](https://open.feishu.cn/document/feishu-cards/configuring-card-interactions?lang=zh-CN)
+
 ## 配置检查表
 
 1. 选择一个 Channel。
@@ -40,3 +111,11 @@ description: 为本地 Agent continuation 和远程控制配置消息频道。
 ## 排障
 
 消息没有到达 Session 时，检查 plugin status、credentials、channel permissions、bot membership、command prefix behavior、selected workspace，以及本地 VibeAround runtime 是否在线。
+
+飞书/Lark 还需要重点检查这些项：
+
+- 收不到消息：确认事件配置使用长连接，并已添加 `im.message.receive_v1`。
+- 卡片按钮无响应：确认回调配置使用长连接，并已添加 `card.action.trigger`。
+- 权限看起来已导入但仍报错：确认已创建并发布新版本，且管理员已审批。
+- 长连接保存或验证失败：先启动本地 VibeAround runtime 或 channel plugin，并确认机器可以访问对应开放平台域名。
+- 国内飞书和海外 Lark 连接失败：确认 App ID / App Secret、开放平台入口和 API 域名来自同一个平台。

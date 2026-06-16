@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { RootProvider } from "fumadocs-ui/provider/next";
+import { seoKeywords } from "@/lib/seo";
 import { site } from "@/lib/site";
 import "./globals.css";
 
@@ -11,18 +12,7 @@ export const metadata: Metadata = {
     template: `%s - ${site.name}`,
   },
   description: site.description,
-  keywords: [
-    "VibeAround",
-    "AI coding agents",
-    "local AI coding agent",
-    "remote coding",
-    "Codex CLI",
-    "Claude Code",
-    "Gemini CLI",
-    "OpenCode",
-    "AI provider switcher",
-    "local-first workspace",
-  ],
+  keywords: seoKeywords,
   alternates: {
     canonical: "/",
     languages: {

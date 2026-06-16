@@ -1,9 +1,11 @@
 ---
-title: Local-first 安全模型
-description: 理解什么留在本地、什么可能离开机器，以及哪些控制点重要。
+title: 本地优先 AI 编程安全模型
+description: 理解启用远程 AI 编程 Agent、Tunnel、Provider 和消息频道时，什么留在本地、什么可能离开机器，以及哪些控制点重要。
 ---
 
 Local-first 表示默认执行边界在用户自己的电脑上，但不代表没有风险。Agent 可以执行命令，模型 Provider 会接收 prompt，消息频道会传输消息，Tunnel 在启用时可能暴露本地入口。
+
+本页是本地 AI 编程 Agent 的安全模型说明。它区分本地主机、模型 Provider、远程浏览器、消息应用、预览链接和 Tunnel 的边界，帮助远程访问保持受控，而不是变成意外的广泛访问。
 
 ## 默认留在本地的内容
 

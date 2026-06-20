@@ -1,0 +1,224 @@
+---
+title: 消息应用会话工作流
+description: 定义 IM channel 中 route、thread、session、workspace、pickup 和 session switch 的工作流。
+---
+
+消息应用会话工作流定义了用户从飞书/Lark、Discord、Slack、Telegram、微信等消息应用和本地 AI coding agent 交互时，VibeAround 如何选择 workspace、thread 和 session。
+
+核心规则是：**普通消息 route 私有，显式 continuation 才复用 session。** 一个 route 由 channel、bot 和 chat 共同确定；每个 route 最多只有一个活跃 thread。
+
+## Workspace 路径
+
+普通 IM 会话使用默认 IM workspace：
+
+```txt
+<default_workspace>/im/<channel>
+```
+
+例如：
+
+- 飞书/Lark：`<default_workspace>/im/feishu`
+- Discord：`<default_workspace>/im/discord`
+- Slack：`<default_workspace>/im/slack`
+
+用户可以在 Settings 的通用设置中修改全局 `default_workspace`。IM channel 自己的 workspace 不从消息端调整；如果用户显式切换 workspace，当前 route 会在目标 workspace 上新建 thread。
+
+## 规则
+
+- 普通消息：只使用当前 route 的活跃 thread；没有活跃 thread 就新建 thread 和 fresh session。
+- `/pickup <code>`：只消费由本地 agent 发起的短期 handoff code。code 在内存字典中，应用重启后会失效，需要在 agent 里重新发起 handover。
+- Pickup：如果 handoff payload 对应的 open thread 已存在，例如从 Web Chat 发起的对话，就沿用该 thread；否则新建 thread 并 resume 指定 session。
+- `/session`：列出当前 workspace 下当前 agent 的 session。当前 agent 来自 route 的手动选择；没有手动选择时使用默认 agent。
+- `/session --switch <id>`：必须先找到唯一 session；查不到或有歧义时提示错误，不创建新 session。
+- Workspace 或 agent 改变：新建 thread，并启动 fresh session。
+- Profile 改变：保留当前 thread 和 session；必要时重启 agent host，并 resume 同一个 session。
+- `/close`：关闭当前 route 的活跃 thread。
+- `/new`：等价于先 `/close`，再在当前 workspace 和 agent 下新建 thread，并启动 fresh session。
+
+## 总流程
+
+```mermaid
+flowchart TD
+  A["IM 收到消息"] --> B["解析 route<br/>channel + bot + chat"]
+  B --> C{"是否命令？"}
+
+  C -->|普通消息| M{"route 是否有活跃 thread？"}
+  M -->|有| M1["投递到当前 route 的唯一活跃 thread"]
+  M -->|无| M2["workspace = 当前指定 workspace<br/>否则 default_workspace/im/channel"]
+  M2 --> M3["agent = 当前指定 agent<br/>否则默认 agent"]
+  M3 --> M4["新建 route 私有 thread"]
+  M4 --> M5["启动 fresh session"]
+  M5 --> M1
+  M1 --> Z["结束"]
+
+  C -->|"/pickup code"| P["消费内存 handoff 字典"]
+  P --> P0{"code 存在？"}
+  P0 -->|否| PERR["提示 pickup 已失效<br/>请在 agent 里重新发起"]
+  P0 -->|是| P1["得到 cwd + agent + profile + session_id"]
+  P1 --> P2{"是否已有 open thread<br/>匹配 cwd + agent + session_id？"}
+  P2 -->|有| P3["沿用该 thread<br/>attach 当前 route"]
+  P2 -->|无| P4["新建 thread"]
+  P4 --> P5["resume 指定 session_id"]
+  P3 --> Z
+  P5 --> Z
+  PERR --> Z
+
+  C -->|"/session"| S["取当前 workspace + 当前 agent"]
+  S --> S1["列出该 agent 在该 workspace 下的 session"]
+  S1 --> Z
+
+  C -->|"/session --switch id"| SS["取当前 workspace + 当前 agent"]
+  SS --> SS1{"session 是否存在且唯一？"}
+  SS1 -->|否| SSERR["提示查不到或有歧义"]
+  SS1 -->|是| SS2["解绑当前 route 的活跃 thread"]
+  SS2 --> SS3["新建 route 私有 thread"]
+  SS3 --> SS4["resume 该 session"]
+  SS4 --> Z
+  SSERR --> Z
+
+  C -->|"/workspace switch"| W["切换 workspace"]
+  W --> W1["解绑当前 route 的活跃 thread"]
+  W1 --> W2["新建 thread + fresh session"]
+  W2 --> Z
+
+  C -->|"/agent switch"| G["切换 agent"]
+  G --> G1["解绑当前 route 的活跃 thread"]
+  G1 --> G2["新建 thread + fresh session"]
+  G2 --> Z
+
+  C -->|"/profile switch"| R["切换 profile"]
+  R --> R1["保持当前 thread + session_id"]
+  R1 --> R2["必要时重启 agent host"]
+  R2 --> R3["resume 同一个 session"]
+  R3 --> Z
+
+  C -->|"/close"| CL["关闭当前 route 的活跃 thread"]
+  CL --> Z
+
+  C -->|"/new"| N["关闭当前 route 的活跃 thread"]
+  N --> N1["在当前 workspace + agent 下新建 thread"]
+  N1 --> N2["启动 fresh session"]
+  N2 --> Z
+```
+
+## 普通消息时序
+
+```mermaid
+sequenceDiagram
+  participant U as User
+  participant IM as IM Plugin
+  participant VA as VibeAround
+  participant TM as Thread Manager
+  participant AG as Agent CLI
+
+  U->>IM: 发送普通消息
+  IM->>VA: ChannelInput(route, text)
+  VA->>TM: resolve route active thread
+
+  alt route 有活跃 thread
+    TM-->>VA: 返回该 thread
+  else route 没有活跃 thread
+    TM->>TM: resolve current/default workspace
+    TM->>TM: resolve current/default agent
+    TM->>TM: create private thread for route
+    TM->>AG: spawn fresh session
+    AG-->>TM: session_id
+    TM-->>VA: 返回新 thread
+  end
+
+  VA->>AG: prompt(text)
+  AG-->>VA: reply stream
+  VA-->>IM: 输出回复
+  IM-->>U: 展示回复
+```
+
+## Pickup 时序
+
+```mermaid
+sequenceDiagram
+  participant A as Agent
+  participant MCP as VibeAround MCP
+  participant H as Handoff Map
+  participant IM as IM Route
+  participant TM as Thread Manager
+  participant AG as Agent CLI
+
+  A->>MCP: prepare_handover(cwd, agent, profile, session_id)
+  MCP->>H: store(code -> payload)
+  MCP-->>A: /pickup CODE
+
+  IM->>TM: /pickup CODE
+  TM->>H: consume(CODE)
+
+  alt code 不存在
+    TM-->>IM: pickup 已失效，重新发起 handover
+  else code 存在
+    H-->>TM: cwd + agent + profile + session_id
+    TM->>TM: find open thread by cwd + agent + session_id
+
+    alt 找到 existing thread
+      TM->>TM: attach 当前 route 到 existing thread
+      TM-->>IM: 已接入该 thread
+    else 未找到
+      TM->>TM: create new thread
+      TM->>AG: resume session_id
+      AG-->>TM: resumed
+      TM-->>IM: 已恢复 handoff session
+    end
+  end
+```
+
+## Session 命令时序
+
+```mermaid
+sequenceDiagram
+  participant U as User
+  participant IM as IM Plugin
+  participant VA as VibeAround
+  participant LS as Launch Session Index
+  participant TM as Thread Manager
+  participant AG as Agent CLI
+
+  U->>IM: /session
+  IM->>VA: command
+  VA->>TM: get current route context
+  TM-->>VA: current workspace + current agent
+  VA->>LS: list sessions(agent, workspace)
+  LS-->>VA: sessions
+  VA-->>IM: 展示 session 列表
+
+  U->>IM: /session --switch id
+  IM->>VA: command
+  VA->>LS: find session(agent, workspace, id)
+
+  alt 查不到或歧义
+    VA-->>IM: 提示无法切换
+  else 找到 session
+    VA->>TM: detach current active route thread
+    VA->>TM: create new private thread
+    TM->>AG: resume session_id
+    AG-->>TM: resumed
+    VA-->>IM: 已切换 session
+  end
+```
+
+## 状态约束
+
+```mermaid
+flowchart LR
+  R["route"] --> A["最多一个活跃 thread"]
+  A --> T["thread"]
+  T --> S["session"]
+
+  P["profile switch"] --> T
+  P --> S
+  P --> H["可重启 host"]
+
+  W["workspace switch"] --> NT["新 thread"]
+  G["agent switch"] --> NT
+  N["/new"] --> NT
+
+  PU["pickup"] --> E{"已有匹配 thread？"}
+  E -->|有| OT["沿用 existing thread"]
+  E -->|无| NT2["新建 thread 并 resume"]
+```

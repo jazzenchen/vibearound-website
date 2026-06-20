@@ -22,6 +22,7 @@
     "agent-launch",
     "unified-workspace",
     "session-handover",
+    "messaging-session-workflow",
     "remote-messaging-terminal",
     "live-preview",
     "---Configure---",

@@ -1,0 +1,224 @@
+---
+title: Messaging App Session Workflow
+description: Define the route, thread, session, workspace, pickup, and session switch workflow for messaging channels.
+---
+
+The messaging app session workflow defines how VibeAround selects a workspace, thread, and session when a user talks to a local AI coding agent from apps such as Feishu/Lark, Discord, Slack, Telegram, or WeChat.
+
+The core rule is: **normal messages are route-private; only explicit continuation resumes a session.** A route is identified by the channel, bot, and chat. Each route can have at most one active thread.
+
+## Workspace Path
+
+Normal IM conversations use the default IM workspace:
+
+```txt
+<default_workspace>/im/<channel>
+```
+
+For example:
+
+- Feishu/Lark: `<default_workspace>/im/feishu`
+- Discord: `<default_workspace>/im/discord`
+- Slack: `<default_workspace>/im/slack`
+
+Users can change the global `default_workspace` in Settings. Messaging channel workspaces are not adjusted from the messaging channel; if a user explicitly switches workspace, the current route starts a new thread in the target workspace.
+
+## Rules
+
+- Normal message: use only the current route's active thread; if none exists, create a new thread and a fresh session.
+- `/pickup <code>`: consume only short-lived handoff codes created by a local agent. Codes live in memory, so they expire when the app restarts; create a new handover from the agent if that happens.
+- Pickup: if an open thread already matches the handoff payload, such as a Web Chat thread, attach the current route to it; otherwise create a thread and resume the specified session.
+- `/session`: list sessions for the current agent in the current workspace. The current agent is the manually selected route agent, or the default agent when none was selected.
+- `/session --switch <id>`: switch only when exactly one existing session matches. If no session is found or the id is ambiguous, show an error instead of creating a new session.
+- Workspace or agent changes: create a new thread and start a fresh session.
+- Profile changes: keep the current thread and session; restart the agent host if needed, then resume the same session.
+- `/close`: close the current route's active thread.
+- `/new`: close the current route's active thread, then create a new thread in the current workspace and agent with a fresh session.
+
+## Overall Flow
+
+```mermaid
+flowchart TD
+  A["IM message received"] --> B["Resolve route<br/>channel + bot + chat"]
+  B --> C{"Command?"}
+
+  C -->|"Normal message"| M{"Route has active thread?"}
+  M -->|"Yes"| M1["Send to the route's only active thread"]
+  M -->|"No"| M2["workspace = selected workspace<br/>or default_workspace/im/channel"]
+  M2 --> M3["agent = selected agent<br/>or default agent"]
+  M3 --> M4["Create route-private thread"]
+  M4 --> M5["Start fresh session"]
+  M5 --> M1
+  M1 --> Z["Done"]
+
+  C -->|"/pickup code"| P["Consume in-memory handoff map"]
+  P --> P0{"Code exists?"}
+  P0 -->|"No"| PERR["Say pickup expired<br/>create a new handover from the agent"]
+  P0 -->|"Yes"| P1["Get cwd + agent + profile + session_id"]
+  P1 --> P2{"Open thread matches<br/>cwd + agent + session_id?"}
+  P2 -->|"Yes"| P3["Reuse that thread<br/>attach current route"]
+  P2 -->|"No"| P4["Create thread"]
+  P4 --> P5["Resume session_id"]
+  P3 --> Z
+  P5 --> Z
+  PERR --> Z
+
+  C -->|"/session"| S["Use current workspace + current agent"]
+  S --> S1["List sessions for that agent and workspace"]
+  S1 --> Z
+
+  C -->|"/session --switch id"| SS["Use current workspace + current agent"]
+  SS --> SS1{"Session exists and is unique?"}
+  SS1 -->|"No"| SSERR["Show not found or ambiguous error"]
+  SS1 -->|"Yes"| SS2["Detach current route's active thread"]
+  SS2 --> SS3["Create route-private thread"]
+  SS3 --> SS4["Resume that session"]
+  SS4 --> Z
+  SSERR --> Z
+
+  C -->|"/workspace switch"| W["Switch workspace"]
+  W --> W1["Detach current route's active thread"]
+  W1 --> W2["Create thread + fresh session"]
+  W2 --> Z
+
+  C -->|"/agent switch"| G["Switch agent"]
+  G --> G1["Detach current route's active thread"]
+  G1 --> G2["Create thread + fresh session"]
+  G2 --> Z
+
+  C -->|"/profile switch"| R["Switch profile"]
+  R --> R1["Keep current thread + session_id"]
+  R1 --> R2["Restart agent host if needed"]
+  R2 --> R3["Resume the same session"]
+  R3 --> Z
+
+  C -->|"/close"| CL["Close current route's active thread"]
+  CL --> Z
+
+  C -->|"/new"| N["Close current route's active thread"]
+  N --> N1["Create thread in current workspace + agent"]
+  N1 --> N2["Start fresh session"]
+  N2 --> Z
+```
+
+## Normal Message Sequence
+
+```mermaid
+sequenceDiagram
+  participant U as User
+  participant IM as IM Plugin
+  participant VA as VibeAround
+  participant TM as Thread Manager
+  participant AG as Agent CLI
+
+  U->>IM: Send normal message
+  IM->>VA: ChannelInput(route, text)
+  VA->>TM: resolve route active thread
+
+  alt Route has active thread
+    TM-->>VA: Return that thread
+  else Route has no active thread
+    TM->>TM: resolve current/default workspace
+    TM->>TM: resolve current/default agent
+    TM->>TM: create private thread for route
+    TM->>AG: spawn fresh session
+    AG-->>TM: session_id
+    TM-->>VA: Return new thread
+  end
+
+  VA->>AG: prompt(text)
+  AG-->>VA: reply stream
+  VA-->>IM: Send reply
+  IM-->>U: Show reply
+```
+
+## Pickup Sequence
+
+```mermaid
+sequenceDiagram
+  participant A as Agent
+  participant MCP as VibeAround MCP
+  participant H as Handoff Map
+  participant IM as IM Route
+  participant TM as Thread Manager
+  participant AG as Agent CLI
+
+  A->>MCP: prepare_handover(cwd, agent, profile, session_id)
+  MCP->>H: store(code -> payload)
+  MCP-->>A: /pickup CODE
+
+  IM->>TM: /pickup CODE
+  TM->>H: consume(CODE)
+
+  alt Code does not exist
+    TM-->>IM: Pickup expired; create a new handover
+  else Code exists
+    H-->>TM: cwd + agent + profile + session_id
+    TM->>TM: find open thread by cwd + agent + session_id
+
+    alt Existing thread found
+      TM->>TM: attach current route to existing thread
+      TM-->>IM: Attached to that thread
+    else No matching thread
+      TM->>TM: create new thread
+      TM->>AG: resume session_id
+      AG-->>TM: resumed
+      TM-->>IM: Handoff session resumed
+    end
+  end
+```
+
+## Session Command Sequence
+
+```mermaid
+sequenceDiagram
+  participant U as User
+  participant IM as IM Plugin
+  participant VA as VibeAround
+  participant LS as Launch Session Index
+  participant TM as Thread Manager
+  participant AG as Agent CLI
+
+  U->>IM: /session
+  IM->>VA: command
+  VA->>TM: get current route context
+  TM-->>VA: current workspace + current agent
+  VA->>LS: list sessions(agent, workspace)
+  LS-->>VA: sessions
+  VA-->>IM: Show session list
+
+  U->>IM: /session --switch id
+  IM->>VA: command
+  VA->>LS: find session(agent, workspace, id)
+
+  alt Not found or ambiguous
+    VA-->>IM: Show switch error
+  else Session found
+    VA->>TM: detach current active route thread
+    VA->>TM: create new private thread
+    TM->>AG: resume session_id
+    AG-->>TM: resumed
+    VA-->>IM: Session switched
+  end
+```
+
+## State Constraints
+
+```mermaid
+flowchart LR
+  R["route"] --> A["At most one active thread"]
+  A --> T["thread"]
+  T --> S["session"]
+
+  P["profile switch"] --> T
+  P --> S
+  P --> H["host may restart"]
+
+  W["workspace switch"] --> NT["new thread"]
+  G["agent switch"] --> NT
+  N["/new"] --> NT
+
+  PU["pickup"] --> E{"Matching thread exists?"}
+  E -->|"Yes"| OT["Reuse existing thread"]
+  E -->|"No"| NT2["Create thread and resume"]
+```

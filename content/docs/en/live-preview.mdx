@@ -3,33 +3,21 @@ title: Live Preview for AI Coding Agents
 description: Preview local dev servers, Markdown, HTML, and AI-generated artifacts from desktop, browser, mobile, or messaging surfaces.
 ---
 
-Live Preview makes local outputs visible without turning the whole development environment into a cloud workspace. It is designed for reviewing what agents build: dev servers, Markdown files, HTML files, generated artifacts, and similar outputs.
+Share what is running on your machine without deploying:
 
-## Preview Types
+- **Dev server previews.** Register a local port and get a preview page that reverse-proxies it, with an iframe toolbar. Agents create these automatically when they start dev servers (via the `va-preview` skill / MCP `preview` tool — [tool reference](https://github.com/jazzenchen/VibeAround/blob/main/docs/reference/api-surfaces.md#mcp-tools)).
+- **Markdown preview.** Any markdown file rendered GitHub-style (`md_preview` tool or the `va-md-preview` skill).
+- **Two links per preview:** the owner URL (token-authenticated, lives as long as the preview) and a share URL that expires after 10 minutes and needs no auth — safe to paste in a group chat. See [Security model](./local-first-security).
+- `va previews` / `va preview delete <slug>` manage them from the CLI; preview processes started for you are killed when the daemon stops.
 
-| Type | Example |
-| --- | --- |
-| Dev server | A local Next, Vite, or other development server. |
-| Markdown | A generated report, README draft, or design note. |
-| HTML | A static prototype or exported page. |
-| Artifact | A generated file that benefits from browser review. |
+## Preview URLs
+| URL | Auth | Lifetime |
+|---|---|---|
+| `/preview/u/{slug}` | Owner token | While the preview exists |
+| `/preview/s/{slug}` | None | 600 s |
+| `/md-preview/{slug}` | Owner token | While it exists |
 
-## Owner Links And Share Links
+---
 
-Owner links are intended for the local user or an authenticated owner session. Share links should be scoped and short-lived. A preview link should not imply unlimited access to the host machine.
-
-## Remote Preview Flow
-
-1. The agent produces or modifies an output.
-2. VibeAround identifies the preview target.
-3. The user opens an owner link locally or creates a scoped share link.
-4. If remote access is needed, the link is routed through the configured tunnel or remote entry point.
-5. The user reviews the result and returns feedback to the same session.
-
-## Practical Guidance
-
-- Prefer previewing the smallest useful target.
-- Stop or unshare links that are no longer needed.
-- Use Markdown preview for documentation and reports before publishing them.
-- Use dev-server preview when testing UI changes from an agent.
-- Treat shared preview URLs as sensitive unless explicitly intended for a broader audience.
+*Mirrored from the project's `docs/guides/web-dashboard.md` (Live Preview) and `docs/reference/api-surfaces.md` (Preview URLs).*
+*Last verified: v0.7.11*

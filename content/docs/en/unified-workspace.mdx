@@ -28,7 +28,7 @@ A workspace is a directory on your machine that agents work in — typically a p
 - A workspace contains any number of threads.
 - Deleting or switching a workspace never touches the directory contents; VibeAround only manages its own records.
 
-*Details: [workspace module internals](https://github.com/jazzenchen/VibeAround/blob/main/docs/internals/modules/workspace.md) · [`va workspace` commands](https://github.com/jazzenchen/VibeAround/blob/main/docs/reference/cli.md#workspaces-previews-profiles) · [`default_workspace` / `workspaces` settings](https://github.com/jazzenchen/VibeAround/blob/main/docs/reference/configuration.md#settingsjson)*
+*Details: [workspace module internals](https://github.com/jazzenchen/VibeAround/blob/main/docs/internals/modules/workspace.md) · [`va workspace` commands](./command-line) · [`default_workspace` / `workspaces` settings](https://github.com/jazzenchen/VibeAround/blob/main/docs/reference/configuration.md#settingsjson)*
 
 ## Thread
 
@@ -53,7 +53,7 @@ A route is a stable address for one conversation path through a channel: the tri
 
 An agent is a coding CLI that VibeAround can drive: Claude Code, Codex, Gemini CLI, Cursor, Qwen Code, Kiro, OpenCode, or Pi. VibeAround talks to agents over the [Agent Client Protocol](https://agentclientprotocol.com) (ACP) via each agent's ACP adapter, spawning one agent process per active thread. Desktop-only entries (`claude-desktop`, `codex-desktop`) are launch targets, not ACP runtimes — they open the vendor's desktop app instead.
 
-- The agent hosting a thread can be changed with `/switch host <agent>`; the thread keeps its identity and the new agent takes over.
+- `/switch host <agent>` to a different agent starts a **new thread** with a fresh session (context does not carry between agent products); switching only the profile keeps the thread and session.
 - Agent definitions (ACP adapter package, PTY command, resume template, config injection paths) come from a built-in registry.
 
 *Details: [supported agents matrix](./supported-agents) · [agent module internals](https://github.com/jazzenchen/VibeAround/blob/main/docs/internals/modules/agent.md) · [launch subsystem](https://github.com/jazzenchen/VibeAround/blob/main/docs/internals/launch.md) (how agents are started) · [`/switch` command reference](./remote-messaging-terminal)*
@@ -73,7 +73,7 @@ A session is the agent CLI's own conversation record — the thing `claude --res
 
 - Sessions belong to the agent, not to VibeAround. VibeAround tracks and rediscovers them (including sessions created outside VibeAround) but the transcript lives in the agent's own storage.
 
-*Details: [session lifecycle](./session-handover) (what survives what) · [handover flow](https://github.com/jazzenchen/VibeAround/blob/main/docs/internals/flows/handover.md) · [`va launch sessions` commands](https://github.com/jazzenchen/VibeAround/blob/main/docs/reference/cli.md#agents-and-launches)*
+*Details: [session lifecycle](./session-handover) (what survives what) · [handover flow](https://github.com/jazzenchen/VibeAround/blob/main/docs/internals/flows/handover.md) · [`va launch sessions` commands](./command-line)*
 
 ## How the pieces work together
 

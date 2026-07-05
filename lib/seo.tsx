@@ -19,8 +19,8 @@ export const seoKeywords = [
   "Claude Code remote access",
   "Codex mobile workflow",
   "remote Codex CLI",
-  "local-first workspace",
-  "local-first AI security",
+  "local agent workspace",
+  "local AI agent security",
   "web terminal",
   "session handover",
   "live preview",
@@ -41,10 +41,10 @@ export function homeJsonLd(locale: Locale) {
   const isZh = locale === "zh";
   const url = isZh ? `${site.url}/zh/` : `${site.url}/`;
   const docsUrl = isZh ? `${site.url}/zh/docs/` : `${site.url}/docs/`;
-  const name = isZh ? "VibeAround - 统一的 AI Agent 工作空间" : "VibeAround - Keep your AI coding agents around";
+  const name = isZh ? "VibeAround - 统一的 AI Agent 工作空间" : "VibeAround - Workspace for AI coding agents";
   const description = isZh
     ? "VibeAround 是本地优先的 AI Agent 工作空间，让 AI 编程 Agent 在自己的电脑上并行工作，并从桌面、浏览器、手机和消息频道继续会话。"
-    : "VibeAround is a local-first desktop app and web workspace that keeps AI coding agents reachable across desktop, browser, terminal, mobile, and messaging.";
+    : site.description;
 
   return {
     "@context": "https://schema.org",
@@ -103,7 +103,7 @@ export function homeJsonLd(locale: Locale) {
           "Session handover",
           "Web Terminal",
           "Live Preview",
-          "Local-first workspace",
+          "Local workspace",
         ],
         offers: {
           "@type": "Offer",

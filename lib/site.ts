@@ -2,11 +2,11 @@ export const site = {
   name: "VibeAround",
   url: "https://vibearound.ai",
   description:
-    "A local-first desktop app and web workspace that keeps AI coding agents reachable across desktop, browser, terminal, mobile, and messaging.",
+    "A workspace for AI coding agents: orchestrate and launch them locally, then control and preview their work remotely.",
   github: "https://github.com/jazzenchen/VibeAround",
   release: "https://github.com/jazzenchen/VibeAround/releases/latest",
   demo: "https://youtu.be/6kxNKTMz-AM",
-  ogImage: "https://vibearound.ai/assets/og-image-20260513.png",
+  ogImage: "https://vibearound.ai/assets/og-image-20260620.png",
 };
 
 export type Locale = "en" | "zh";
@@ -41,12 +41,12 @@ export const navItems = {
 export const homeCopy = {
   en: {
     eyebrow: "Unified AI Agent Workspace",
-    title: "Keep your AI coding agents around.",
+    title: "Workspace for AI coding agents.",
     subtitle:
-      "Run AI coding agents side by side on your computer. Control them from anywhere, continue previous sessions, and preview what they build.",
+      "Orchestrate and launch AI coding agents locally, then control and preview their work remotely.",
     primary: "Download latest",
     secondary: "Read the docs",
-    facts: ["Local-first", "Desktop + browser + mobile", "Messaging channels", "Provider profiles"],
+    facts: ["Runs on your own computer", "Desktop + browser + mobile", "Messaging channels", "Provider profiles"],
   },
   zh: {
     eyebrow: "统一的 AI Agent 工作空间",
@@ -75,7 +75,7 @@ export const legalRoutes = {
       slug: "privacy",
       title: "Privacy Policy",
       description:
-        "How VibeAround's local-first product, website, downloads, provider profiles, channels, and remote surfaces should be understood from a privacy perspective.",
+        "How VibeAround's product, website, downloads, provider profiles, channels, and remote surfaces should be understood from a privacy perspective.",
       eyebrow: "Legal",
       updated: "2026-06-13",
     },
@@ -83,7 +83,7 @@ export const legalRoutes = {
       slug: "terms",
       title: "Terms of Use",
       description:
-        "Terms for using the VibeAround website, documentation, downloads, releases, and local-first agent workspace software.",
+        "Terms for using the VibeAround website, documentation, downloads, releases, and local agent workspace software.",
       eyebrow: "Legal",
       updated: "2026-06-13",
     },

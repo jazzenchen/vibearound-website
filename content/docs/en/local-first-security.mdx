@@ -3,57 +3,71 @@ title: Local-first AI Coding Security
 description: Understand what stays local, what can leave the machine, and which controls matter when remote AI coding agents, tunnels, providers, and messaging channels are enabled.
 ---
 
-Local-first means the default execution boundary is the user's computer. It does not mean there is no risk. Agents can run commands, model providers receive prompts, messaging channels transmit messages, and tunnels can expose local surfaces when enabled.
+VibeAround exposes powerful things — a terminal, a coding agent with shell access, your provider credentials — so its trust boundaries are worth understanding precisely. The short version: everything runs on your machine, localhost is trusted after token auth, anything reaching in from outside must pair, and credentials never leave the daemon.
 
-Use this page as the security model for local AI coding agents. It explains the boundary between the local host, model providers, remote browsers, messaging apps, preview links, and tunnels so remote access does not become accidental broad access.
+## Trust zones
 
-## What Stays Local By Default
+```text
+zone 0  the daemon process        holds credentials, spawns agents
+zone 1  localhost clients         desktop app, local browser, va CLI — token auth
+zone 2  tunneled browsers         pairing code + token required
+zone 3  IM platforms              messages only, mediated by plugins and permission cards
+```
 
-- Repositories and working trees.
-- Local terminals and command-line tools.
-- Agent process execution.
-- VibeAround settings and provider profile storage.
-- Local session and workspace state.
+## Zone 1: local clients and the auth token
 
-## What Can Leave The Machine
+Every daemon start generates a fresh random bearer token, written to [`~/.vibearound/auth.json`](https://github.com/jazzenchen/VibeAround/blob/main/docs/reference/configuration.md#all-files-on-disk). All protected HTTP and WebSocket routes require it, as `Authorization: Bearer <token>` or a `?token=` query parameter. The desktop app opens the dashboard with the token appended; the `va` CLI reads the token file; a browser that presents a stale token after a daemon restart is rejected and must reload through an authorized entry point.
 
-Depending on configuration, these can leave the host:
+Practical consequences:
 
-- Model requests and responses.
-- Messaging-channel traffic.
-- Tunnel traffic.
-- Shared preview links.
-- Browser-paired remote access.
-- Provider-specific telemetry or logs governed by the provider.
+- Another local user (or malware) cannot drive your agents just because the port is open — it needs the token file, which lives in your home directory.
+- Restarting the daemon invalidates every previously issued URL.
 
-## Controls
+## Zone 2: remote access through tunnels
 
-| Control | Why it matters |
-| --- | --- |
-| Loopback binding | Keeps local APIs off the public network unless remote access is enabled. |
-| Local auth token | Protects dashboard APIs and WebSocket routes. |
-| Browser pairing | Prevents a public tunnel URL from becoming automatic access. |
-| Scoped preview links | Limits what a shared preview can reach. |
-| Short-lived links | Reduces exposure after review is complete. |
-| Channel permissions | Limits who can send commands to an agent. |
-| Provider profiles | Makes model routing explicit and auditable. |
+Tunnels (ngrok, localtunnel, Cloudflare) publish the dashboard to a public URL. Two gates apply:
 
-## Safe Operating Practices
+1. **Pairing.** A browser on a non-local hostname must complete pairing: the dashboard shows a 6-digit code that expires after 60 seconds, and the code must be confirmed from an already-trusted surface — typed into a connected IM chat (`/pair <code>`) or approved locally. Pairing binds that browser to the daemon's current auth token (all TTLs: [timers and limits](https://github.com/jazzenchen/VibeAround/blob/main/docs/reference/timers-and-limits.md#lifecycles-and-ttls)).
+2. **Token.** After pairing, the same bearer-token rules apply as locally.
 
-- Start with local-only operation.
-- Add one remote surface at a time.
-- Prefer private channels for early testing.
-- Review agent output before applying changes to important projects.
-- Treat API keys and channel tokens as secrets.
-- Disable tunnels, shares, and channel plugins when they are no longer needed.
+Local hostnames (`localhost`, `127.0.0.1`, `::1`, and the desktop app's own origins) skip pairing but never skip the token.
 
-## Security Review Questions
+## Zone 3: IM platforms
 
-Before enabling a workflow, ask:
+IM messages arrive through channel plugins. The platform never gets a shell; it gets a conversation:
 
-1. Who can send input to the agent?
-2. Which workspace can the agent access?
-3. Which provider receives the prompt?
-4. Is a public URL involved?
-5. How does the user revoke access?
-6. What logs or messages remain after the session?
+- **Permission cards.** When an agent wants to run a command or edit files beyond its allowed scope, the permission request is rendered as an interactive card in the chat. The agent's turn blocks until someone taps a choice. If the plugin dies mid-request, the request is cancelled rather than silently approved.
+- **Route isolation.** Each chat maps to its own thread and workspace; a group chat cannot see or steer another chat's agent.
+- **Attachment hygiene.** File keys from plugins are validated against path traversal (`..`, separators) before becoming file references; unsafe keys are dropped.
+- **Bot credentials** (platform tokens) live in `settings.json` on your machine and are passed only to the owning plugin process.
+
+## Previews: sharing without exposing
+
+Live previews of dev servers and rendered Markdown get two URL forms:
+
+| URL | Audience | Lifetime |
+|---|---|---|
+| `/preview/u/<slug>` | Owner (token-authenticated) | While the preview exists |
+| `/preview/s/<slug>` | Anyone with the link | 600 seconds, then expires |
+
+Share links are the only intentionally unauthenticated surface, scoped to one preview and time-boxed to 10 minutes. Everything else on the tunnel still requires pairing + token.
+
+## Credential handling
+
+- Provider API keys are stored in the profile store under `~/.vibearound/` and injected into upstream requests **by the daemon**. Rendered agent configs contain only local bridge URLs — a leaked agent config exposes no provider key.
+- The bridge and agent-as-API endpoints are loopback-only and sit behind a local-bridge gate; they are not reachable through tunnels.
+- The daemon's own auth token file is plaintext in your home directory (same trust level as `~/.ssh`); treat backups accordingly.
+- Bridge request/response recording for the launch popup is held in memory only and never written to disk.
+
+## What VibeAround does not protect against
+
+Honest limits of the model:
+
+- **A malicious local root/user account.** Anyone who can read your home directory has your token and credentials.
+- **Malicious agent behavior within granted permissions.** Permission cards gate escalations, but a command you approve runs with your user's full rights.
+- **IM platform compromise.** If someone controls your Telegram account, they can talk to your agent as you — with permission cards as the remaining barrier. Prefer per-chat bots and private chats for sensitive work.
+
+---
+
+*Source anchors: `src/server/src/web_server/auth.rs` (token middleware, local-origin rules), `src/core/src/auth/` (token file, pairing TTL), `src/core/src/previews/store.rs` (SHARE_TTL_SECS), `src/core/src/routing.rs` (attachment key validation), `src/server/src/web_server/mod.rs` (route protection layout).*
+*Last verified: v0.7.11*

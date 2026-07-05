@@ -3,50 +3,140 @@ title: Messaging Channels for AI Agents
 description: Configure Telegram, Slack, Discord, Feishu/Lark, WeChat, DingTalk, WeCom, and other messaging channels for local AI agent continuation and remote control.
 ---
 
-Messaging channels let users continue local agent sessions from the communication tools they already use. A channel should be treated as a remote control surface and configured with the same care as a browser terminal or tunnel.
+Connecting an IM channel takes three steps everywhere: create the bot on the platform, put its credentials under `channels.<kind>` in `settings.json`, and let VibeAround start the plugin. This page covers the VibeAround side and the general pattern; platform-side specifics (bot registration screens, permission scopes, webhook URLs) live in each plugin's own README.
 
-## Channel Matrix
+## The pattern
 
-| Channel | Setup style | Typical use |
-| --- | --- | --- |
-| Telegram | BotFather token | Personal bot and mobile chat. |
-| Feishu / Lark | App credentials | Team IM and enterprise bot. |
-| Discord | Bot token | Server and DM workflows. |
-| Slack | Bot/App token with Socket Mode | Workspace DM workflows. |
-| WeChat | QR login through OpenClaw-compatible bridge | Chinese personal chat. |
-| DingTalk | Stream API credentials | Enterprise chat. |
-| WeCom | WebSocket bot credentials | Enterprise WeChat workflows. |
-| QQ Bot | Guild bot credentials | QQ bot workflows. |
+1. **Install the plugin.** Desktop onboarding installs channel plugins into `~/.vibearound/plugins/<kind>/`; the desktop plugin manager adds or updates them later. A plugin that exists but has no configuration stays disabled.
 
-## Feishu / Lark Setup
+2. **Configure the channel.** Add a `channels.<kind>` object to `~/.vibearound/settings.json`. The keys are plugin-specific — VibeAround passes the object through to the plugin verbatim. Two representative examples:
 
-Feishu and Lark use the same open-platform model, but the portal and API domain must match the tenant. Mainland China Feishu uses [Feishu Open Platform](https://open.feishu.cn/) and `open.feishu.cn`. Overseas Lark uses [Lark Developer](https://open.larksuite.com/) and `open.larksuite.com`. Keep the App ID, App Secret, permissions, event subscriptions, and callback subscriptions on the same platform; do not use a Feishu app with the Lark API domain, or the reverse.
+```jsonc
+{
+  "channels": {
+    "telegram": {
+      "bot_token": "123456:ABC-DEF..."
+    },
+    "feishu": {
+      "app_id": "cli_a1b2c3...",
+      "app_secret": "..."
+    }
+  }
+}
+```
 
-### Terms
+3. **Start it.** The daemon starts configured plugins at boot. After editing settings while running, reconcile with:
 
-| Term | Meaning |
-| --- | --- |
-| Internal app | The enterprise app created in the open platform for VibeAround. |
-| App ID / App Secret | The app credentials entered in the VibeAround Feishu/Lark channel plugin. |
-| Bot capability | The app capability that allows the bot to receive messages, send messages, and send interactive cards. |
-| Long connection | A WebSocket connection initiated by the local VibeAround runtime or channel plugin, so a public HTTP callback URL is not required. |
-| Event configuration | Subscriptions for platform events, such as a user sending a message to the bot. |
-| Callback configuration | Subscriptions for interaction callbacks, such as a user clicking a card button. |
-| tenant scopes | Permissions used by the app as the tenant app identity. |
-| user scopes | Permissions used after a user authorizes the app. |
+```bash
+va channel sync        # start newly configured, stop removed, restart changed
+```
 
-### Steps
+or use the desktop channel controls. `va channels` shows runtime status for every plugin.
 
-1. Open the matching developer portal and create an enterprise internal app.
-2. Enable the bot capability, then copy the App ID and App Secret.
-3. In the VibeAround channel plugin, choose Feishu or Lark and enter the App ID / App Secret from that same portal.
-4. In the app, open "Development Configuration > Permissions & Scopes" and use batch import to add the permission JSON below.
-5. Open "Development Configuration > Events and Callbacks > Event Configuration", choose long connection, and add `im.message.receive_v1`.
-6. Open "Development Configuration > Events and Callbacks > Callback Configuration", choose long connection, and add `card.action.trigger`.
-7. In "Version Management", create and publish a new version. Permissions, events, and callbacks usually take effect only after the app version is published, and enterprise apps may require admin approval.
-8. Add the bot to a controlled private chat or group, then verify message delivery, card button actions, and workspace binding before broad rollout.
+## Choosing defaults per channel
 
-Permission import JSON:
+The `remote` section assigns a default agent and profile per channel kind, used when a chat's first message creates a thread:
+
+```jsonc
+{
+  "remote": {
+    "channels": {
+      "telegram": { "agent_id": "claude", "profile_id": "moonshot" },
+      "feishu":   { "agent_id": "codex" }
+    }
+  }
+}
+```
+
+Users can still `/switch` per thread; these are just starting values.
+
+## Supported channels
+
+Every channel has a dedicated setup page with platform-side steps and a code-verified config block:
+
+| Channel | Setup page |
+|---|---|
+| Telegram | [channels/telegram](./channels) |
+| Feishu / Lark | [channels/feishu](./channels) — permission JSON, long-connection subscriptions |
+| Slack | [channels/slack](./channels) — one-paste app manifest, Socket Mode |
+| Discord | [channels/discord](./channels) |
+| DingTalk | [channels/dingtalk](./channels) |
+| WeCom | [channels/wecom](./channels) |
+| QQ Bot | [channels/qqbot](./channels) |
+| WeChat | [channels/wechat](./channels) — QR login |
+| WhatsApp | [channels/whatsapp](./channels) — QR login |
+
+Kind ids and repository links are also in the [supported matrix](./supported-agents). Each plugin README additionally documents:
+
+- how to create the bot and obtain credentials,
+- required platform permissions/scopes,
+- webhook vs long-poll modes where the platform offers both,
+- platform capabilities and limits (card layouts, attachment size, rate limits).
+
+## Health and lifecycle
+
+Plugins are supervised: crash means respawn after a short delay, and a plugin that stops emitting heartbeats for 90 seconds is killed and respawned. Practical implications:
+
+- A misconfigured credential typically shows as a crash-respawn loop — check `va channels` and the daemon logs, fix the config, then `va channel restart <kind>`.
+- Undelivered system messages and permission cards are queued and re-sent after a plugin restart, so a flapping plugin does not eat approvals.
+- Stopping a channel (`va channel stop <kind>`) does not close its threads; conversations resume when the plugin starts again.
+
+## Verifying a new channel
+
+1. `va channels` — the plugin shows as running.
+2. Message the bot: expect a reply from the default agent (first contact creates the thread).
+3. `/status` in the chat — confirms thread, workspace, agent, profile.
+4. Trigger a permission (ask the agent to run a shell command) — confirm the card renders and the tap resolves it.
+
+---
+
+*Source anchors: `src/core/src/config.rs` (channel_names, channel raw config, RemoteConfig), `src/core/src/plugins/` (plugin directories), `src/core/src/channels/` (sync, supervision, outbox), `src/cli/src/args.rs` (channel commands).*
+*Last verified: v0.7.11*
+
+
+## Per-channel setup
+
+The fastest channel to set up: one token from BotFather, one config block.
+
+### Platform setup
+
+1. Open [@BotFather](https://t.me/botfather) in Telegram.
+2. Send `/newbot` and follow the prompts.
+3. Copy the bot token.
+
+### Configuration
+
+Required fields: `bot_token`.
+
+```json
+{
+  "channels": {
+    "telegram": {
+      "bot_token": "123456789:ABCdefGHIjklMNOpqrSTUvwxYZ",
+      "verbose": { "show_thinking": true, "show_tool_use": true }
+    }
+  }
+}
+```
+
+Apply with `va channel sync` ([the pattern](./channels)). The optional `verbose` object works on every channel: `show_thinking` and `show_tool_use` (both default `false`) include the agent's thinking and tool-use blocks in chat output.
+
+
+Feishu and Lark share one open-platform model, but the portal and API domain must match your tenant: mainland Feishu uses the [Feishu Open Platform](https://open.feishu.cn/) (`open.feishu.cn`); overseas Lark uses [Lark Developer](https://open.larksuite.com/) (`open.larksuite.com`). Keep the app, its permissions, event/callback subscriptions, and the credentials you paste into VibeAround **all on the same platform** — a Feishu app against the Lark domain (or the reverse) fails to connect.
+
+VibeAround uses **long connection** (WebSocket initiated from your machine) for both events and callbacks, so no public callback URL or tunnel is required.
+
+### Platform setup
+
+1. Open the matching developer portal and create an **enterprise internal app**.
+2. Enable the **bot capability**, then copy the App ID and App Secret.
+3. In *Development Configuration → Permissions & Scopes*, use **batch import** with the permission JSON below.
+4. In *Development Configuration → Events and Callbacks → Event Configuration*, choose **long connection** and add `im.message.receive_v1` (delivers user messages to VibeAround).
+5. In *Callback Configuration*, choose **long connection** and add `card.action.trigger` (delivers card button taps — approve/deny, session selection).
+6. In *Version Management*, **create and publish a version** — permissions, events, and callbacks usually take effect only after publishing, and enterprise tenants may require admin approval.
+7. Add the bot to a controlled private chat or small group first; verify message delivery and card buttons before broad rollout.
+
+Permission batch-import JSON:
 
 ```json
 {
@@ -79,43 +169,283 @@ Permission import JSON:
 }
 ```
 
-`im.message.receive_v1` delivers user messages sent to the bot into VibeAround. `card.action.trigger` delivers interactive card actions, such as approve, deny, continue, or session-selection buttons.
+### Configuration
 
-Official references:
+Required fields: `app_id`, `app_secret`.
 
-- [Apply for API permissions](https://open.feishu.cn/document/server-docs/application-scope/introduction)
-- [Receive events through long connection](https://open.feishu.cn/document/server-docs/event-subscription-guide/event-subscription-configure-/request-url-configuration-case?lang=zh-CN)
-- [Receive callbacks through long connection](https://open.feishu.cn/document/event-subscription-guide/callback-subscription/step-1-choose-a-subscription-mode/configure-callback-request-address?lang=zh-CN)
-- [Receive message event](https://open.larksuite.com/document/uAjLw4CM/ukTMukTMukTM/reference/im-v1/message/events/receive)
-- [Configure card interactions](https://open.feishu.cn/document/feishu-cards/configuring-card-interactions?lang=zh-CN)
+```json
+{
+  "channels": {
+    "feishu": {
+      "app_id": "cli_xxxxxxxxxxxx",
+      "app_secret": "your-app-secret",
+      "verbose": { "show_thinking": true, "show_tool_use": true }
+    }
+  }
+}
+```
 
-## Setup Checklist
+### Behavior
 
-1. Choose one channel.
-2. Create the bot or app credentials in the channel provider.
-3. Add the credentials to the VibeAround channel plugin.
-4. Restrict who can reach the bot.
-5. Send a test message.
-6. Bind or select a workspace.
-7. Start with a read-only or low-risk task.
-8. Confirm how to stop, switch, or archive a session.
+- Replies render as **V2 interactive cards** that update in place while the agent streams; permission requests arrive as tappable card buttons.
+- Group chats and DMs are separate conversation routes; multiple bots in one group each keep their own thread.
 
-## Operational Rules
+### Troubleshooting
 
-- Do not connect broad public rooms before testing a private path.
-- Keep credentials scoped to the minimum required permissions.
-- Record which channel owns which workspace or team workflow.
-- Rotate credentials if a bot token is exposed.
-- Disable unused channel plugins.
+| Symptom | Check |
+|---|---|
+| No incoming messages | Event Configuration uses long connection and includes `im.message.receive_v1` |
+| Card buttons do nothing | Callback Configuration uses long connection and includes `card.action.trigger` |
+| Imported permissions still fail | Publish a new app version; confirm admin approval went through |
+| Long-connection validation fails | Start VibeAround first (the plugin initiates the connection); confirm the machine reaches the matching open-platform domain |
+| Credentials fail to connect | App ID/Secret, developer portal, and API domain must all belong to the same platform (Feishu vs Lark) |
 
-## Troubleshooting
+Official references: [API permissions](https://open.feishu.cn/document/server-docs/application-scope/introduction) · [Events over long connection](https://open.feishu.cn/document/server-docs/event-subscription-guide/event-subscription-configure-/request-url-configuration-case) · [Callbacks over long connection](https://open.feishu.cn/document/event-subscription-guide/callback-subscription/step-1-choose-a-subscription-mode/configure-callback-request-address) · [Receive message event](https://open.larksuite.com/document/uAjLw4CM/ukTMukTMukTM/reference/im-v1/message/events/receive) · [Card interactions](https://open.feishu.cn/document/feishu-cards/configuring-card-interactions)
 
-If messages do not reach a session, check plugin status, credentials, channel permissions, bot membership, command prefix behavior, selected workspace, and whether the local VibeAround runtime is online.
 
-For Feishu/Lark, also check these points:
+Slack runs over Socket Mode — no public callback URL needed. The whole app definition fits in one manifest paste.
 
-- No incoming messages: confirm event configuration uses long connection and includes `im.message.receive_v1`.
-- Card buttons do nothing: confirm callback configuration uses long connection and includes `card.action.trigger`.
-- Imported permissions still fail: publish a new app version and confirm admin approval.
-- Long connection validation fails: start the local VibeAround runtime or channel plugin first, and confirm the machine can reach the matching open-platform domain.
-- Feishu and Lark credentials fail to connect: confirm the App ID / App Secret, developer portal, and API domain all belong to the same platform.
+### Platform setup
+
+1. Create an app at [api.slack.com/apps](https://api.slack.com/apps) via **Create New App → From an app manifest**.
+2. Paste this manifest:
+
+```json
+{
+  "display_information": { "name": "VibeAround" },
+  "features": {
+    "bot_user": { "display_name": "VibeAround", "always_online": true },
+    "slash_commands": [
+      {
+        "command": "/va",
+        "description": "VibeAround command (e.g. /va help, /va switch claude)",
+        "should_escape": false
+      },
+      {
+        "command": "/vibearound",
+        "description": "VibeAround command",
+        "should_escape": false
+      }
+    ]
+  },
+  "oauth_config": {
+    "scopes": {
+      "bot": [
+        "files:read", "app_mentions:read", "chat:write", "commands",
+        "im:history", "im:read", "im:write"
+      ]
+    },
+    "pkce_enabled": false
+  },
+  "settings": {
+    "event_subscriptions": { "bot_events": ["app_mention", "message.im"] },
+    "interactivity": { "is_enabled": true },
+    "org_deploy_enabled": false,
+    "socket_mode_enabled": true,
+    "token_rotation_enabled": false,
+    "is_mcp_enabled": false
+  }
+}
+```
+
+3. Generate an **App-Level Token** (`xapp-…`) with the `connections:write` scope for Socket Mode.
+4. Install the app to your workspace and copy the **Bot User OAuth Token** (`xoxb-…`).
+5. In a channel: invite the app and @mention it. In DMs: just message it.
+
+### Configuration
+
+Required fields: `bot_token` (xoxb) and `app_token` (xapp).
+
+```json
+{
+  "channels": {
+    "slack": {
+      "bot_token": "xoxb-...",
+      "app_token": "xapp-...",
+      "verbose": { "show_thinking": true, "show_tool_use": true }
+    }
+  }
+}
+```
+
+### Behavior
+
+- Slack reserves bare slash commands, so VibeAround commands use the `/va` prefix: `/va new`, `/va switch claude`, `/va status` ([command reference](./remote-messaging-terminal) — every command works behind the prefix).
+- Connection dies immediately? Check that Socket Mode is enabled and `app_token` is the `xapp-` token, not the bot token.
+
+
+Bot token plus two portal switches; the bot answers where it is @mentioned.
+
+### Platform setup
+
+1. Create an application in the [Discord Developer Portal](https://discord.com/developers/applications) and generate a token under **Bot**.
+2. Enable Privileged Gateway Intents: **Message Content Intent** ON (required); Server Members Intent optional.
+3. Under **OAuth2 → URL Generator**, select scope `bot` with permissions `Send Messages`, `Read Message History`, `Embed Links`.
+4. Open the generated invite URL to add the bot to your server.
+
+### Configuration
+
+Required fields: `bot_token`.
+
+```json
+{
+  "channels": {
+    "discord": {
+      "bot_token": "your-discord-bot-token",
+      "verbose": { "show_thinking": true, "show_tool_use": true }
+    }
+  }
+}
+```
+
+### Behavior
+
+- In server channels the bot only responds when **@mentioned**; each channel where it is mentioned becomes its own conversation route.
+- No incoming messages at all? Message Content Intent is the usual culprit.
+
+
+DingTalk uses Stream Mode (WebSocket) — no public callback URL needed.
+
+### Platform setup
+
+1. Create an app at the [DingTalk Open Platform](https://open.dingtalk.com/).
+2. Enable **Stream Mode** in the app settings.
+3. Copy the Client ID and Client Secret.
+4. Grant message-event permissions in the app permission list.
+
+### Configuration
+
+Required fields: `client_id`, `client_secret`.
+
+```json
+{
+  "channels": {
+    "dingtalk": {
+      "client_id": "your-client-id",
+      "client_secret": "your-client-secret",
+      "verbose": { "show_thinking": true, "show_tool_use": true }
+    }
+  }
+}
+```
+
+> Older guides named these fields `app_key` / `app_secret` — the plugin requires `client_id` / `client_secret`.
+
+### Behavior
+
+- Nothing arrives? Stream Mode not enabled is the usual cause.
+
+
+### Platform setup
+
+1. Create a bot in the WeCom admin console.
+2. Copy the bot id and secret.
+
+### Configuration
+
+Required fields: `bot_id`, `secret`.
+
+```json
+{
+  "channels": {
+    "wecom": {
+      "bot_id": "your-bot-id",
+      "secret": "your-bot-secret",
+      "verbose": { "show_thinking": true, "show_tool_use": true }
+    }
+  }
+}
+```
+
+> Older guides named the second field `bot_secret` — the plugin requires `secret`.
+
+
+### Platform setup
+
+1. Create a bot at the [QQ Open Platform](https://q.qq.com/).
+2. Copy the App ID and secret.
+3. Add the bot to the target guild and channels.
+
+### Configuration
+
+Required fields: `app_id`, `secret`.
+
+```json
+{
+  "channels": {
+    "qqbot": {
+      "app_id": "your-app-id",
+      "secret": "your-secret",
+      "verbose": { "show_thinking": false, "show_tool_use": false }
+    }
+  }
+}
+```
+
+> Older guides named the second field `app_token` — the plugin requires `secret`.
+
+### Behavior
+
+- Replies are send-only within QQ guild channels (no in-place streaming edits).
+
+
+WeChat connects through an OpenClaw-compatible bridge with QR login — no credentials in settings.
+
+### Setup
+
+1. Add the config block below (it can be empty apart from `verbose`) and start VibeAround.
+2. The plugin shows a QR code in the terminal or desktop app.
+3. Scan it with the WeChat mobile app.
+
+### Configuration
+
+Required fields: none (authentication happens at runtime via QR).
+
+```json
+{
+  "channels": {
+    "weixin-openclaw-bridge": {
+      "verbose": { "show_thinking": false, "show_tool_use": false }
+    }
+  }
+}
+```
+
+Note the kind id is `weixin-openclaw-bridge`, not `wechat`.
+
+### Behavior
+
+- Replies are plain text and send-only — no streaming edits, no interactive cards (permission requests degrade to text).
+
+
+WhatsApp connects through Baileys (an unofficial WhatsApp Web client) with QR login on first run; the session persists to disk afterwards.
+
+### Setup
+
+1. Add the config block below and start VibeAround.
+2. Scan the QR code shown on first run with the WhatsApp mobile app (Linked devices).
+
+### Configuration
+
+Required fields: none (QR authentication at runtime).
+
+```json
+{
+  "channels": {
+    "whatsapp": {
+      "verbose": { "show_thinking": false, "show_tool_use": false }
+    }
+  }
+}
+```
+
+### Behavior
+
+- Unofficial-client caveat: WhatsApp does not offer an official bot API for this use; treat the connection as best-effort and keep the linked device list tidy.
+
+
+
+---
+
+*Content mirrored from the project's `docs/guides/connect-channels.md` and `docs/guides/channels/`; config fields verified against each plugin's requiredConfig.*
+*Last verified: v0.7.11*

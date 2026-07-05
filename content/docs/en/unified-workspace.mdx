@@ -3,42 +3,83 @@ title: AI Agent Workspace
 description: Manage AI coding agents, sessions, status, workspaces, runtime health, remote entry points, and multi-agent coding workflows from one place.
 ---
 
-The unified workspace is the operating view for local agent work. It brings together sessions, agents, runtime status, channels, tunnels, previews, and workspace selection so users do not have to reconstruct context from separate tools.
+VibeAround's runtime is built around six concepts: **workspace**, **thread**, **route**, **session**, **agent**, and **profile**. Every feature — IM chat, web chat, handover, agent switching — is a combination of these six. This page defines each one and how they relate.
 
-## Workspace Responsibilities
+## The model in one picture
 
-A workspace view should answer:
+```text
+Route (telegram:chat_42) ──attached to──► Thread ──belongs to──► Workspace (~/dev/my-app)
+Route (web:ws_wt_9f3e)   ──attached to──►   │
+                                            │ hosts
+                                            ▼
+                                    Agent process (claude)
+                                       │ launched with
+                                       ▼
+                                    Profile (moonshot)
+                                       │ tracks
+                                       ▼
+                                    Session (CLI-native session id)
+```
 
-- Which agents are available?
-- Which sessions are active, archived, or resumable?
-- Which workspace path is connected to each session?
-- Which provider profile or launch path is being used?
-- Which remote entry points are enabled?
-- Which previews or terminals are open?
-- Which runtime services are healthy?
+## Workspace
 
-## Common Operations
+A workspace is a directory on your machine that agents work in — typically a project checkout. Workspaces are registered explicitly (desktop UI, `va workspace add`, or automatically when a thread needs one) and each gets a stable id. Two defaults exist for conversations that never chose a project: web chats fall back to the **General** workspace, and each IM channel gets `<default_workspace>/im/<channel>` on first contact — so a fresh Telegram chat works in `…/im/telegram` until you `/workspace --switch` it somewhere real.
 
-| Operation | Purpose |
-| --- | --- |
-| Start session | Begin work with a selected agent and workspace. |
-| Continue session | Resume an existing local agent context. |
-| Archive session | Remove inactive work from the main view without deleting all history. |
-| Switch workspace | Move the active control surface to another local project. |
-| Inspect status | Check agents, channels, tunnels, and runtime health. |
-| Handover | Move a live session to another surface. |
+- A workspace contains any number of threads.
+- Deleting or switching a workspace never touches the directory contents; VibeAround only manages its own records.
 
-## Multi-agent Work
+*Details: [workspace module internals](https://github.com/jazzenchen/VibeAround/blob/main/docs/internals/modules/workspace.md) · [`va workspace` commands](https://github.com/jazzenchen/VibeAround/blob/main/docs/reference/cli.md#workspaces-previews-profiles) · [`default_workspace` / `workspaces` settings](https://github.com/jazzenchen/VibeAround/blob/main/docs/reference/configuration.md#settingsjson)*
 
-The workspace model supports running agents side by side. Planned coordination modes such as parallel, team, and roundtable should build on the same primitives: workspace selection, session identity, profile routing, and observable output.
+## Thread
 
-## Healthy Workspace Checklist
+A thread is one conversation with continuity: the unit that owns "what we were talking about". Each thread lives in exactly one workspace and records which agent hosts it, which CLI sessions it has produced, and its open/closed status. Thread state is persisted as an event log, so closed threads remain inspectable and open threads survive a daemon restart.
 
-A healthy workspace has:
+- `/new` in a chat closes the current thread and starts a fresh one.
+- `/close` closes the thread without starting a new one.
+- A thread can host **subagents** — additional agent processes spawned for multi-agent turns — alongside its host agent.
 
-- A clear local path.
-- At least one known agent.
-- Recoverable session records.
-- Visible runtime status.
-- Explicit remote access state.
-- Preview links that are scoped and understandable.
+*Details: [session lifecycle](./session-handover) (open/close rules, restart behavior) · [workspace module internals](https://github.com/jazzenchen/VibeAround/blob/main/docs/internals/modules/workspace.md) · [subagent MCP tools](https://github.com/jazzenchen/VibeAround/blob/main/docs/reference/api-surfaces.md#mcp-tools)*
+
+## Route
+
+A route is a stable address for one conversation path through a channel: the triple *(channel kind, bot id, chat id)* — for example `telegram : mybot : chat_42` or `web : ws_wt_9f3e`. Routes are how inbound messages find their thread: at any moment a route is attached to at most one open thread.
+
+- Multiple routes can attach to the same thread. That is what session handover is: a second route attaching to the thread you started elsewhere.
+- Messages on the same route are processed strictly in order; messages on different routes run in parallel.
+
+*Details: [IM message flow](https://github.com/jazzenchen/VibeAround/blob/main/docs/internals/flows/im-message.md) (how a route resolves) · [channels module internals](https://github.com/jazzenchen/VibeAround/blob/main/docs/internals/modules/channels.md) · [handover flow](https://github.com/jazzenchen/VibeAround/blob/main/docs/internals/flows/handover.md)*
+
+## Agent
+
+An agent is a coding CLI that VibeAround can drive: Claude Code, Codex, Gemini CLI, Cursor, Qwen Code, Kiro, OpenCode, or Pi. VibeAround talks to agents over the [Agent Client Protocol](https://agentclientprotocol.com) (ACP) via each agent's ACP adapter, spawning one agent process per active thread. Desktop-only entries (`claude-desktop`, `codex-desktop`) are launch targets, not ACP runtimes — they open the vendor's desktop app instead.
+
+- The agent hosting a thread can be changed with `/switch host <agent>`; the thread keeps its identity and the new agent takes over.
+- Agent definitions (ACP adapter package, PTY command, resume template, config injection paths) come from a built-in registry.
+
+*Details: [supported agents matrix](./supported-agents) · [agent module internals](https://github.com/jazzenchen/VibeAround/blob/main/docs/internals/modules/agent.md) · [launch subsystem](https://github.com/jazzenchen/VibeAround/blob/main/docs/internals/launch.md) (how agents are started) · [`/switch` command reference](./remote-messaging-terminal)*
+
+## Profile
+
+A model profile is a saved provider configuration: which API endpoint, which credential, which models, and how the built-in bridge should translate between the agent's native API dialect and the provider's. Profiles let one provider subscription serve several different agent CLIs.
+
+- A profile is chosen per launch or per thread host binding; the same thread can be re-hosted under a different profile.
+- The special `direct` profile means "launch the agent with its own vendor login, no bridge involved".
+
+*Details: [model profiles guide](./provider-profiles) (setup) · [provider endpoints reference](./providers) (plans, base URLs, models) · [bridge mechanism](https://github.com/jazzenchen/VibeAround/blob/main/docs/architecture/local-api-and-bridge.md) · [profiles module internals](https://github.com/jazzenchen/VibeAround/blob/main/docs/internals/modules/profiles.md)*
+
+## Session
+
+A session is the agent CLI's own conversation record — the thing `claude --resume <id>` or `codex resume` restores. VibeAround observes session ids as agents create them and stores them on the thread, which is what makes cross-surface continuity work: pick up a terminal session in IM (`/pickup <code>`), resume a native session from the web dashboard, or hand a web session over to your phone.
+
+- Sessions belong to the agent, not to VibeAround. VibeAround tracks and rediscovers them (including sessions created outside VibeAround) but the transcript lives in the agent's own storage.
+
+*Details: [session lifecycle](./session-handover) (what survives what) · [handover flow](https://github.com/jazzenchen/VibeAround/blob/main/docs/internals/flows/handover.md) · [`va launch sessions` commands](https://github.com/jazzenchen/VibeAround/blob/main/docs/reference/cli.md#agents-and-launches)*
+
+## How the pieces work together
+
+A message arrives on a route. The route resolves to its attached open thread (creating a thread in a default workspace on first contact). The thread ensures its host agent process is running — launched in the workspace directory, with the bound profile's credentials materialized — and ensures an agent session exists. The prompt is forwarded over ACP; output streams back along every route attached to the thread. After ten idle minutes the agent process is shut down to save resources; the thread stays open and the next message transparently respawns the agent and resumes the session.
+
+---
+
+*Source anchors: `src/core/src/routing.rs` (RouteKey), `src/core/src/workspace/` (workspaces, threads, attachments), `src/core/src/resources.rs` + `src/resources/agents.json` (agent registry), `src/core/src/profiles/` (profiles), `src/core/src/workspace/manager.rs` (AGENT_HOST_IDLE_SHUTDOWN_DELAY).*
+*Last verified: v0.7.11*

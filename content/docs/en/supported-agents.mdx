@@ -3,35 +3,80 @@ title: Supported AI Agents
 description: Agent families represented in the VibeAround launch and continuation model.
 ---
 
-VibeAround is designed to coordinate several agent families rather than force all work into one agent. Support level differs by launch method, continuation behavior, and profile routing.
+Which coding agents, IM channels, and model providers VibeAround supports, and what each combination can do. Ids in the tables are the values you use in `settings.json`, slash commands, and CLI flags.
 
-## Agent Matrix
+## Coding agents
 
-| Agent | Launch | Continue / handover | Profile routing |
-| --- | ---: | ---: | ---: |
-| Claude Code | Supported | Supported | Supported |
-| Claude Desktop | Supported | Not applicable | Supported |
-| Codex CLI | Supported | Supported | Supported |
-| Codex Desktop | Supported | Not applicable | Supported |
-| Pi | Supported | Supported | Supported |
-| Gemini CLI | Supported | Supported | Supported |
-| OpenCode | Supported | Partial | Supported |
-| Cursor CLI | Direct launch | Supported | Limited or planned |
-| Kiro CLI | Direct launch | Supported | Limited or planned |
-| Qwen Code | Direct launch | Supported | Limited or planned |
+VibeAround drives agents over the Agent Client Protocol (ACP). Every hosted agent supports the full conversation flow: prompting, streaming output, permission requests, and cancellation.
 
-## Support Terms
+| Agent id | Product | Hosted (IM / web chat) | Session resume | Notes / aliases |
+|---|---|---|---|---|
+| `claude` | Claude Code | Yes | Yes | `claude-code` |
+| `codex` | Codex CLI | Yes | Yes | `openai-codex` |
+| `gemini` | Gemini CLI | Yes | Yes | `gemini-cli` |
+| `cursor` | Cursor CLI | Yes | Yes | — |
+| `qwen-code` | Qwen Code | Yes | Yes | `qwen` |
+| `opencode` | Opencode | Yes | Yes | `open-code` |
+| `pi` | Pi | Yes | Yes | `pi-agent`, `pi-coding-agent` |
+| `kiro` | Kiro CLI | Yes | No resume template yet | `kiro-cli` |
+| `claude-desktop` | Claude Desktop | **Launch target only** | — | Opens the desktop app; not an ACP runtime |
+| `codex-desktop` | Codex Desktop | **Launch target only** | — | Opens the desktop app; not an ACP runtime |
 
-- Supported: VibeAround has a first-class path for this capability.
-- Partial: the capability works with limitations that should be verified for the specific workflow.
-- Direct launch: VibeAround can start or reach the agent, but deeper profile integration may be limited.
-- Not applicable: the agent type does not use that capability in the same way, usually because it is a desktop app rather than a resumable CLI session.
+"Session resume" means VibeAround can restore the agent's own CLI session across idle shutdowns, daemon restarts, and handovers.
 
-## How To Choose An Agent
+## IM channels
 
-Choose the agent based on the task, not only on availability:
+Channels are plugins (separate npm packages); the web chat and TUI are built-in surfaces that use the same routing. All channels support the core flow: prompts, streamed replies, slash commands, and permission cards.
 
-- Use an agent you already trust for file-editing tasks.
-- Use a second agent for review, diagnosis, or alternate implementation ideas.
-- Use desktop agents when their native UI matters.
-- Use CLI agents when terminal continuity, handover, and Web Terminal workflows matter.
+| Channel | Kind id | Delivered as | Repository |
+|---|---|---|---|
+| Telegram | `telegram` | Plugin | [va-plugin-channel-telegram](https://github.com/jazzenchen/va-plugin-channel-telegram) |
+| Slack | `slack` | Plugin | [va-plugin-channel-slack](https://github.com/jazzenchen/va-plugin-channel-slack) |
+| Feishu / Lark | `feishu` | Plugin (interactive cards use the V2 card schema) | [va-plugin-channel-feishu](https://github.com/jazzenchen/va-plugin-channel-feishu) |
+| Discord | `discord` | Plugin | [va-plugin-channel-discord](https://github.com/jazzenchen/va-plugin-channel-discord) |
+| WeChat | `weixin-openclaw-bridge` | Plugin | [va-plugin-channel-weixin-openclaw-bridge](https://github.com/jazzenchen/va-plugin-channel-weixin-openclaw-bridge) |
+| WhatsApp | `whatsapp` | Plugin | [va-plugin-channel-whatsapp](https://github.com/jazzenchen/va-plugin-channel-whatsapp) |
+| DingTalk | `dingtalk` | Plugin | [va-plugin-channel-dingtalk](https://github.com/jazzenchen/va-plugin-channel-dingtalk) |
+| WeCom (企业微信) | `wecom` | Plugin | [va-plugin-channel-wecom](https://github.com/jazzenchen/va-plugin-channel-wecom) |
+| QQ Bot | `qqbot` | Plugin | [va-plugin-channel-qqbot](https://github.com/jazzenchen/va-plugin-channel-qqbot) |
+| Web chat | `web` | Built-in (dashboard) | — |
+| TUI chat | `tui` | Built-in (`vibearound tui`) | — |
+
+Per-channel setup pages (platform steps + verified config blocks) live under [guides/channels/](./channels); configuration lives under `channels.<kind>` in `settings.json`.
+
+## Model providers (profile catalog)
+
+The built-in catalog ships endpoint and model definitions for these providers. Each endpoint declares which API dialects it serves — the bridge translates whenever your agent's dialect differs (see [Local API and bridge](https://github.com/jazzenchen/VibeAround/blob/main/docs/architecture/local-api-and-bridge.md)).
+
+| Provider id | Label | Upstream dialects available | Notes |
+|---|---|---|---|
+| `moonshot` | Kimi / Moonshot | openai-chat, anthropic | Global + CN endpoints, Kimi coding plan |
+| `dashscope` | Alibaba DashScope | anthropic, openai-responses, openai-chat | CN endpoints, coding/token plans |
+| `deepseek` | DeepSeek | anthropic, openai-chat | Dedicated translation adapter |
+| `openrouter` | OpenRouter | openai-chat | — |
+| `minimax` | MiniMax | anthropic, openai-chat, openai-responses | Global + CN, token plans |
+| `mimo` | Xiaomi MiMo | openai-chat, anthropic | Pay-as-you-go + CN token plan |
+| `volcengine` | Volcengine | anthropic, openai-responses, openai-chat | Ark API, coding/agent plans |
+| `zai` | Z.AI / GLM | openai-chat, anthropic | Global + CN, coding plans |
+| `gemini` | Google Gemini / Vertex AI | gemini, openai-chat | Gemini API + Vertex-compatible |
+| `xai` | xAI / Grok | openai-responses, openai-chat | — |
+| `nvidia` | NVIDIA NIM | openai-chat | — |
+| `azure` | Azure OpenAI | openai-responses | Custom deployment fields |
+
+A **custom** profile (any OpenAI/Anthropic/Gemini-compatible endpoint) is always available beyond the catalog, and the `direct` profile launches an agent with its own vendor login and no bridge.
+
+Plan-by-plan detail — endpoint groups, regions, base URLs, model sets, and which credential each plan expects — is in the [provider endpoints reference](./providers).
+
+## Platforms
+
+| Platform | Desktop app | Standalone server / CLI |
+|---|---|---|
+| macOS Apple Silicon | Packaged (DMG) | Yes |
+| macOS Intel | Source build | Yes |
+| Windows x64 | Packaged (EXE/MSI/portable) | Yes |
+| Linux x64 | Packaged (AppImage/deb); terminal launch depends on desktop environment | Yes |
+
+---
+
+*Source anchors: `src/resources/agents.json` (agent registry — ids, aliases, direct_only, resume templates), `src/resources/plugins.json` (channel plugin registry — kind ids and repositories), `src/resources/profile-catalog/` (provider endpoints and dialects), `src/server/src/lib.rs` (built-in web/tui channels), `README.md` (packaging status).*
+*Last verified: v0.7.11*

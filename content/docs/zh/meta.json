@@ -3,8 +3,8 @@
   "pages": [
     "index",
     "---开始---",
-    "quick-start",
     "installation",
+    "quick-start",
     "command-line",
     "download",
     "migration-0-6",

@@ -56,17 +56,17 @@ Every channel has a dedicated setup page with platform-side steps and a code-ver
 
 | Channel | Setup page |
 |---|---|
-| Telegram | [channels/telegram](./channels) |
-| Feishu / Lark | [channels/feishu](./channels) — permission JSON, long-connection subscriptions |
-| Slack | [channels/slack](./channels) — one-paste app manifest, Socket Mode |
-| Discord | [channels/discord](./channels) |
-| DingTalk | [channels/dingtalk](./channels) |
-| WeCom | [channels/wecom](./channels) |
-| QQ Bot | [channels/qqbot](./channels) |
-| WeChat | [channels/wechat](./channels) — QR login |
-| WhatsApp | [channels/whatsapp](./channels) — QR login |
+| Telegram | [channels/telegram](/docs/channels) |
+| Feishu / Lark | [channels/feishu](/docs/channels) — permission JSON, long-connection subscriptions |
+| Slack | [channels/slack](/docs/channels) — one-paste app manifest, Socket Mode |
+| Discord | [channels/discord](/docs/channels) |
+| DingTalk | [channels/dingtalk](/docs/channels) |
+| WeCom | [channels/wecom](/docs/channels) |
+| QQ Bot | [channels/qqbot](/docs/channels) |
+| WeChat | [channels/wechat](/docs/channels) — QR login |
+| WhatsApp | [channels/whatsapp](/docs/channels) — QR login |
 
-Kind ids and repository links are also in the [supported matrix](./supported-agents). Each plugin README additionally documents:
+Kind ids and repository links are also in the [supported matrix](/docs/supported-agents). Each plugin README additionally documents:
 
 - how to create the bot and obtain credentials,
 - required platform permissions/scopes,
@@ -119,7 +119,7 @@ Required fields: `bot_token`.
 }
 ```
 
-Apply with `va channel sync` ([the pattern](./channels)). The optional `verbose` object works on every channel: `show_thinking` and `show_tool_use` (both default `false`) include the agent's thinking and tool-use blocks in chat output.
+Apply with `va channel sync` ([the pattern](/docs/channels)). The optional `verbose` object works on every channel: `show_thinking` and `show_tool_use` (both default `false`) include the agent's thinking and tool-use blocks in chat output.
 
 
 Feishu and Lark share one open-platform model, but the portal and API domain must match your tenant: mainland Feishu uses the [Feishu Open Platform](https://open.feishu.cn/) (`open.feishu.cn`); overseas Lark uses [Lark Developer](https://open.larksuite.com/) (`open.larksuite.com`). Keep the app, its permissions, event/callback subscriptions, and the credentials you paste into VibeAround **all on the same platform** — a Feishu app against the Lark domain (or the reverse) fails to connect.
@@ -270,7 +270,7 @@ Required fields: `bot_token` (xoxb) and `app_token` (xapp).
 
 ### Behavior
 
-- Slack reserves bare slash commands, so VibeAround commands use the `/va` prefix: `/va new`, `/va switch claude`, `/va status` ([command reference](./remote-messaging-terminal) — every command works behind the prefix).
+- Slack reserves bare slash commands, so VibeAround commands use the `/va` prefix: `/va new`, `/va switch claude`, `/va status` ([command reference](/docs/remote-messaging-terminal) — every command works behind the prefix).
 - Connection dies immediately? Check that Socket Mode is enabled and `app_token` is the `xapp-` token, not the bot token.
 
 
@@ -447,5 +447,4 @@ Required fields: none (QR authentication at runtime).
 
 ---
 
-*Content mirrored from the project's `docs/guides/connect-channels.md` and `docs/guides/channels/`; config fields verified against each plugin's requiredConfig.*
 *Last verified: v0.7.11*

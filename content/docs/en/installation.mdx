@@ -15,7 +15,7 @@ Download the package for your platform from the [GitHub releases page](https://g
 | Windows x64 | Setup EXE, MSI, or portable ZIP |
 | Linux x64 | AppImage or deb |
 
-macOS Intel is currently source-build only — see [Build from source](./develop-locally).
+macOS Intel is currently source-build only — see [Build from source](/docs/develop-locally).
 
 Install and launch. The app lives in the tray/menu bar; closing the window does not stop the daemon.
 
@@ -26,9 +26,9 @@ The desktop app walks you through setup on first launch:
 1. **Toolchain check.** VibeAround needs Node.js for agent ACP adapters and channel plugins. Onboarding detects your system toolchain, or installs a managed one if you prefer not to touch the system (`toolchain` setting: `system` or `managed`).
 2. **Agent detection.** Installed agent CLIs (Claude Code, Codex, Gemini CLI, …) are detected on PATH; you choose which to enable. Agents you enable get VibeAround's MCP endpoint and skills injected into their global config so hosted sessions have the integration tools available.
 3. **Model profiles (optional).** Add a provider credential now, or skip and use agents with their own vendor logins (the `direct` profile).
-4. **Channels (optional).** Install and configure IM channel plugins. Each channel needs platform-side setup (bot tokens etc.) covered in [Connect channels](./channels); you can do this any time later.
+4. **Channels (optional).** Install and configure IM channel plugins. Each channel needs platform-side setup (bot tokens etc.) covered in [Connect channels](/docs/channels); you can do this any time later.
 
-After onboarding, the dashboard opens in your browser, already authenticated. You are ready for the [Quick tour](./quick-start).
+After onboarding, the dashboard opens in your browser, already authenticated. You are ready for the [Quick tour](/docs/quick-start).
 
 ## Option 2: npm CLI
 

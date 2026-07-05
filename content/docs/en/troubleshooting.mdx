@@ -42,7 +42,7 @@ The thread was closed (by `/close`, or auto-closed after an unrecoverable agent 
 Stop the turn (stop button / plugin stop), check `/status`. If the agent process crashed, the next prompt spawns a fresh one and resumes the session. Persistent failures right at spawn usually mean the agent CLI is missing or needs login — try launching it manually once.
 
 **`/switch` to another agent lost my context.**
-Expected: switching to a different agent creates a new thread with a fresh session — context does not carry between agent products. The old conversation is still there: `/session` lists it, `/session --switch <id>` re-attaches it. Switching only the profile (same agent) keeps the session. See [Session lifecycle](./session-handover).
+Expected: switching to a different agent creates a new thread with a fresh session — context does not carry between agent products. The old conversation is still there: `/session` lists it, `/session --switch <id>` re-attaches it. Switching only the profile (same agent) keeps the session. See [Session lifecycle](/docs/session-handover).
 
 **Authentication required errors from an agent.**
 The agent CLI itself needs a vendor login (`claude login`, etc.) — VibeAround hosts it but cannot log in for you. The thread auto-closes on this error; log in in a terminal, then `/new`.
@@ -59,16 +59,16 @@ Codes are one-shot and short-lived — issue a fresh one and use it immediately.
 `va launch sessions` shows what discovery sees. The session must belong to the same agent and workspace the chat is bound to; archived sessions are hidden (unarchive with `va launch unarchive`).
 
 **A preview share link stopped working after a few minutes.**
-Share links expire after 600 seconds by design. Re-share, or use the owner link where you are authenticated. See [Security model](./local-security).
+Share links expire after 600 seconds by design. Re-share, or use the owner link where you are authenticated. See [Security model](/docs/local-security).
 
 ## Models and profiles
 
 **The agent rejects the model name.**
-Use the profile's alias model id (agents often validate model names against their vendor's list). The [Model profiles guide](./provider-profiles) has a fuller table for 401s, capability mismatches, and rate limits.
+Use the profile's alias model id (agents often validate model names against their vendor's list). The [Model profiles guide](/docs/provider-profiles) has a fuller table for 401s, capability mismatches, and rate limits.
 
 ## Platform quirks
 
-- **macOS Intel:** source-build only for the desktop app ([Build from source](./develop-locally)).
+- **macOS Intel:** source-build only for the desktop app ([Build from source](/docs/develop-locally)).
 - **Linux terminal launch** depends on your desktop environment; VibeAround tries `xdg-terminal-exec`, `x-terminal-emulator`, and common terminals (GNOME Terminal, Konsole, XFCE Terminal, xterm, Kitty, Alacritty, WezTerm).
 - **Windows restart flakiness** ("port busy" right after restart) is retried automatically; if it persists, an old process is genuinely alive.
 

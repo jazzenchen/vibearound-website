@@ -1,45 +1,48 @@
 ---
 title: Why VibeAround
-description: The problem VibeAround solves for local-first AI coding work.
+description: The problem VibeAround solves for local AI coding work.
 ---
 
-AI coding work is no longer a single terminal session. A real workflow may involve several agents, model providers, local repositories, desktop apps, browser previews, mobile check-ins, messaging channels, and generated artifacts. Without a shared control layer, each tool becomes its own small island.
+VibeAround turns the AI coding agents installed on your machine into something you can reach from anywhere: an IM chat on your phone, a browser tab, a desktop control app, or a terminal on another computer. The agents, the code, and the credentials never leave your machine — VibeAround adds the doors.
 
-VibeAround exists to keep that work connected while preserving the local development environment.
+## The problem it solves
 
-## Core Problem
+Coding agents like Claude Code and Codex are terminal programs. That is great while you sit at the keyboard, and useless the moment you step away. Real work does not stop when you leave the desk:
 
-Developers often need to answer these questions repeatedly:
+- The agent asks for permission to run a command five minutes after you left.
+- A long refactor finishes and you want to review and reply from your phone.
+- You started debugging in a terminal and want to continue from the sofa in a chat window.
+- You want to share a running dev server with a teammate for a minute, not deploy it.
 
-- Which agent should handle this task?
-- Which model or provider profile should the agent use?
-- Which workspace should the session run in?
-- Where is the previous session?
-- How can I continue when I leave the desk?
-- How can I preview what the agent built?
-- What is exposed remotely, and what remains local?
+VibeAround runs a local daemon that hosts your agents and exposes them through every surface you already use, with one consistent conversation model underneath.
 
-VibeAround turns those questions into explicit workspace operations.
+## What you can do with it
 
-## Product Principles
+**Chat with your local agent from any IM.** Connect Telegram, Slack, Feishu, Discord, WeChat, DingTalk, WeCom, or QQ Bot. The full coding flow works in chat: the agent writes code, runs commands, asks for permissions with tappable buttons, and streams results back — into a group or a private chat.
 
-VibeAround follows four product principles:
+**Keep one conversation across surfaces.** Start in a terminal, run `/handover`, and type `/pickup <code>` in any connected IM to continue with full context. Web chats can be picked up on a phone the same way. Continuity works because VibeAround tracks the agent's own session ids, not chat transcripts.
 
-1. Keep execution close to the user's machine.
-2. Let users choose their agents and model providers.
-3. Preserve session continuity across surfaces.
-4. Make remote access explicit and controllable.
+**Use one model subscription across many CLIs.** Model profiles plus the built-in API bridge let a single provider account (Moonshot/Kimi, DeepSeek, OpenRouter, MiniMax, Z.AI/GLM, Gemini, Azure OpenAI, xAI, and others) power Claude Code, Codex, Gemini CLI, and any OpenAI-compatible client — including protocol translation between API dialects.
 
-## What VibeAround Is Not
+**Operate everything from a browser.** The web dashboard serves a real terminal (xterm over WebSocket), a web chat with permission cards, live previews of dev servers, and rendered Markdown previews — locally by default, or anywhere through a built-in tunnel (ngrok, localtunnel, or Cloudflare) protected by pairing codes.
 
-VibeAround is not a hosted cloud IDE. It does not require moving a repository into a cloud workspace. It does not replace agent CLIs or model providers. It coordinates local sessions and makes them reachable through the interfaces the user chooses.
+**Launch agents your way.** The desktop app and `va launch` open agent CLIs in your own terminal with a saved profile: credentials materialized, model routing configured, project integrations installed.
 
-## When It Helps Most
+**Run multiple agents at once.** Claude on Telegram and Codex on Slack simultaneously, each with independent threads and workspaces. Agents can also spawn parallel subagents for multi-agent turns inside one thread.
 
-VibeAround is most useful when:
+## What it is not
 
-- You use more than one coding agent.
-- You switch between model providers or API shapes.
-- You need local files, terminals, package caches, credentials, or dev servers.
-- You want to continue a session from a browser, phone, or messaging app.
-- You want previews without publishing work to a separate hosting environment.
+- **Not a cloud service.** There is no VibeAround server-side; the daemon, agents, credentials, and code stay on your machine. Tunnels are opt-in and pairing-protected.
+- **Not another coding agent.** VibeAround does not compete with Claude Code or Codex; it hosts and routes the agents you already have, over the open Agent Client Protocol.
+- **Not a chat proxy to a model API.** Conversations go through real agent CLIs with their own tools, context management, and session storage — the same agent you would run by hand, reachable from more places.
+
+## The shape of the system
+
+A Rust daemon (`vibearound-server`) owns the runtime: channel plugins, workspace threads, agent processes, the API bridge, previews, and tunnels. The desktop app (Tauri) embeds that daemon and adds GUI management. The web dashboard, the IM plugins, the TUI, and the `va` CLI are all clients of the same daemon — which is why a conversation can move between them without losing its place.
+
+Continue with [Concepts](/docs/unified-workspace) for the six-term vocabulary the rest of the docs use, or [How it works](/docs/architecture) for the message flow.
+
+---
+
+*Source anchors: `README.md` (positioning), `src/server/src/lib.rs` (daemon composition), `src/resources/agents.json` (agent registry), `src/resources/profile-catalog/` (providers).*
+*Last verified: v0.7.11*

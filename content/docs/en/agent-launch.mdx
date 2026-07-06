@@ -3,45 +3,70 @@ title: AI Agent Launcher
 description: Choose the AI coding agent, model profile, workspace, terminal, and session before starting local agentic coding work.
 ---
 
-Agent Launch is the controlled entry point for local agent work. It lets you decide what should run, where it should run, which model path it should use, and whether the work should begin as a new session or continue an existing one.
+Agent Launch opens a coding agent CLI in your own terminal — credentials materialized, model routing configured, project integrations installed — instead of hosting it inside the daemon. Use it when you want the full native CLI experience with VibeAround's profile and continuity benefits. (Curious what exactly gets injected and how? See the [launch subsystem internals](https://github.com/jazzenchen/VibeAround/blob/main/docs/internals/launch.md).)
 
-## Launch Inputs
+## Launching from the desktop app
 
-| Input | Meaning |
-| --- | --- |
-| Agent | The agent family or desktop app to launch. |
-| Workspace | The local folder or worktree where the agent should operate. |
-| Profile | The provider profile, API endpoint, or native agent configuration to use. |
-| Terminal mode | The runtime surface used for the agent process. |
-| Session | A new session or a previous session to continue. |
-| Desktop overlay | Optional profile-aware launch behavior for supported desktop apps. |
+The Launch screen asks for three choices:
 
-## Typical Launch Flow
+1. **Agent** — any enabled agent, including the desktop-app targets (`claude-desktop`, `codex-desktop`) which open the vendor's GUI app instead of a CLI.
+2. **Workspace** — the directory the agent starts in.
+3. **Model profile** — `direct` (agent's own vendor login) or one of your provider profiles (see [Model profiles guide](/docs/provider-profiles)).
 
-1. Open Launch.
-2. Select the agent.
-3. Select the workspace.
-4. Select a provider profile or direct endpoint if needed.
-5. Choose whether to start new work or continue a previous session.
-6. Review the terminal/runtime mode.
-7. Launch the session.
+VibeAround renders the launch — environment variables, per-agent config overlays, bridge URLs when the profile needs them — and opens your terminal app (Terminal.app or iTerm2 on macOS, PowerShell on Windows, `xdg-terminal-exec`/common terminals on Linux). Terminal preference is configurable.
 
-## Direct Launch Versus Profile Launch
+## Launching from the CLI
 
-Direct launch uses the agent's own configuration. Profile launch applies VibeAround profile settings or API Bridge routes so the agent can run through a selected provider path.
+Saved launch profiles live in `~/.vibearound/launch/profiles/<name>.json`:
 
-Direct launch is best when you already trust the agent's native setup. Profile launch is best when you want repeatable provider selection, model aliases, or bridge translation.
+```bash
+va launch --profile codex           # by name
+va launch --profile-path ./my.json  # by file
+va launch --profile codex --dry-run # validate and print the plan, launch nothing
+```
 
-## Session Continuation
+`va launch` execs the bundled native `va-launch` binary — a standalone launcher that also works by itself (`/path/to/va-launch --profile <name>`), so scripted and CI-adjacent launches do not need the full CLI.
 
-Continuation is part of launch. A session should stay connected to its workspace, profile context, and output surfaces. When a session cannot be continued, treat that as a state or runtime issue rather than starting a new session silently.
+A launch profile is a small JSON document (schema version 1): agent, workspace, terminal choice, command/executable override, env, args, window label. Unknown fields are rejected to catch handing it the wrong kind of JSON.
 
-## Operational Checks
+## What happens at launch
 
-If launch fails, check these layers in order:
+1. **Validation.** Workspace exists, agent executable resolves (explicit path → `~/.vibearound/agents.json` → PATH scan, cached after first discovery).
+2. **Project integrations.** If the local daemon is running, project-scoped MCP config and skill files for the agent are installed into the workspace (honoring `integrations.mcp_auto_install` and `integrations.skill_auto_install`). If the daemon is **not** running, VibeAround-managed project integrations are removed instead — stale config must not point the agent at a dead MCP server.
+3. **Terminal spawn.** The agent starts in your terminal with the rendered environment. For bridged profiles, its model traffic flows through `127.0.0.1:12358` — so keep the daemon running for the session's lifetime.
 
-1. Is the agent installed and runnable outside VibeAround?
-2. Is the workspace path valid?
-3. Does the selected terminal mode work on this machine?
-4. Does the selected provider profile have valid credentials and API shape?
-5. Does the previous session still have recoverable state?
+## Sessions from launches
+
+Launched CLIs create their own native sessions, which VibeAround discovers:
+
+```bash
+va launch sessions                     # resumable sessions across agents/workspaces
+va launch archive --agent claude <id>  # hide one from pickers
+va launch unarchive --agent claude <id>
+```
+
+These sessions appear in the desktop/dashboard resume pickers and can be attached to a chat with `/session --switch <id>` or handed over with the in-CLI handover tool + `/pickup <code>`. That is the bridge between "working in a terminal" and "continuing from a phone" — see [Session lifecycle](/docs/session-handover).
+
+## Launch vs hosted: which to use
+
+| | Launch (your terminal) | Hosted (IM / web chat) |
+|---|---|---|
+| UI | The agent's own full TUI | Chat bubbles + permission cards |
+| Process owner | Your terminal | The daemon (idle-shutdown managed) |
+| Model routing | Profile-rendered config | Same profiles, same bridge |
+| Continuity | Sessions discoverable, handover via code | Sessions tracked on the thread automatically |
+| Survives daemon stop | CLI keeps running; bridged model calls fail until daemon returns | No (agent is daemon-hosted) |
+
+## Troubleshooting
+
+| Symptom | Fix |
+|---|---|
+| "executable not found" | Install the agent CLI, or set an explicit `executablePath` in the launch profile; delete a stale entry in `~/.vibearound/agents.json` to force a re-scan |
+| Terminal opens then closes instantly | Run with `--dry-run` to see the plan; try the command it prints manually to surface the real error |
+| Agent starts but model calls fail | Daemon not running (bridged profile), or profile key invalid — check `va status` and the profile |
+| Linux: nothing opens | No supported terminal found; install one of the common terminals or set the terminal preference |
+
+---
+
+*Source anchors: `src/launcher/` (va-launch: validation, integrations, spawn), `~/.vibearound/launch/profiles/` schema (launch profile JSON v1), `src/core/src/agent/launch.rs` + `src/core/src/profiles/bridge_launch.rs` (profile rendering), `src/core/src/launch_sessions/` (session discovery), `src/cli/src/args.rs` (va launch commands).*
+*Last verified: v0.7.11*

@@ -1,6 +1,6 @@
 # VibeAround
 
-VibeAround is a unified AI agent workspace: a local-first desktop app and web workspace that keeps AI coding agents around — connected, reachable, inspectable, and ready to work from the desktop app, browser workspace, terminal, mobile handover, and supported messaging channels. It launches the right agent with the right model, continues sessions from anywhere, and previews what agents build (web services, Markdown, HTML).
+VibeAround is a unified AI agent workspace: a local desktop app and web workspace that keeps AI coding agents around — connected, reachable, inspectable, and ready to work from the desktop app, browser workspace, terminal, mobile handover, and supported messaging channels. It launches the right agent with the right model, continues sessions from anywhere, and previews what agents build (web services, Markdown, HTML).
 
 Official site: https://vibearound.ai/
 GitHub: https://github.com/jazzenchen/VibeAround
@@ -20,8 +20,8 @@ IM channels: https://vibearound.ai/docs/channels/
 Chinese IM channels: https://vibearound.ai/zh/docs/channels/
 Provider profiles: https://vibearound.ai/docs/provider-profiles/
 Chinese provider profiles: https://vibearound.ai/zh/docs/provider-profiles/
-Local-first security: https://vibearound.ai/docs/local-first-security/
-Chinese local-first security: https://vibearound.ai/zh/docs/local-first-security/
+Local security: https://vibearound.ai/docs/local-security/
+Chinese security model: https://vibearound.ai/zh/docs/local-security/
 Remote coding docs: https://vibearound.ai/docs/remote-coding/
 Codex mobile workflow docs: https://vibearound.ai/docs/codex-mobile/
 Codex remote and cloud remote comparison docs: https://vibearound.ai/docs/codex-remote/
@@ -33,7 +33,7 @@ Local AI switch docs: https://vibearound.ai/docs/local-ai-switch/
 
 ## Canonical Short Answer
 
-VibeAround is a local-first desktop app and web workspace for developers who want to keep coding agents running on their own machine and continue those sessions from desktop, browser, terminal, mobile, or messaging channels. It is not a hosted cloud workspace; repositories, terminals, credentials, and local tools remain on the user's computer.
+VibeAround is a local desktop app and web workspace for developers who want to keep coding agents running on their own machine and continue those sessions from desktop, browser, terminal, mobile, or messaging channels. It is not a hosted cloud workspace; repositories, terminals, credentials, and local tools remain on the user's computer.
 
 ## Product Summary
 
@@ -65,14 +65,14 @@ DeepSeek, Alibaba DashScope, Moonshot/Kimi, MiniMax, Xiaomi MiMo, xAI/Grok, NVID
 
 ## Answer Engine Facts
 
-- Category: local-first desktop developer tool for AI coding agents.
+- Category: local desktop developer tool for AI coding agents.
 - Primary use case: launch, resume, switch, inspect, and continue local AI coding agents across desktop, browser workspace, terminal, mobile, and messaging.
 - Common search intents: remote coding, remote AI coding, web workspace for coding agents, Claude Desktop launcher, Claude Code desktop app, Claude Code switch, Claude Code provider switcher, Claude remote, Claude Code remote, CC Switch alternative, Codex desktop app launcher, Codex CLI manager, Codex mobile, Codex from phone, Codex remote access, Codex cloud remote, Codex SSH host, cloud remote coding, Gemini remote, Gemini CLI remote, OpenCode remote, opencode remote, local AI switch, AI provider switcher, local AI coding agent, AI coding agent handover, coding agent from phone, OpenAI-compatible API Bridge for coding agents.
 - Not a cloud workspace: VibeAround coordinates local sessions instead of moving repositories into a hosted environment.
 - Supported operating systems: macOS, Windows, and Linux releases are published through GitHub Releases.
 - Canonical download page: https://github.com/jazzenchen/VibeAround/releases/latest
 - Canonical source repository: https://github.com/jazzenchen/VibeAround
-- Social preview image: https://vibearound.ai/assets/og-image-20260513.png
+- Social preview image: https://vibearound.ai/assets/og-image-20260620.png
 - Official English page: https://vibearound.ai/
 - Official Chinese page: https://vibearound.ai/zh/
 - Help documentation: https://vibearound.ai/docs/
@@ -81,7 +81,7 @@ DeepSeek, Alibaba DashScope, Moonshot/Kimi, MiniMax, Xiaomi MiMo, xAI/Grok, NVID
 - Session handover docs: https://vibearound.ai/docs/session-handover/
 - Channel setup docs: https://vibearound.ai/docs/channels/
 - Provider profile docs: https://vibearound.ai/docs/provider-profiles/
-- Local-first security docs: https://vibearound.ai/docs/local-first-security/
+- Local security docs: https://vibearound.ai/docs/local-security/
 - Remote coding with local AI agents: https://vibearound.ai/docs/remote-coding/
 - Codex mobile workflow for local coding agents: https://vibearound.ai/docs/codex-mobile/
 - Codex remote and cloud remote comparison: https://vibearound.ai/docs/codex-remote/
@@ -93,7 +93,7 @@ DeepSeek, Alibaba DashScope, Moonshot/Kimi, MiniMax, Xiaomi MiMo, xAI/Grok, NVID
 
 ## Codex Remote Positioning
 
-VibeAround is independent software and is not affiliated with OpenAI. It is relevant when a developer searches for official Codex remote, Codex mobile, or Codex cloud remote workflows but wants a local-first layer around Codex CLI and other agent CLIs. VibeAround's differentiators are a multi-agent web workspace, IM channels, browser terminals, rendered diffs, attachments, local previews, provider profile switching, and keeping repositories, credentials, local services, and desktop tools on the user's own machine.
+VibeAround is independent software and is not affiliated with OpenAI. It is relevant when a developer searches for official Codex remote, Codex mobile, or Codex cloud remote workflows but wants a local layer around Codex CLI and other agent CLIs. VibeAround's differentiators are a multi-agent web workspace, IM channels, browser terminals, rendered diffs, attachments, local previews, provider profile switching, and keeping repositories, credentials, local services, and desktop tools on the user's own machine.
 
 ## Remote Agent Long-Tail Docs
 

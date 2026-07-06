@@ -3,43 +3,81 @@ title: Develop Locally
 description: Local development entry points for the main VibeAround app and this documentation website.
 ---
 
-This page is for maintainers. It separates the main app repository from the documentation website repository so changes can be made without touching the wrong project.
+Build any part of VibeAround — the standalone server, the CLI tools, or the full desktop app — from a checkout. This is the supported path for macOS Intel and for development.
 
-## Main App Repository
+## Prerequisites
 
-The main VibeAround app lives outside this website repository. It is a Rust/Tauri monorepo with React/Vite frontends for the desktop UI and web dashboard.
+- **Rust** (stable toolchain) — the workspace has seven crates
+- **Bun** — drives the JS builds and workspace scripts
+- **Node.js** — runtime for channel plugins and agent ACP adapters
+- **Tauri system dependencies** — only for the desktop app ([Tauri prerequisites](https://tauri.app/start/prerequisites/) per platform: Xcode CLT on macOS, MSVC on Windows, webkit2gtk on Linux)
 
-Typical app development involves:
+All build commands below run from `src/` in the repository.
 
-- Bun workspaces for frontend packages.
-- Cargo for Rust crates.
-- Desktop UI and web dashboard development.
-- Runtime services, plugins, channels, bridge integration, and release packaging.
-
-Do not edit the main app repository when the task is only website or documentation work.
-
-## Website Repository
-
-The website now uses Next.js static export with Tailwind CSS, shadcn-style UI components, and Fumadocs for documentation content.
+## Standalone server + dashboard
 
 ```bash
-npm install
-npm run dev
-npm run build
-npm run preview
+bun install
+bun run web:build        # dashboard SPA → web/dist
+cargo build --release -p server
 ```
 
-`npm run dev` starts the local Next development server. `npm run build` produces the static export used by Cloudflare Pages. `npm run preview` builds and serves the exported output through Wrangler Pages dev.
+Run it with the built dashboard:
 
-## Documentation Content
+```bash
+cargo run --release -p server    # binds 127.0.0.1:12358
+```
 
-Docs live in:
+## CLI, TUI, and launcher
 
-- `content/docs/en`
-- `content/docs/zh`
+```bash
+bun run va:build         # cargo build -p va-cli -p va-tui -p va-launcher
+```
 
-Each locale has a `meta.json` file that controls navigation order. Keep English and Chinese structures aligned unless there is a deliberate reason to make them different.
+Binaries land in `target/debug/` (or `--release`): `va`, `va-tui`, `va-launch`. Note `va launch` execs a sibling `va-launch` binary — keep them in the same directory, as the packaged distributions do.
 
-## Release Metadata
+## Desktop app
 
-The website keeps release metadata in `public/releases/latest.json`. Download routes are defined for local static output and Cloudflare Pages redirects. Update both when package targets change.
+```bash
+bun install
+bun run build            # desktop-ui + web SPA, then tauri build
+```
+
+Development mode with hot reload for the UI:
+
+```bash
+bun run dev              # tauri dev (desktop-ui served by vite)
+```
+
+The Tauri build prepares `va-launch` as a sidecar binary automatically (`scripts/prepare-va-launch.mjs`) and bundles per-platform packages (DMG/EXE/MSI/AppImage/deb).
+
+## Running tests
+
+```bash
+cargo test --workspace
+cargo clippy --workspace -- -D warnings
+```
+
+JS surfaces build-check with `bun run web:build` and `bun run desktop-ui:build`.
+
+## tmux integration (optional)
+
+The web terminal can attach to tmux sessions when tmux is installed — no build flag needed; it is detected at runtime. The `tmux_detach_others` setting controls whether attaching from the dashboard detaches other clients.
+
+## What you cannot build without maintainer secrets
+
+Release packaging beyond a local unsigned build uses maintainer-private configuration that is deliberately not in the repository:
+
+- **macOS signing/notarization** (`apple-sign` config) — local DMGs work unsigned but Gatekeeper will warn.
+- **The release build script** (`build.sh`) and update-channel publishing.
+
+Everything needed for a fully functional local build is public; only distribution signing is private.
+
+## Plugins and SDK
+
+Channel plugins and `@vibearound/plugin-channel-sdk` are separate repositories with their own npm-based builds (npm, not bun, in those repos). See [Build a channel plugin](https://github.com/jazzenchen/VibeAround/blob/main/docs/guides/build-a-channel-plugin.md).
+
+---
+
+*Source anchors: `src/package.json` (build scripts), `src/Cargo.toml` (workspace members), `src/scripts/prepare-va-launch.mjs` (sidecar), `src/npm/cli/` (npm packaging).*
+*Last verified: v0.7.11*

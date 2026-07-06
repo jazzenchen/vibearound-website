@@ -10,7 +10,7 @@ const commonKeywords = [
   "agentic coding",
   "vibe coding",
   "AI developer tools",
-  "local-first AI coding",
+  "local AI coding",
   "local AI coding",
   "remote coding",
   "remote development",
@@ -267,8 +267,8 @@ const docKeywords: Record<Locale, Record<string, string[]>> = {
       "WeCom AI agent",
       "messaging app remote control",
     ],
-    "local-first-security": [
-      "local-first AI security",
+    "local-security": [
+      "local AI agent security",
       "AI coding agent security",
       "remote coding security",
       "local workspace privacy",
@@ -289,7 +289,7 @@ const docKeywords: Record<Locale, Record<string, string[]>> = {
     ],
     architecture: [
       "VibeAround architecture",
-      "local-first agent architecture",
+      "local agent architecture",
       "AI coding workspace architecture",
       "API bridge architecture",
       "remote agent control architecture",
@@ -516,7 +516,7 @@ const docKeywords: Record<Locale, Record<string, string[]>> = {
       "Discord AI 编程 Agent",
       "Lark AI Agent",
     ],
-    "local-first-security": [
+    "local-security": [
       "本地优先 AI 安全",
       "AI 编程 Agent 安全",
       "远程编程安全",

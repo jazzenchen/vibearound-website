@@ -3,7 +3,7 @@ title: Download VibeAround
 description: Current VibeAround release packages, desktop app metadata, platform downloads, and GitHub release routes.
 ---
 
-The current stable release is [VibeAround v0.7.3](https://github.com/jazzenchen/VibeAround/releases/tag/v0.7.3), published on 2026-06-14.
+The current stable release is [VibeAround v0.7.10](https://github.com/jazzenchen/VibeAround/releases/tag/v0.7.10), published on 2026-06-28.
 
 GitHub Releases remain the canonical source for release notes, source archives, checksums, and historical builds. The website also ships a machine-readable manifest at `/releases/latest.json` for automation and future download UI.
 
@@ -11,16 +11,18 @@ GitHub Releases remain the canonical source for release notes, source archives, 
 
 | Platform | Package | Direct link |
 | --- | --- | --- |
-| macOS Apple Silicon | DMG | [VibeAround_0.7.3_arm64.dmg](https://github.com/jazzenchen/VibeAround/releases/download/v0.7.3/VibeAround_0.7.3_arm64.dmg) |
-| Windows x64 | Setup EXE | [VibeAround_0.7.3_x64-setup.exe](https://github.com/jazzenchen/VibeAround/releases/download/v0.7.3/VibeAround_0.7.3_x64-setup.exe) |
-| Windows x64 | MSI | [VibeAround_0.7.3_x64_en-US.msi](https://github.com/jazzenchen/VibeAround/releases/download/v0.7.3/VibeAround_0.7.3_x64_en-US.msi) |
-| Windows x64 | Portable ZIP | [VibeAround-win-0.7.3-portable.zip](https://github.com/jazzenchen/VibeAround/releases/download/v0.7.3/VibeAround-win-0.7.3-portable.zip) |
-| Linux x64 | AppImage | [VibeAround_0.7.3_amd64.AppImage](https://github.com/jazzenchen/VibeAround/releases/download/v0.7.3/VibeAround_0.7.3_amd64.AppImage) |
-| Linux x64 | deb | [VibeAround_0.7.3_amd64.deb](https://github.com/jazzenchen/VibeAround/releases/download/v0.7.3/VibeAround_0.7.3_amd64.deb) |
+| macOS Apple Silicon | DMG | [VibeAround-macOS-arm64-0.7.10.dmg](https://github.com/jazzenchen/VibeAround/releases/download/v0.7.10/VibeAround-macOS-arm64-0.7.10.dmg) |
+| Windows x64 | Setup EXE | [VibeAround-Windows-x64-Setup-0.7.10.exe](https://github.com/jazzenchen/VibeAround/releases/download/v0.7.10/VibeAround-Windows-x64-Setup-0.7.10.exe) |
+| Windows x64 | MSI | [VibeAround-Windows-x64-MSI-0.7.10.msi](https://github.com/jazzenchen/VibeAround/releases/download/v0.7.10/VibeAround-Windows-x64-MSI-0.7.10.msi) |
+| Windows x64 | Portable ZIP | [VibeAround-Windows-x64-Portable-0.7.10.zip](https://github.com/jazzenchen/VibeAround/releases/download/v0.7.10/VibeAround-Windows-x64-Portable-0.7.10.zip) |
+| Linux x64 | AppImage | [VibeAround-Linux-x64-AppImage-0.7.10.AppImage](https://github.com/jazzenchen/VibeAround/releases/download/v0.7.10/VibeAround-Linux-x64-AppImage-0.7.10.AppImage) |
+| Linux x64 | deb | [VibeAround-Linux-x64-DEB-0.7.10.deb](https://github.com/jazzenchen/VibeAround/releases/download/v0.7.10/VibeAround-Linux-x64-DEB-0.7.10.deb) |
 
 ## Release Highlights
 
-Version 0.7.3 unifies agent executable detection across Startkit, install checks, app launch, and launch-agent usage. It improves CLI launch path selection so detected candidates keep source and version metadata when saved as defaults, shows lower-ranked installs instead of hiding them, separates launch settings from path selection, localizes launch path dialogs, and clarifies desktop app targets across macOS and Windows. It also fixes save-time detection churn, launch path dialog layout and scroll behavior, candidate update actions, latest-version indicators, and platform-aware path validation.
+Version 0.7.10 is an architectural release. It separates the local server, launch layer, desktop UI, Web Hub, CLI, and early TUI so they can run and evolve more independently. It adds `va serve`, introduces standalone `va-launch`, and makes the command-line distribution a beta path for terminal-first workflows.
+
+This release changes how local configuration is read and normalized. Back up `~/.vibearound/profiles` and `~/.vibearound/settings.json` before upgrading from older versions, then follow the migration notes in the GitHub release if API Bridge settings need to be re-enabled.
 
 ## Download Routes
 

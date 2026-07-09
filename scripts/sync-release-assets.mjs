@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import { spawnSync } from "node:child_process";
-import { createWriteStream, existsSync, mkdirSync, writeFileSync } from "node:fs";
+import { createWriteStream, existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { pipeline } from "node:stream/promises";
 import { Readable } from "node:stream";
@@ -17,38 +17,38 @@ const packageDefs = [
     key: "macosAppleSilicon",
     label: "macOS Apple Silicon DMG",
     route: "/download/mac",
-    pattern: /_arm64\.dmg$/i,
+    pattern: /(?:_arm64|macOS-arm64-[\d.]+)\.dmg$/i,
     fallbackToOlderRelease: true
   },
   {
     key: "windowsSetupX64",
     label: "Windows x64 setup EXE",
     route: "/download/windows",
-    pattern: /_x64-setup\.exe$/i
+    pattern: /(?:_x64-setup|Windows-x64-Setup-[\d.]+)\.exe$/i
   },
   {
     key: "windowsMsiX64",
     label: "Windows x64 MSI",
     route: null,
-    pattern: /_x64_en-US\.msi$/i
+    pattern: /(?:_x64_en-US|Windows-x64-MSI-[\d.]+)\.msi$/i
   },
   {
     key: "windowsPortableX64",
     label: "Windows x64 portable ZIP",
     route: null,
-    pattern: /win-.*-portable\.zip$/i
+    pattern: /(?:win-.*-portable|Windows-x64-Portable-[\d.]+)\.zip$/i
   },
   {
     key: "linuxAppImageX64",
     label: "Linux x64 AppImage",
     route: "/download/linux",
-    pattern: /_amd64\.AppImage$/i
+    pattern: /(?:_amd64|Linux-x64-AppImage-[\d.]+)\.AppImage$/i
   },
   {
     key: "linuxDebX64",
     label: "Linux x64 deb",
     route: null,
-    pattern: /_amd64\.deb$/i
+    pattern: /(?:_amd64|Linux-x64-DEB-[\d.]+)\.deb$/i
   }
 ];
 
@@ -143,8 +143,8 @@ function ensureBucket() {
   }
 }
 
-function writeRedirects(packages) {
-  const latestReleaseUrl = `https://github.com/${repo}/releases/latest`;
+function writeRedirects(latestRelease, packages) {
+  const latestReleaseUrl = latestRelease.html_url;
   const lines = [
     `/download ${latestReleaseUrl} 302`
   ];
@@ -155,13 +155,23 @@ function writeRedirects(packages) {
   }
   lines.push("/github https://github.com/jazzenchen/VibeAround 302");
   lines.push("/demo https://youtu.be/6kxNKTMz-AM 302");
-  writeFileSync(redirectsPath, `${lines.join("\n")}\n`);
+
+  const managedRoutes = new Set(lines.map((line) => line.split(/\s+/, 1)[0]));
+  const preserved = existsSync(redirectsPath)
+    ? readFileSync(redirectsPath, "utf8")
+        .split("\n")
+        .filter((line) => {
+          const route = line.trim().split(/\s+/, 1)[0];
+          return route && !managedRoutes.has(route);
+        })
+    : [];
+  writeFileSync(redirectsPath, `${[...preserved, ...lines].join("\n")}\n`);
 }
 
 function writeManifest(latestRelease, packages, mirroredAssets) {
   const notes = [
     "GitHub is the canonical source for release notes and source archives.",
-    `The latest GitHub release at generation time is ${latestRelease.tag_name}.`
+    `The latest desktop GitHub release at generation time is ${latestRelease.tag_name}.`
   ];
   if (packages.macosAppleSilicon?.tag !== latestRelease.tag_name) {
     notes.push(
@@ -174,7 +184,8 @@ function writeManifest(latestRelease, packages, mirroredAssets) {
     source: {
       repository: repo,
       latestRelease: latestRelease.tag_name,
-      latestReleaseUrl: latestRelease.html_url
+      latestReleaseUrl: latestRelease.html_url,
+      publishedAt: latestRelease.published_at
     },
     downloadBaseUrl,
     packages,
@@ -184,6 +195,10 @@ function writeManifest(latestRelease, packages, mirroredAssets) {
   mkdirSync(dirname(manifestPath), { recursive: true });
   writeFileSync(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`);
   return manifest;
+}
+
+function isDesktopRelease(release) {
+  return /^v\d+\.\d+\.\d+$/.test(release.tag_name);
 }
 
 async function main() {
@@ -196,8 +211,13 @@ async function main() {
     throw new Error(`No stable releases found for ${repo}`);
   }
 
-  const latestRelease = releases[0];
-  const packages = selectPackages(releases);
+  const desktopReleases = releases.filter(isDesktopRelease);
+  if (!desktopReleases.length) {
+    throw new Error(`No stable desktop releases found for ${repo}`);
+  }
+
+  const latestRelease = desktopReleases[0];
+  const packages = selectPackages(desktopReleases);
   const latestAssets = latestRelease.assets.map((asset) => ({ release: latestRelease, asset }));
   const selectedAssets = Object.values(packages).map((pkg) => {
     const release = releases.find((item) => item.tag_name === pkg.tag);
@@ -251,7 +271,7 @@ async function main() {
     });
   }
 
-  writeRedirects(packages);
+  writeRedirects(latestRelease, packages);
   writeManifest(latestRelease, packages, mirroredAssets);
 
   runWrangler([

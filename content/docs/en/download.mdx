@@ -3,7 +3,7 @@ title: Download VibeAround
 description: Current VibeAround release packages, desktop app metadata, platform downloads, and GitHub release routes.
 ---
 
-The current stable release is [VibeAround v0.7.10](https://github.com/jazzenchen/VibeAround/releases/tag/v0.7.10), published on 2026-06-28.
+The current stable desktop release is [VibeAround v0.7.13](https://github.com/jazzenchen/VibeAround/releases/tag/v0.7.13), published on 2026-07-09.
 
 GitHub Releases remain the canonical source for release notes, source archives, checksums, and historical builds. The website also ships a machine-readable manifest at `/releases/latest.json` for automation and future download UI.
 
@@ -11,18 +11,22 @@ GitHub Releases remain the canonical source for release notes, source archives, 
 
 | Platform | Package | Direct link |
 | --- | --- | --- |
-| macOS Apple Silicon | DMG | [VibeAround-macOS-arm64-0.7.10.dmg](https://github.com/jazzenchen/VibeAround/releases/download/v0.7.10/VibeAround-macOS-arm64-0.7.10.dmg) |
-| Windows x64 | Setup EXE | [VibeAround-Windows-x64-Setup-0.7.10.exe](https://github.com/jazzenchen/VibeAround/releases/download/v0.7.10/VibeAround-Windows-x64-Setup-0.7.10.exe) |
-| Windows x64 | MSI | [VibeAround-Windows-x64-MSI-0.7.10.msi](https://github.com/jazzenchen/VibeAround/releases/download/v0.7.10/VibeAround-Windows-x64-MSI-0.7.10.msi) |
-| Windows x64 | Portable ZIP | [VibeAround-Windows-x64-Portable-0.7.10.zip](https://github.com/jazzenchen/VibeAround/releases/download/v0.7.10/VibeAround-Windows-x64-Portable-0.7.10.zip) |
-| Linux x64 | AppImage | [VibeAround-Linux-x64-AppImage-0.7.10.AppImage](https://github.com/jazzenchen/VibeAround/releases/download/v0.7.10/VibeAround-Linux-x64-AppImage-0.7.10.AppImage) |
-| Linux x64 | deb | [VibeAround-Linux-x64-DEB-0.7.10.deb](https://github.com/jazzenchen/VibeAround/releases/download/v0.7.10/VibeAround-Linux-x64-DEB-0.7.10.deb) |
+| macOS Apple Silicon | DMG | [VibeAround-macOS-arm64-0.7.13.dmg](https://github.com/jazzenchen/VibeAround/releases/download/v0.7.13/VibeAround-macOS-arm64-0.7.13.dmg) |
+| Windows x64 | Setup EXE | [VibeAround-Windows-x64-Setup-0.7.13.exe](https://github.com/jazzenchen/VibeAround/releases/download/v0.7.13/VibeAround-Windows-x64-Setup-0.7.13.exe) |
+| Windows x64 | MSI | [VibeAround-Windows-x64-MSI-0.7.13.msi](https://github.com/jazzenchen/VibeAround/releases/download/v0.7.13/VibeAround-Windows-x64-MSI-0.7.13.msi) |
+| Windows x64 | Portable ZIP | [VibeAround-Windows-x64-Portable-0.7.13.zip](https://github.com/jazzenchen/VibeAround/releases/download/v0.7.13/VibeAround-Windows-x64-Portable-0.7.13.zip) |
+| Linux x64 | AppImage | [VibeAround-Linux-x64-AppImage-0.7.13.AppImage](https://github.com/jazzenchen/VibeAround/releases/download/v0.7.13/VibeAround-Linux-x64-AppImage-0.7.13.AppImage) |
+| Linux x64 | deb | [VibeAround-Linux-x64-DEB-0.7.13.deb](https://github.com/jazzenchen/VibeAround/releases/download/v0.7.13/VibeAround-Linux-x64-DEB-0.7.13.deb) |
 
 ## Release Highlights
 
-Version 0.7.10 is an architectural release. It separates the local server, launch layer, desktop UI, Web Hub, CLI, and early TUI so they can run and evolve more independently. It adds `va serve`, introduces standalone `va-launch`, and makes the command-line distribution a beta path for terminal-first workflows.
+Version 0.7.13 adds profile-scoped API configuration, updates the ACP bridge/runtime stack, and improves web chat, mobile pairing, local bridge, and route recovery reliability.
 
-This release changes how local configuration is read and normalized. Back up `~/.vibearound/profiles` and `~/.vibearound/settings.json` before upgrading from older versions, then follow the migration notes in the GitHub release if API Bridge settings need to be re-enabled.
+The command-line distribution is published separately as [VibeAround CLI 0.0.3](https://github.com/jazzenchen/VibeAround/releases/tag/va-v0.0.3). Use the desktop links above for the packaged app, and install the current CLI from npm with:
+
+```bash
+npm i -g @vibearound/cli
+```
 
 ## Download Routes
 

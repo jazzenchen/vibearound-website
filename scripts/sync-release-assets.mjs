@@ -1,6 +1,15 @@
 #!/usr/bin/env node
 import { spawnSync } from "node:child_process";
-import { createWriteStream, existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import {
+  createWriteStream,
+  existsSync,
+  mkdirSync,
+  readFileSync,
+  renameSync,
+  rmSync,
+  statSync,
+  writeFileSync
+} from "node:fs";
 import { dirname, join } from "node:path";
 import { pipeline } from "node:stream/promises";
 import { Readable } from "node:stream";
@@ -124,16 +133,35 @@ function selectPackages(releases) {
   return selected;
 }
 
-async function download(url, targetPath) {
-  if (existsSync(targetPath)) return;
+async function download(url, targetPath, expectedSize) {
+  if (existsSync(targetPath) && statSync(targetPath).size === expectedSize) return;
+  rmSync(targetPath, { force: true });
   mkdirSync(dirname(targetPath), { recursive: true });
-  const response = await fetch(url, {
-    headers: process.env.GITHUB_TOKEN ? { Authorization: `Bearer ${process.env.GITHUB_TOKEN}` } : undefined
-  });
-  if (!response.ok || !response.body) {
-    throw new Error(`Download failed ${response.status}: ${url}`);
+  const partialPath = `${targetPath}.part`;
+
+  for (let attempt = 1; attempt <= 3; attempt += 1) {
+    rmSync(partialPath, { force: true });
+    try {
+      const response = await fetch(url, {
+        headers: process.env.GITHUB_TOKEN ? { Authorization: `Bearer ${process.env.GITHUB_TOKEN}` } : undefined
+      });
+      if (!response.ok || !response.body) {
+        throw new Error(`Download failed ${response.status}: ${url}`);
+      }
+      await pipeline(Readable.fromWeb(response.body), createWriteStream(partialPath));
+      const actualSize = statSync(partialPath).size;
+      if (actualSize !== expectedSize) {
+        throw new Error(`Download size mismatch: expected ${expectedSize}, received ${actualSize}`);
+      }
+      renameSync(partialPath, targetPath);
+      return;
+    } catch (error) {
+      rmSync(partialPath, { force: true });
+      if (attempt === 3) throw error;
+      console.warn(`Download attempt ${attempt} failed; retrying...`);
+      await new Promise((resolve) => setTimeout(resolve, attempt * 1000));
+    }
   }
-  await pipeline(Readable.fromWeb(response.body), createWriteStream(targetPath));
 }
 
 function ensureBucket() {
@@ -241,7 +269,7 @@ async function main() {
     const contentType = contentTypeFor(asset.name, asset.content_type);
 
     console.log(`Downloading ${asset.name}`);
-    await download(asset.browser_download_url, localPath);
+    await download(asset.browser_download_url, localPath, asset.size);
 
     console.log(`Uploading ${objectKey}`);
     runWrangler([

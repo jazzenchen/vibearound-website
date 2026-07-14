@@ -14,7 +14,7 @@ import { dirname, join } from "node:path";
 import { pipeline } from "node:stream/promises";
 import { Readable } from "node:stream";
 
-const repo = process.env.GITHUB_REPOSITORY || "jazzenchen/VibeAround";
+const repo = process.env.RELEASE_REPOSITORY || "jazzenchen/VibeAround";
 const bucket = process.env.R2_BUCKET || "vibearound-releases";
 const downloadBaseUrl = process.env.DOWNLOAD_BASE_URL || "https://download.vibearound.ai";
 const cacheDir = join(process.cwd(), ".cache", "releases");

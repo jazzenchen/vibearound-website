@@ -1,0 +1,139 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-07-14T13:51:49.035Z",
+  "source": {
+    "repository": "jazzenchen/VibeAround",
+    "latestRelease": "v0.7.16",
+    "latestReleaseUrl": "https://github.com/jazzenchen/VibeAround/releases/tag/v0.7.16",
+    "publishedAt": "2026-07-14T13:14:06Z"
+  },
+  "downloadBaseUrl": "https://download.vibearound.ai",
+  "packages": {
+    "macosAppleSilicon": {
+      "label": "macOS Apple Silicon DMG",
+      "tag": "v0.7.16",
+      "version": "0.7.16",
+      "fileName": "VibeAround-macOS-arm64-0.7.16.dmg",
+      "size": 21470552,
+      "sha256": "37b474de1cad997ac0949f1e02848a4bd6a5845ac053fda0ca108fad748331b2",
+      "url": "https://download.vibearound.ai/releases/v0.7.16/VibeAround-macOS-arm64-0.7.16.dmg",
+      "sourceUrl": "https://github.com/jazzenchen/VibeAround/releases/download/v0.7.16/VibeAround-macOS-arm64-0.7.16.dmg",
+      "contentType": "application/x-apple-diskimage"
+    },
+    "windowsSetupX64": {
+      "label": "Windows x64 setup EXE",
+      "tag": "v0.7.16",
+      "version": "0.7.16",
+      "fileName": "VibeAround-Windows-x64-Setup-0.7.16.exe",
+      "size": 14624168,
+      "sha256": "3edc19d7457d1f5c63cbed604414708207d7fe1498483b838b19a23f878b84be",
+      "url": "https://download.vibearound.ai/releases/v0.7.16/VibeAround-Windows-x64-Setup-0.7.16.exe",
+      "sourceUrl": "https://github.com/jazzenchen/VibeAround/releases/download/v0.7.16/VibeAround-Windows-x64-Setup-0.7.16.exe",
+      "contentType": "application/vnd.microsoft.portable-executable"
+    },
+    "windowsMsiX64": {
+      "label": "Windows x64 MSI",
+      "tag": "v0.7.16",
+      "version": "0.7.16",
+      "fileName": "VibeAround-Windows-x64-MSI-0.7.16.msi",
+      "size": 21410664,
+      "sha256": "7404cb71a3fa7daacfc93d161d0b5a7f421ac88ff34bb794e83bb19b619b1dc2",
+      "url": "https://download.vibearound.ai/releases/v0.7.16/VibeAround-Windows-x64-MSI-0.7.16.msi",
+      "sourceUrl": "https://github.com/jazzenchen/VibeAround/releases/download/v0.7.16/VibeAround-Windows-x64-MSI-0.7.16.msi",
+      "contentType": "application/x-msi"
+    },
+    "windowsPortableX64": {
+      "label": "Windows x64 portable ZIP",
+      "tag": "v0.7.16",
+      "version": "0.7.16",
+      "fileName": "VibeAround-Windows-x64-Portable-0.7.16.zip",
+      "size": 27273304,
+      "sha256": "3a870d08938b532480f2801bed73beca6a1a2e2a4bd941ede730f357952b760b",
+      "url": "https://download.vibearound.ai/releases/v0.7.16/VibeAround-Windows-x64-Portable-0.7.16.zip",
+      "sourceUrl": "https://github.com/jazzenchen/VibeAround/releases/download/v0.7.16/VibeAround-Windows-x64-Portable-0.7.16.zip",
+      "contentType": "application/zip"
+    },
+    "linuxAppImageX64": {
+      "label": "Linux x64 AppImage",
+      "tag": "v0.7.16",
+      "version": "0.7.16",
+      "fileName": "VibeAround-Linux-x64-AppImage-0.7.16.AppImage",
+      "size": 99375608,
+      "sha256": "b20aa8e9328c5343573cf47f29de373563d5472684e14376b22d92994e6727dd",
+      "url": "https://download.vibearound.ai/releases/v0.7.16/VibeAround-Linux-x64-AppImage-0.7.16.AppImage",
+      "sourceUrl": "https://github.com/jazzenchen/VibeAround/releases/download/v0.7.16/VibeAround-Linux-x64-AppImage-0.7.16.AppImage",
+      "contentType": "application/octet-stream"
+    },
+    "linuxDebX64": {
+      "label": "Linux x64 deb",
+      "tag": "v0.7.16",
+      "version": "0.7.16",
+      "fileName": "VibeAround-Linux-x64-DEB-0.7.16.deb",
+      "size": 24250084,
+      "sha256": "8afdb91540cfa5e447309350c54278df127618b3748d105fd8a4fbbf88b6b833",
+      "url": "https://download.vibearound.ai/releases/v0.7.16/VibeAround-Linux-x64-DEB-0.7.16.deb",
+      "sourceUrl": "https://github.com/jazzenchen/VibeAround/releases/download/v0.7.16/VibeAround-Linux-x64-DEB-0.7.16.deb",
+      "contentType": "application/vnd.debian.binary-package"
+    }
+  },
+  "mirroredAssets": [
+    {
+      "tag": "v0.7.16",
+      "fileName": "VibeAround-Linux-x64-AppImage-0.7.16.AppImage",
+      "size": 99375608,
+      "sha256": "b20aa8e9328c5343573cf47f29de373563d5472684e14376b22d92994e6727dd",
+      "url": "https://download.vibearound.ai/releases/v0.7.16/VibeAround-Linux-x64-AppImage-0.7.16.AppImage",
+      "sourceUrl": "https://github.com/jazzenchen/VibeAround/releases/download/v0.7.16/VibeAround-Linux-x64-AppImage-0.7.16.AppImage",
+      "contentType": "application/octet-stream"
+    },
+    {
+      "tag": "v0.7.16",
+      "fileName": "VibeAround-Linux-x64-DEB-0.7.16.deb",
+      "size": 24250084,
+      "sha256": "8afdb91540cfa5e447309350c54278df127618b3748d105fd8a4fbbf88b6b833",
+      "url": "https://download.vibearound.ai/releases/v0.7.16/VibeAround-Linux-x64-DEB-0.7.16.deb",
+      "sourceUrl": "https://github.com/jazzenchen/VibeAround/releases/download/v0.7.16/VibeAround-Linux-x64-DEB-0.7.16.deb",
+      "contentType": "application/vnd.debian.binary-package"
+    },
+    {
+      "tag": "v0.7.16",
+      "fileName": "VibeAround-macOS-arm64-0.7.16.dmg",
+      "size": 21470552,
+      "sha256": "37b474de1cad997ac0949f1e02848a4bd6a5845ac053fda0ca108fad748331b2",
+      "url": "https://download.vibearound.ai/releases/v0.7.16/VibeAround-macOS-arm64-0.7.16.dmg",
+      "sourceUrl": "https://github.com/jazzenchen/VibeAround/releases/download/v0.7.16/VibeAround-macOS-arm64-0.7.16.dmg",
+      "contentType": "application/x-apple-diskimage"
+    },
+    {
+      "tag": "v0.7.16",
+      "fileName": "VibeAround-Windows-x64-MSI-0.7.16.msi",
+      "size": 21410664,
+      "sha256": "7404cb71a3fa7daacfc93d161d0b5a7f421ac88ff34bb794e83bb19b619b1dc2",
+      "url": "https://download.vibearound.ai/releases/v0.7.16/VibeAround-Windows-x64-MSI-0.7.16.msi",
+      "sourceUrl": "https://github.com/jazzenchen/VibeAround/releases/download/v0.7.16/VibeAround-Windows-x64-MSI-0.7.16.msi",
+      "contentType": "application/x-msi"
+    },
+    {
+      "tag": "v0.7.16",
+      "fileName": "VibeAround-Windows-x64-Portable-0.7.16.zip",
+      "size": 27273304,
+      "sha256": "3a870d08938b532480f2801bed73beca6a1a2e2a4bd941ede730f357952b760b",
+      "url": "https://download.vibearound.ai/releases/v0.7.16/VibeAround-Windows-x64-Portable-0.7.16.zip",
+      "sourceUrl": "https://github.com/jazzenchen/VibeAround/releases/download/v0.7.16/VibeAround-Windows-x64-Portable-0.7.16.zip",
+      "contentType": "application/zip"
+    },
+    {
+      "tag": "v0.7.16",
+      "fileName": "VibeAround-Windows-x64-Setup-0.7.16.exe",
+      "size": 14624168,
+      "sha256": "3edc19d7457d1f5c63cbed604414708207d7fe1498483b838b19a23f878b84be",
+      "url": "https://download.vibearound.ai/releases/v0.7.16/VibeAround-Windows-x64-Setup-0.7.16.exe",
+      "sourceUrl": "https://github.com/jazzenchen/VibeAround/releases/download/v0.7.16/VibeAround-Windows-x64-Setup-0.7.16.exe",
+      "contentType": "application/vnd.microsoft.portable-executable"
+    }
+  ],
+  "notes": [
+    "GitHub is the canonical source for release notes and source archives.",
+    "The latest desktop GitHub release at generation time is v0.7.16."
+  ]
+}

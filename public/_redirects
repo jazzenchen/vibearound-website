@@ -16,9 +16,9 @@
 /local-ai-switch/ /docs/local-ai-switch/ 301
 /docs/local-first-security /docs/security 301
 /zh/docs/local-first-security /zh/docs/security 301
-/download https://github.com/jazzenchen/VibeAround/releases/tag/v0.7.17 302
-/download/mac https://download.vibearound.ai/releases/v0.7.17/VibeAround-macOS-arm64-0.7.17.dmg 302
-/download/windows https://download.vibearound.ai/releases/v0.7.17/VibeAround-Windows-x64-Setup-0.7.17.exe 302
-/download/linux https://download.vibearound.ai/releases/v0.7.17/VibeAround-Linux-x64-AppImage-0.7.17.AppImage 302
+/download https://github.com/jazzenchen/VibeAround/releases/tag/v0.7.18 302
+/download/mac https://download.vibearound.ai/releases/v0.7.18/VibeAround-macOS-arm64-0.7.18.dmg 302
+/download/windows https://download.vibearound.ai/releases/v0.7.18/VibeAround-Windows-x64-Setup-0.7.18.exe 302
+/download/linux https://download.vibearound.ai/releases/v0.7.18/VibeAround-Linux-x64-AppImage-0.7.18.AppImage 302
 /github https://github.com/jazzenchen/VibeAround 302
 /demo https://youtu.be/6kxNKTMz-AM 302

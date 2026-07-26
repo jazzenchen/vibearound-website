@@ -1,4 +1,5 @@
 import Script from "next/script";
+import { latestRelease } from "@/lib/release";
 
 type LegacyHomePageProps = {
   locale?: "en" | "zh";
@@ -45,7 +46,7 @@ function LegacyHomeEn() {
           <div className="hero-grid-bg" aria-hidden="true" />
           <div className="container">
             <div className="eyebrow-row">
-              <span className="ver-tag"><span className="dot" aria-hidden="true" /><span data-count-version="v0.7.3" className="mono">v0.7.3</span> · Unified AI Agent Workspace</span>
+              <span className="ver-tag"><span className="dot" aria-hidden="true" /><span data-count-version={latestRelease.displayVersion} className="mono">{latestRelease.displayVersion}</span> · Unified AI Agent Workspace</span>
             </div>
             <h1 className="hero-h1">
               Keep your AI coding agents
@@ -55,7 +56,7 @@ function LegacyHomeEn() {
               Run AI coding agents side by side on your computer. Control them from anywhere, continue previous sessions, and preview what they build.
             </p>
             <div className="hero-cta">
-              <a className="btn btn-primary" href="#download">Download <span data-count-version="v0.7.3" className="mono">v0.7.3</span></a>
+              <a className="btn btn-primary" href="#download">Download <span data-count-version={latestRelease.displayVersion} className="mono">{latestRelease.displayVersion}</span></a>
               <a className="btn btn-ghost" href="/docs/">Read the docs <svg className="home-icon" aria-hidden="true"><use href="/assets/icons.svg?v=20260611-icons-3#i-arrow-right" /></svg></a>
             </div>
             <div className="hero-meta" aria-label="VibeAround project facts">
@@ -234,7 +235,7 @@ function LegacyHomeEn() {
           <div className="container">
             <div className="reveal">
               <span className="kicker" data-scramble="Download - latest stable">Download - latest stable</span>
-              <h2 className="sec-h2 feature-title title-nowrap">Get VibeAround <span data-count-version="v0.7.3" className="mono">v0.7.3</span>.</h2>
+              <h2 className="sec-h2 feature-title title-nowrap">Get VibeAround <span data-count-version={latestRelease.displayVersion} className="mono">{latestRelease.displayVersion}</span>.</h2>
               <p className="sec-copy">The latest stable release ships macOS, Windows, and Linux packages. Your repositories, credentials, and terminals stay on your machine.</p>
             </div>
             <div className="dl-grid">
@@ -358,7 +359,7 @@ function LegacyHomeEn() {
           </div>
           <div className="footer-bottom">
             <span>© 2026 VibeAround</span>
-            <span className="mono">macOS · Windows · Linux · <span data-count-version="v0.7.3" className="mono">v0.7.3</span></span>
+            <span className="mono">macOS · Windows · Linux · <span data-count-version={latestRelease.displayVersion} className="mono">{latestRelease.displayVersion}</span></span>
           </div>
         </div>
       </footer>
@@ -394,7 +395,7 @@ function LegacyHomeZh() {
           <div className="hero-grid-bg" aria-hidden="true" />
           <div className="container">
             <div className="eyebrow-row">
-              <span className="ver-tag"><span className="dot" aria-hidden="true" /><span data-count-version="v0.7.3" className="mono">v0.7.3</span> · 统一的 AI Agent 工作空间</span>
+              <span className="ver-tag"><span className="dot" aria-hidden="true" /><span data-count-version={latestRelease.displayVersion} className="mono">{latestRelease.displayVersion}</span> · 统一的 AI Agent 工作空间</span>
             </div>
             <h1 className="hero-h1">
               让你的 AI 编程 Agent
@@ -404,7 +405,7 @@ function LegacyHomeZh() {
               让 AI 编程 Agent 在你的电脑上并行工作。即使离开电脑，也能远程接入，继续之前的会话，预览 AI Agent 生成的结果。
             </p>
             <div className="hero-cta">
-              <a className="btn btn-primary" href="#download">下载 <span data-count-version="v0.7.3" className="mono">v0.7.3</span></a>
+              <a className="btn btn-primary" href="#download">下载 <span data-count-version={latestRelease.displayVersion} className="mono">{latestRelease.displayVersion}</span></a>
               <a className="btn btn-ghost" href="/zh/docs/">阅读文档 <svg className="home-icon" aria-hidden="true"><use href="/assets/icons.svg?v=20260611-icons-3#i-arrow-right" /></svg></a>
             </div>
             <div className="hero-meta" aria-label="VibeAround 项目信息">
@@ -583,7 +584,7 @@ function LegacyHomeZh() {
           <div className="container">
             <div className="reveal">
               <span className="kicker" data-scramble="下载 - 最新稳定版">下载 - 最新稳定版</span>
-              <h2 className="sec-h2 feature-title title-nowrap">下载 VibeAround <span data-count-version="v0.7.3" className="mono">v0.7.3</span>。</h2>
+              <h2 className="sec-h2 feature-title title-nowrap">下载 VibeAround <span data-count-version={latestRelease.displayVersion} className="mono">{latestRelease.displayVersion}</span>。</h2>
               <p className="sec-copy">最新稳定版提供 macOS、Windows 和 Linux 安装包。你的代码仓库、密钥和终端始终留在自己的电脑上。</p>
             </div>
             <div className="dl-grid">
@@ -707,7 +708,7 @@ function LegacyHomeZh() {
           </div>
           <div className="footer-bottom">
             <span>© 2026 VibeAround</span>
-            <span className="mono">macOS · Windows · Linux · <span data-count-version="v0.7.3" className="mono">v0.7.3</span></span>
+            <span className="mono">macOS · Windows · Linux · <span data-count-version={latestRelease.displayVersion} className="mono">{latestRelease.displayVersion}</span></span>
           </div>
         </div>
       </footer>

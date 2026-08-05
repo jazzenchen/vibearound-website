@@ -3,7 +3,7 @@ title: 下载
 description: 当前版本安装包、元数据和下载路由。
 ---
 
-当前稳定桌面版本是 [VibeAround v0.7.20](https://github.com/jazzenchen/VibeAround/releases/tag/v0.7.20)，发布时间为 2026-07-26。
+当前稳定桌面版本是 [VibeAround v0.7.23](https://github.com/jazzenchen/VibeAround/releases/tag/v0.7.23)，发布时间为 2026-08-05。
 
 GitHub Releases 是 release notes、源码归档、历史版本和校验信息的主来源。网站同时提供机器可读 manifest：`/releases/latest.json`，用于自动化和后续下载 UI。
 
@@ -11,18 +11,18 @@ GitHub Releases 是 release notes、源码归档、历史版本和校验信息�
 
 | 平台 | 安装包 | 直达链接 |
 | --- | --- | --- |
-| macOS Apple Silicon | DMG | [VibeAround-macOS-arm64-0.7.20.dmg](https://github.com/jazzenchen/VibeAround/releases/download/v0.7.20/VibeAround-macOS-arm64-0.7.20.dmg) |
-| Windows x64 | Setup EXE | [VibeAround-Windows-x64-Setup-0.7.20.exe](https://github.com/jazzenchen/VibeAround/releases/download/v0.7.20/VibeAround-Windows-x64-Setup-0.7.20.exe) |
-| Windows x64 | MSI | [VibeAround-Windows-x64-MSI-0.7.20.msi](https://github.com/jazzenchen/VibeAround/releases/download/v0.7.20/VibeAround-Windows-x64-MSI-0.7.20.msi) |
-| Windows x64 | Portable ZIP | [VibeAround-Windows-x64-Portable-0.7.20.zip](https://github.com/jazzenchen/VibeAround/releases/download/v0.7.20/VibeAround-Windows-x64-Portable-0.7.20.zip) |
-| Linux x64 | AppImage | [VibeAround-Linux-x64-AppImage-0.7.20.AppImage](https://github.com/jazzenchen/VibeAround/releases/download/v0.7.20/VibeAround-Linux-x64-AppImage-0.7.20.AppImage) |
-| Linux x64 | deb | [VibeAround-Linux-x64-DEB-0.7.20.deb](https://github.com/jazzenchen/VibeAround/releases/download/v0.7.20/VibeAround-Linux-x64-DEB-0.7.20.deb) |
+| macOS Apple Silicon | DMG | [VibeAround-macOS-arm64-0.7.23.dmg](https://github.com/jazzenchen/VibeAround/releases/download/v0.7.23/VibeAround-macOS-arm64-0.7.23.dmg) |
+| Windows x64 | Setup EXE | [VibeAround-Windows-x64-Setup-0.7.23.exe](https://github.com/jazzenchen/VibeAround/releases/download/v0.7.23/VibeAround-Windows-x64-Setup-0.7.23.exe) |
+| Windows x64 | MSI | [VibeAround-Windows-x64-MSI-0.7.23.msi](https://github.com/jazzenchen/VibeAround/releases/download/v0.7.23/VibeAround-Windows-x64-MSI-0.7.23.msi) |
+| Windows x64 | Portable ZIP | [VibeAround-Windows-x64-Portable-0.7.23.zip](https://github.com/jazzenchen/VibeAround/releases/download/v0.7.23/VibeAround-Windows-x64-Portable-0.7.23.zip) |
+| Linux x64 | AppImage | [VibeAround-Linux-x64-AppImage-0.7.23.AppImage](https://github.com/jazzenchen/VibeAround/releases/download/v0.7.23/VibeAround-Linux-x64-AppImage-0.7.23.AppImage) |
+| Linux x64 | deb | [VibeAround-Linux-x64-DEB-0.7.23.deb](https://github.com/jazzenchen/VibeAround/releases/download/v0.7.23/VibeAround-Linux-x64-DEB-0.7.23.deb) |
 
 ## 版本要点
 
-v0.7.20 为支持的消息渠道加入 workspace 文件发送，加入 Tailscale Funnel 引导，为 Local Agent API 与 API Bridge 使用独立作用域凭据，并改进 daemon 和 PTY 的退出清理。它还升级了内置 ACP 适配器，并把 9 个 Channel 插件全部固定到经过验证的 0.6.8 `main` 版本。
+v0.7.23 为 API Bridge 增加了可选的多模态图片理解。独立的“多模态”设置页用于选择视觉 Profile 和模型，本地附件缓存支持在后续轮次继续做 OCR 或细节追问，同时不会把图片字节发给纯文本目标模型。Bridge Recorder 会把多模态请求与响应轨迹和原始、转译后的 Bridge 流量分开记录。
 
-命令行发行包单独发布为 [VibeAround CLI 0.0.9](https://github.com/jazzenchen/VibeAround/releases/tag/va-v0.0.9)。需要桌面应用时用上面的安装包；如果偏好 npm，可以这样安装当前 CLI：
+命令行发行包单独发布为 [VibeAround CLI 0.0.12](https://github.com/jazzenchen/VibeAround/releases/tag/va-v0.0.12)。需要桌面应用时用上面的安装包；如果偏好 npm，可以这样安装当前 CLI：
 
 ```bash
 npm i -g @vibearound/cli

@@ -1,24 +1,24 @@
 export const latestRelease = {
-  tag: "v0.7.24",
-  version: "0.7.24",
-  displayVersion: "v0.7.24",
-  releaseUrl: "https://github.com/jazzenchen/VibeAround/releases/tag/v0.7.24",
-  latestUrl: "https://github.com/jazzenchen/VibeAround/releases/tag/v0.7.24",
-  publishedAt: "2026-08-07T01:50:18Z",
+  tag: "v0.7.25",
+  version: "0.7.25",
+  displayVersion: "v0.7.25",
+  releaseUrl: "https://github.com/jazzenchen/VibeAround/releases/tag/v0.7.25",
+  latestUrl: "https://github.com/jazzenchen/VibeAround/releases/tag/v0.7.25",
+  publishedAt: "2026-08-30T18:17:17Z",
   starFallback: 398,
   downloads: {
     macosAppleSilicon:
-      "https://github.com/jazzenchen/VibeAround/releases/download/v0.7.24/VibeAround-macOS-arm64-0.7.24.dmg",
+      "https://github.com/jazzenchen/VibeAround/releases/download/v0.7.25/VibeAround-macOS-arm64-0.7.25.dmg",
     windowsSetupX64:
-      "https://github.com/jazzenchen/VibeAround/releases/download/v0.7.24/VibeAround-Windows-x64-Setup-0.7.24.exe",
+      "https://github.com/jazzenchen/VibeAround/releases/download/v0.7.25/VibeAround-Windows-x64-Setup-0.7.25.exe",
     windowsMsiX64:
-      "https://github.com/jazzenchen/VibeAround/releases/download/v0.7.24/VibeAround-Windows-x64-MSI-0.7.24.msi",
+      "https://github.com/jazzenchen/VibeAround/releases/download/v0.7.25/VibeAround-Windows-x64-MSI-0.7.25.msi",
     windowsPortableX64:
-      "https://github.com/jazzenchen/VibeAround/releases/download/v0.7.24/VibeAround-Windows-x64-Portable-0.7.24.zip",
+      "https://github.com/jazzenchen/VibeAround/releases/download/v0.7.25/VibeAround-Windows-x64-Portable-0.7.25.zip",
     linuxAppImageX64:
-      "https://github.com/jazzenchen/VibeAround/releases/download/v0.7.24/VibeAround-Linux-x64-AppImage-0.7.24.AppImage",
+      "https://github.com/jazzenchen/VibeAround/releases/download/v0.7.25/VibeAround-Linux-x64-AppImage-0.7.25.AppImage",
     linuxDebX64:
-      "https://github.com/jazzenchen/VibeAround/releases/download/v0.7.24/VibeAround-Linux-x64-DEB-0.7.24.deb",
+      "https://github.com/jazzenchen/VibeAround/releases/download/v0.7.25/VibeAround-Linux-x64-DEB-0.7.25.deb",
   },
 } as const;
 
